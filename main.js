@@ -548,6 +548,7 @@ document
   .getElementById("file-upload")
   .addEventListener("change", function (event) {
     console.log("change");
+    encryptData("mySecretData", "myPassword");
     const file = event.target.files[0];
     if (file) {
       console.log(`File chosen: ${file.name}`);
@@ -748,6 +749,99 @@ function removePasswordFromInput() {
   document
     .querySelectorAll("input[type=password]")
     .forEach((input) => (input.value = ""));
+}
+
+const encoder = new TextEncoder(); // convert string into Unit8Array
+
+function concat(...arrays) {
+  // Calculate total length of all arrays
+  let totalLength = arrays.reduce((acc, array) => acc + array.length, 0);
+
+  // Create a new Uint8Array with the total length
+  let result = new Uint8Array(totalLength);
+
+  // Concatenate all arrays into the result array
+  let offset = 0;
+  for (let array of arrays) {
+    result.set(array, offset);
+    offset += array.length;
+  }
+
+  return result;
+}
+
+function toBase64(uint8Array) {
+  // Convert Uint8Array to a binary string
+  let binaryString = "";
+  for (let byte of uint8Array) {
+    binaryString += String.fromCharCode(byte);
+  }
+
+  // Convert binary string to Base64
+  return btoa(binaryString);
+}
+
+function encryptData(secretData, password) {
+  // STEP 1 Convert Password and Data to Bytes
+  const dataAsBytes = encoder.encode(secretData); // returns Unit8Array
+  const passwordAsBytes = encoder.encode(password); // returns Unit8Array
+  console.log(dataAsBytes, passwordAsBytes);
+
+  // Step 2 import Key used to derive our key later, false we can't extract bytes used to deriveKey
+  window.crypto.subtle
+    .importKey("raw", passwordAsBytes, "PBKDF2", false, ["deriveKey"])
+    .then((passwordKey) => {
+      console.log("passwordKey", passwordKey);
+
+      // 256 bit | 32 byte
+      // size of the random bytes that you want from 0 to 255 ... Uint8Array(32) [212, 112, 100, 7 ....]
+      const salt = window.crypto.getRandomValues(new Uint8Array(32));
+
+      return window.crypto.subtle
+        .deriveKey(
+          {
+            name: "PBKDF2",
+            salt,
+            iterations: 250000, // how many times we want to hash this thing over and over again,
+            hash: { name: "SHA-256" }, // sort of hash we want to use here
+          },
+          passwordKey,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["encrypt"]
+        )
+        .then((aesKey) => ({ aesKey, salt })); // Pass salt along with aesKey
+    })
+    .then(({ aesKey, salt }) => {
+      // aesKey:CryptoKey
+      console.log("aes key", aesKey);
+      const iv = window.crypto.getRandomValues(new Uint8Array(12)); // initializationVector 96bit - 12bytes
+      return window.crypto.subtle
+        .encrypt(
+          {
+            name: "AES-GCM",
+            iv,
+          },
+          aesKey,
+          dataAsBytes
+        )
+        .then((encryptedContent) => ({ encryptedContent, salt, iv })); // Pass salt and iv along with encryptedContent
+    })
+    .then(({ encryptedContent, salt, iv }) => {
+      // encryptedContent: ArrayBuffer to view those bytes convert to type array
+      const encryptedBytes = new Uint8Array(encryptedContent);
+      console.log(encryptedBytes);
+
+      // Convert it so we can send it through the wire
+      // We need to keep track of the salt used to generate it
+      // We also need to store the initialization vector
+      // We use salt and iv so that repeated encrypted items do not hash to the same value -> prevent brute force
+      // We will concat the salt + iv + encrypted data
+      // Then we will convert to base64 encoding to convert to a string
+      const encryptedPackage = concat(salt, iv, encryptedBytes);
+      const base64String = toBase64(encryptedPackage);
+      console.log("base64String", base64String);
+    });
 }
 
 // document.querySelector(".marker-dialog").classList.remove("contactOpen");
