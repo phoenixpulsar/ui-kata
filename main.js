@@ -564,6 +564,10 @@ document
 document.querySelector("#close-svg").addEventListener("click", function (e) {
   console.log("Close");
   e.preventDefault();
+  decrypt(
+    "4ObslYvdDr2J/v4VPciDPAwcj0UHtC92vmIGF6cJtdhTxWxl9xLMVNTfXftY2dY86UgZf+txXubwm2y3STXk1RRn3FEW1RpA",
+    "myPassword"
+  );
   fileWasUploaded.reverse();
   document.getElementById("file-name-display").textContent = "";
   document.getElementById("welcome-header").textContent = "Ordo";
@@ -752,6 +756,7 @@ function removePasswordFromInput() {
 }
 
 const encoder = new TextEncoder(); // convert string into Unit8Array
+const decoder = new TextDecoder();
 
 function concat(...arrays) {
   // Calculate total length of all arrays
@@ -779,6 +784,20 @@ function toBase64(uint8Array) {
 
   // Convert binary string to Base64
   return btoa(binaryString);
+}
+
+function base64ToUint8Array(base64) {
+  // Convert base64 string to binary string
+  let binaryString = atob(base64);
+
+  // Convert binary string to Uint8Array
+  let len = binaryString.length;
+  let bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  return bytes;
 }
 
 function encryptData(secretData, password) {
@@ -841,6 +860,51 @@ function encryptData(secretData, password) {
       const encryptedPackage = concat(salt, iv, encryptedBytes);
       const base64String = toBase64(encryptedPackage);
       console.log("base64String", base64String);
+    });
+}
+
+// encryptedData: string, password: string
+function decrypt(encryptedPackage, password) {
+  const encryptedBytes = base64ToUint8Array(encryptedPackage);
+  const passwordAsBytes = encoder.encode(password);
+  const salt = encryptedBytes.slice(0, 32);
+  const iv = encryptedBytes.slice(32, 44); // 12 bytes
+  const dataAsBytes = encryptedBytes.slice(44);
+
+  window.crypto.subtle
+    .importKey("raw", passwordAsBytes, "PBKDF2", false, ["deriveKey"])
+    .then((passwordKey) => {
+      return window.crypto.subtle
+        .deriveKey(
+          {
+            name: "PBKDF2",
+            salt,
+            iterations: 250000, // how many times we want to hash this thing over and over again,
+            hash: { name: "SHA-256" }, // sort of hash we want to use here
+          },
+          passwordKey,
+          { name: "AES-GCM", length: 256 },
+          false,
+          ["decrypt"]
+        )
+        .then((aesKey) => ({ aesKey, dataAsBytes, iv }));
+    })
+    .then(({ aesKey, dataAsBytes, iv }) => {
+      return window.crypto.subtle
+        .decrypt(
+          {
+            name: "AES-GCM",
+            iv,
+          },
+          aesKey,
+          dataAsBytes
+        )
+        .then((decryptedContent) => ({ decryptedContent }));
+    })
+    .then(({ decryptedContent }) => {
+      const decryptedBytes = new Uint8Array(decryptedContent);
+      const decryptedString = decoder.decode(decryptedBytes);
+      console.log("Decrypted string:", decryptedString);
     });
 }
 
