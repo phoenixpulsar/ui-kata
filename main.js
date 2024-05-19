@@ -1092,7 +1092,11 @@ function decrypt(encryptedPackage, password) {
     });
 }
 
-const publicKeyPem = `-----BEGIN PUBLIC KEY-----
+function fetchPublicKey() {
+  // const response = await fetch("/public_key.pem");
+  // const publicKeyPem = await response.text();
+  let pk = `
+  -----BEGIN PUBLIC KEY-----
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0mu6+hal1bhSAzvQ47QY
 FedIY0z2UCbQ00DRyon5WqPnpQep7xepx7M3T8mVpZ9Y3THO7YOYNNrG9odyuoMQ
 TpNbMxkf2dtXyIq2Ri2qQUa4MjgAFvBG0clKNcezZGLs2sKXGOnlFXEBTy1UkZdJ
@@ -1100,7 +1104,10 @@ TpNbMxkf2dtXyIq2Ri2qQUa4MjgAFvBG0clKNcezZGLs2sKXGOnlFXEBTy1UkZdJ
 n97mME+8lYNmpyY2sFz5VGPn64EkYrOU0mAyOkK+kz9Fu1ImGWDn5ZWU2qsOBnKr
 vxYSWfPTUe64k+4cL4hpdQO7EcFomI2YkdRCKFD4xhjWYG2/wob8mTlopKnwkHXL
 0QIDAQAB
------END PUBLIC KEY-----`;
+-----END PUBLIC KEY-----
+  `;
+  return pk;
+}
 
 function pemToArrayBuffer(pem) {
   const b64 = pem
@@ -1145,14 +1152,9 @@ async function verifySignature(publicKey, data, signature) {
   );
 }
 
-const token = {
-  data: "tokenDataToBeAddedHere",
-  signature:
-    "OCZRv9XTbsejq51JTwBVajJGwEQ9UqC+lMldNhj9sZBnBIHtKPkZ+N/FuLWzkXMyJf6FUMZKsRkrHhiS3ZvnmGOUNDvrYsuGHCN8tIfbInqLBTLUDyB7GASXX5a30RHab9jjBSnD1AS0OkhK4QK3zGXcV28oFDJHZr1vG/RRobVoE5N7DpM2nnSy6bK4wK3j57KoN9igPL+4oX8B5iXxgOfU6VFtUNsLTp7j2vcXSafbM7sObjJuo3j9gHHUzy1ZYMRczny0nQdaGsf5k8G/4BUX8G+CM86VIg8TTADGaaakRBqg3pFCh1snlVQDTh/8eymOjAaeYQx/SPlBfOdOJA==", // The base64 signature from the server
-};
-
-async function verifyToken(token, publicKeyPem) {
+async function verifyToken(token) {
   try {
+    const publicKeyPem = await fetchPublicKey();
     const publicKey = await importPublicKey(publicKeyPem);
     const isValid = await verifySignature(
       publicKey,
@@ -1165,29 +1167,14 @@ async function verifyToken(token, publicKeyPem) {
   }
 }
 
-verifyToken(token, publicKeyPem);
+const token = {
+  data: "tokenDataToBeAddedHere",
+  signature:
+    "tlX0OLcUUVHhLnfG1y2nFPHpung9dyNVyg7y9k39TfN6qboIx5exunCfyHtCshAOzf+pR0oRgJqNKHwo+CgcKzAGy5BN+zEssMGjGf3BEUxxZ63GXVyMVkcupT5u1aqnKIoqX50HvRHXSeteS0vVxODEsAJO6rv/SKHkXFN183mJOhzf3kAUyF9fgtippS4TA7keeA2ja4tDOCNaAaPkT2ERG9Aoaa2StHTndjMjn7XCj4TusIeRaS6xsxD65tuPb2DybU5sAz8H7orPZaM6y94ZY9QJiQUvN/toCqug5JoelLabFYnpa/g1UBx2XzY3DSbTk+mrNCUMweiGR30ZJA==", // The base64 signature from the server
+};
 
-// function verifyTokenOldDidNotWorkCryptoAPI(token) {
-//   const publicKey = `-----BEGIN PUBLIC KEY-----
-//   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArukUXt5ZZp6aLTM4qza3
-//   Gl3PTBh3gAm3TMq5sqrV+hZR6IT8ys3qFaLxAI5fnU2mMUdXmLBNaTj5NsOEnYS2
-//   9VcTkOMhMe4y2zBFQrQO+oY6xk+dmZaQGVIYJxJLnp3h+7Y6x+rW0cE9dQvpO2HQ
-//   DM3fUN4pr44CzcCRxH86zn1d5Nh7SQ/r68tSjJCh2PB+yQHl05m0ZwUI5C0nf6U/
-//   XnrlBUkxzm+v7EkG9NDYSDdrONWA24RRMqK0to2KbwlPBnbV81ram8qCMT0GMkMo
-//   Gg9KnMesfony/WVl4AqhOPLTCjc0WzeE2Gjoo5myA4+I0pICjuas8Mky8TkH5tQZ
-//   cQIDAQAB
-//   -----END PUBLIC KEY-----`;
+verifyToken(token);
 
-//   // const tokenString = JSON.stringify(token.data);
-//   // const signature = token.signature;
-//   const signature = `pJPFCyQpUUguGpE3/cMKT26YEGVUG4+En5GDX/dUU0shZhd2uAZ5VQq7zPxJ7k0yo4DQQCpk74KuAy1Cz03UqeQkauh2Ri4/bg+RGdvURi+N/B3mAai2pCflMsn+kYTk3LeIKlzlVilp0Fi/GVUGkh0yfKlJFf5gMKXTfQ59a6M4AeuK1fSopxocgHj1Vpkamiw//R72iuyeZ5uLfeBRep30N8N5RR6A0sCtfJFOO6XK5J/fD1Axxa1PHsmPgVVda2ms3nI36bYrv3ffHGwyKuHR56ydXD6em0Vo0x1eM8EWIo81ChWbiRyIq5VThB3T989oR6AVGRXuQqQEVbozgw==`;
-
-//   // Verify the token with the public key
-//   const verify = crypto.createVerify("SHA256");
-//   // verify.update(tokenString);
-//   // verify.end();
-//   return verify.verify(publicKey, signature, "base64");
-// }
 // document.querySelector(".marker-dialog").classList.remove("contactOpen");
 //   document
 //     .querySelectorAll("input[type=password]")
