@@ -1092,27 +1092,102 @@ function decrypt(encryptedPackage, password) {
     });
 }
 
-function verifyToken(token) {
-  const publicKey = `-----BEGIN PUBLIC KEY-----
-  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArukUXt5ZZp6aLTM4qza3
-  Gl3PTBh3gAm3TMq5sqrV+hZR6IT8ys3qFaLxAI5fnU2mMUdXmLBNaTj5NsOEnYS2
-  9VcTkOMhMe4y2zBFQrQO+oY6xk+dmZaQGVIYJxJLnp3h+7Y6x+rW0cE9dQvpO2HQ
-  DM3fUN4pr44CzcCRxH86zn1d5Nh7SQ/r68tSjJCh2PB+yQHl05m0ZwUI5C0nf6U/
-  XnrlBUkxzm+v7EkG9NDYSDdrONWA24RRMqK0to2KbwlPBnbV81ram8qCMT0GMkMo
-  Gg9KnMesfony/WVl4AqhOPLTCjc0WzeE2Gjoo5myA4+I0pICjuas8Mky8TkH5tQZ
-  cQIDAQAB
-  -----END PUBLIC KEY-----`;
+const publicKeyPem = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA0mu6+hal1bhSAzvQ47QY
+FedIY0z2UCbQ00DRyon5WqPnpQep7xepx7M3T8mVpZ9Y3THO7YOYNNrG9odyuoMQ
+TpNbMxkf2dtXyIq2Ri2qQUa4MjgAFvBG0clKNcezZGLs2sKXGOnlFXEBTy1UkZdJ
+9/ctl8Ms4wZb47EbjvRazpJnFN73K7kBfGCHjP5flh32baN55ojwWrec4gnB6+G+
+n97mME+8lYNmpyY2sFz5VGPn64EkYrOU0mAyOkK+kz9Fu1ImGWDn5ZWU2qsOBnKr
+vxYSWfPTUe64k+4cL4hpdQO7EcFomI2YkdRCKFD4xhjWYG2/wob8mTlopKnwkHXL
+0QIDAQAB
+-----END PUBLIC KEY-----`;
 
-  const tokenString = JSON.stringify(token.data);
-  const signature = token.signature;
-
-  // Verify the token with the public key
-  const verify = crypto.createVerify("SHA256");
-  verify.update(tokenString);
-  verify.end();
-  return verify.verify(publicKey, signature, "base64");
+function pemToArrayBuffer(pem) {
+  const b64 = pem
+    .replace(/-----BEGIN PUBLIC KEY-----/, "")
+    .replace(/-----END PUBLIC KEY-----/, "")
+    .replace(/\n/g, "");
+  const binaryDer = atob(b64);
+  const buffer = new ArrayBuffer(binaryDer.length);
+  const view = new Uint8Array(buffer);
+  for (let i = 0; i < binaryDer.length; i++) {
+    view[i] = binaryDer.charCodeAt(i);
+  }
+  return buffer;
 }
 
+async function importPublicKey(pemKey) {
+  const binaryDer = pemToArrayBuffer(pemKey);
+  return crypto.subtle.importKey(
+    "spki",
+    binaryDer,
+    {
+      name: "RSASSA-PKCS1-v1_5",
+      hash: { name: "SHA-256" },
+    },
+    true,
+    ["verify"]
+  );
+}
+
+async function verifySignature(publicKey, data, signature) {
+  const encoder = new TextEncoder();
+  const dataBuffer = encoder.encode(data);
+  const signatureBuffer = Uint8Array.from(atob(signature), (c) =>
+    c.charCodeAt(0)
+  );
+
+  return crypto.subtle.verify(
+    "RSASSA-PKCS1-v1_5",
+    publicKey,
+    signatureBuffer,
+    dataBuffer
+  );
+}
+
+const token = {
+  data: "tokenDataToBeAddedHere",
+  signature:
+    "OCZRv9XTbsejq51JTwBVajJGwEQ9UqC+lMldNhj9sZBnBIHtKPkZ+N/FuLWzkXMyJf6FUMZKsRkrHhiS3ZvnmGOUNDvrYsuGHCN8tIfbInqLBTLUDyB7GASXX5a30RHab9jjBSnD1AS0OkhK4QK3zGXcV28oFDJHZr1vG/RRobVoE5N7DpM2nnSy6bK4wK3j57KoN9igPL+4oX8B5iXxgOfU6VFtUNsLTp7j2vcXSafbM7sObjJuo3j9gHHUzy1ZYMRczny0nQdaGsf5k8G/4BUX8G+CM86VIg8TTADGaaakRBqg3pFCh1snlVQDTh/8eymOjAaeYQx/SPlBfOdOJA==", // The base64 signature from the server
+};
+
+async function verifyToken(token, publicKeyPem) {
+  try {
+    const publicKey = await importPublicKey(publicKeyPem);
+    const isValid = await verifySignature(
+      publicKey,
+      token.data,
+      token.signature
+    );
+    console.log(`Token is ${isValid ? "valid" : "invalid"}`);
+  } catch (error) {
+    console.error("Error verifying token:", error);
+  }
+}
+
+verifyToken(token, publicKeyPem);
+
+// function verifyTokenOldDidNotWorkCryptoAPI(token) {
+//   const publicKey = `-----BEGIN PUBLIC KEY-----
+//   MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArukUXt5ZZp6aLTM4qza3
+//   Gl3PTBh3gAm3TMq5sqrV+hZR6IT8ys3qFaLxAI5fnU2mMUdXmLBNaTj5NsOEnYS2
+//   9VcTkOMhMe4y2zBFQrQO+oY6xk+dmZaQGVIYJxJLnp3h+7Y6x+rW0cE9dQvpO2HQ
+//   DM3fUN4pr44CzcCRxH86zn1d5Nh7SQ/r68tSjJCh2PB+yQHl05m0ZwUI5C0nf6U/
+//   XnrlBUkxzm+v7EkG9NDYSDdrONWA24RRMqK0to2KbwlPBnbV81ram8qCMT0GMkMo
+//   Gg9KnMesfony/WVl4AqhOPLTCjc0WzeE2Gjoo5myA4+I0pICjuas8Mky8TkH5tQZ
+//   cQIDAQAB
+//   -----END PUBLIC KEY-----`;
+
+//   // const tokenString = JSON.stringify(token.data);
+//   // const signature = token.signature;
+//   const signature = `pJPFCyQpUUguGpE3/cMKT26YEGVUG4+En5GDX/dUU0shZhd2uAZ5VQq7zPxJ7k0yo4DQQCpk74KuAy1Cz03UqeQkauh2Ri4/bg+RGdvURi+N/B3mAai2pCflMsn+kYTk3LeIKlzlVilp0Fi/GVUGkh0yfKlJFf5gMKXTfQ59a6M4AeuK1fSopxocgHj1Vpkamiw//R72iuyeZ5uLfeBRep30N8N5RR6A0sCtfJFOO6XK5J/fD1Axxa1PHsmPgVVda2ms3nI36bYrv3ffHGwyKuHR56ydXD6em0Vo0x1eM8EWIo81ChWbiRyIq5VThB3T989oR6AVGRXuQqQEVbozgw==`;
+
+//   // Verify the token with the public key
+//   const verify = crypto.createVerify("SHA256");
+//   // verify.update(tokenString);
+//   // verify.end();
+//   return verify.verify(publicKey, signature, "base64");
+// }
 // document.querySelector(".marker-dialog").classList.remove("contactOpen");
 //   document
 //     .querySelectorAll("input[type=password]")

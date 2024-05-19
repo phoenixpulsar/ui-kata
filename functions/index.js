@@ -17,12 +17,6 @@ const path = require("path");
 // The Firebase Admin SDK to access Firestore.
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const crypto = require("crypto");
-
-const privateKey = fs.readFileSync(
-  path.resolve(__dirname, "../../../ordo_private_key.pem"),
-  "utf8"
-);
 
 initializeApp();
 
@@ -58,36 +52,59 @@ exports.makeuppercase = onDocumentCreated("/messages/{documentId}", (event) => {
   return event.data.ref.set({ uppercase }, { merge: true });
 });
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+const crypto = require("crypto");
+
+const privateKey = fs.readFileSync("private_key.pem", "utf-8");
+const publicKey = fs.readFileSync("../public_key.pem", "utf-8");
+
+exports.generateSignature = onRequest(async (req, res) => {
+  const dataToSign = "tokenDataToBeAddedHere"; // Example data to be signed
+
+  try {
+    // Create a signer object
+    const sign = crypto.createSign("SHA256");
+    sign.update(dataToSign); // Use dataToSign
+    sign.end();
+
+    // Sign the data
+    const signature = sign.sign(privateKey, "base64");
+
+    const token = {
+      data: dataToSign,
+      signature: signature,
+    };
+
+    console.log("Generated Token:", token);
+
+    // Verify the signature
+    const verify = crypto.createVerify("SHA256");
+    verify.update(token.data); // Use token.data (which is dataToSign)
+    verify.end();
+    const isValid = verify.verify(publicKey, token.signature, "base64");
+
+    console.log("Is valid?", isValid);
+
+    if (!isValid) {
+      throw new Error("Token verification failed");
+    }
+
+    const writeResult = await getFirestore()
+      .collection("tokens")
+      .add({ token: token });
+
+    // Send back a message that we've successfully written the message
+    res.json({
+      result: `Message with ID: ${writeResult.id} added.`,
+      token: token,
+      isValid: isValid,
+    });
+  } catch (error) {
+    console.error("Error signing or verifying the token:", error);
+    res.status(500).json({ error: "Failed to generate or verify token" });
+  }
+});
 
 // exports.helloWorld = onRequest((request, response) => {
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
-
-exports.generateToken = onRequest(async (req, res) => {
-  const tokenData = {
-    userId: "macedo",
-    timestamp: Date.now(),
-  };
-  const tokenString = JSON.stringify(tokenData);
-
-  const sign = crypto.createSign("SHA256");
-  sign.update(tokenString);
-  sign.end();
-
-  const signature = sign.sign(privateKey, "base64");
-
-  const token = {
-    data: tokenData,
-    signature: signature,
-  };
-
-  // Push the new message into Firestore using the Firebase Admin SDK.
-  const writeResult = await getFirestore()
-    .collection("tokens")
-    .add({ token: token });
-  // Send back a message that we've successfully written the message
-  res.json({ result: `Message with ID: ${writeResult.id} added.` });
-});
