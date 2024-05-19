@@ -1092,6 +1092,27 @@ function decrypt(encryptedPackage, password) {
     });
 }
 
+function verifyToken(token) {
+  const publicKey = `-----BEGIN PUBLIC KEY-----
+  MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArukUXt5ZZp6aLTM4qza3
+  Gl3PTBh3gAm3TMq5sqrV+hZR6IT8ys3qFaLxAI5fnU2mMUdXmLBNaTj5NsOEnYS2
+  9VcTkOMhMe4y2zBFQrQO+oY6xk+dmZaQGVIYJxJLnp3h+7Y6x+rW0cE9dQvpO2HQ
+  DM3fUN4pr44CzcCRxH86zn1d5Nh7SQ/r68tSjJCh2PB+yQHl05m0ZwUI5C0nf6U/
+  XnrlBUkxzm+v7EkG9NDYSDdrONWA24RRMqK0to2KbwlPBnbV81ram8qCMT0GMkMo
+  Gg9KnMesfony/WVl4AqhOPLTCjc0WzeE2Gjoo5myA4+I0pICjuas8Mky8TkH5tQZ
+  cQIDAQAB
+  -----END PUBLIC KEY-----`;
+
+  const tokenString = JSON.stringify(token.data);
+  const signature = token.signature;
+
+  // Verify the token with the public key
+  const verify = crypto.createVerify("SHA256");
+  verify.update(tokenString);
+  verify.end();
+  return verify.verify(publicKey, signature, "base64");
+}
+
 // document.querySelector(".marker-dialog").classList.remove("contactOpen");
 //   document
 //     .querySelectorAll("input[type=password]")
