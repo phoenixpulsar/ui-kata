@@ -104,6 +104,58 @@ exports.generateSignature = onRequest(async (req, res) => {
   }
 });
 
+exports.checkoutStripe = onRequest((req, res) => {
+  // Grab the current value of what was written to Firestore.
+
+  console.log("event received", req.method);
+
+  const data = req.body; // Assuming data is sent in the request body
+  console.log("data", data);
+});
+
+/**
+ * When a user is created, create a Stripe customer object for them.
+ *
+ * @see https://stripe.com/docs/payments/save-and-reuse#web-create-customer
+ */
+// exports.createStripeCustomer = functions.auth.user().onCreate(async (user) => {
+//   const customer = await stripe.customers.create({ email: user.email });
+//   const intent = await stripe.setupIntents.create({
+//     customer: customer.id,
+//   });
+//   await admin.firestore().collection("stripe_customers").doc(user.uid).set({
+//     customer_id: customer.id,
+//     setup_secret: intent.client_secret,
+//   });
+//   return;
+// });
+
+/**
+ * When a user deletes their account, clean up after them
+ */
+// exports.cleanupUser = functions.auth.user().onDelete(async (user) => {
+//   const dbRef = admin.firestore().collection("stripe_customers");
+//   const customer = (await dbRef.doc(user.uid).get()).data();
+//   await stripe.customers.del(customer.customer_id);
+//   // Delete the customers payments & payment methods in firestore.
+//   const batch = admin.firestore().batch();
+//   const paymetsMethodsSnapshot = await dbRef
+//     .doc(user.uid)
+//     .collection("payment_methods")
+//     .get();
+//   paymetsMethodsSnapshot.forEach((snap) => batch.delete(snap.ref));
+//   const paymentsSnapshot = await dbRef
+//     .doc(user.uid)
+//     .collection("payments")
+//     .get();
+//   paymentsSnapshot.forEach((snap) => batch.delete(snap.ref));
+
+//   await batch.commit();
+
+//   await dbRef.doc(user.uid).delete();
+//   return;
+// });
+
 // exports.helloWorld = onRequest((request, response) => {
 //   logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");

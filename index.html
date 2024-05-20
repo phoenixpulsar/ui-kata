@@ -4,14 +4,39 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.scss">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
     <title>Ordo</title>
   </head>
   <body>
+    <form id="signUpForm">
+      <label for="email">Email:</label>
+      <input type="email" id="emailSignUp" name="email" required>
+ 
+      <label for="password">Password:</label>
+      <input type="password" id="passwordSignUp" name="password" required>
+   
+      <button  type="submit">Sign Up</button>
+    </form>
+
+    <form id="logInForm">
+      <label for="email">Email:</label>
+      <input type="email" id="emailLogin" name="email" required>
+ 
+      <label for="password">Password:</label>
+      <input type="password" id="passwordLogin" name="password" required>
+   
+      <button type="submit">Login</button>
+    </form>
+
+    <button id="signOutBtn">Sign Out</button>
+  
+
     <div class="main-layout-container">
       <div class="main-experience-container">
 
         <h1 id="welcome-header">Ordo</h1>
         <p id="welcome-mssg">Choose a file to Encrypt | Decrypt</p>
+        
 
         <div class="file-upload-ctrls">
           <div class="file-upload-inner-grid">
@@ -57,9 +82,8 @@
 
       </div> <!-- main-experience-container -->
     </div>  <!-- main-layout-container -->
-     
-     <script type="module" src="/firebase.js"></script> 
-  
+    <script type="module" src="/firebase.js"></script> 
+      <script src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

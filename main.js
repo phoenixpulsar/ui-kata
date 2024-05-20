@@ -1,4 +1,79 @@
 import { gsap } from "gsap";
+import { auth } from "./firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  onAuthStateChanged,
+} from "firebase/auth";
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/auth.user
+    const uid = user.uid;
+    console.log("user", user, uid);
+    // ...
+  } else {
+    console.log("user signed out");
+    // User is signed out
+    // ...
+  }
+});
+
+const formSignUp = document.getElementById("signUpForm");
+formSignUp.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("emailSignUp").value;
+  const password = document.getElementById("passwordSignUp").value;
+
+  console.log("Email:", email);
+  console.log("Password:", password);
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      const user = userCredential.user;
+      console.log("user", user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(error);
+      // ..
+    });
+});
+
+const formSignIn = document.getElementById("logInForm");
+formSignIn.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById("emailLogin").value;
+  const password = document.getElementById("passwordLogin").value;
+
+  console.log("Email:", email);
+  console.log("Password:", password);
+  signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      const user = userCredential.user;
+      console.log("user", user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(error);
+      // ..
+    });
+});
+
+document.querySelector("#signOutBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+
+  auth.signOut();
+});
 
 // gsap.to(".green", { rotation: 360, x: 100, duration: 1 });
 
