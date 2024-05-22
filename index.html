@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.scss">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
     <title>Ordo</title>
@@ -24,47 +26,70 @@
      <div class="main-layout-container">
       <div class="main-experience-container">
 
-      
+        <div class="file-upload-ctrls">
+          <div class="file-upload-inner-grid">
+            <p id="welcome-mssg">Choose a file to Encrypt | Decrypt</p>
+            <label id="file-upload-label" for="file-upload" >Choose File</label>
+            <input id="file-upload" type="file" />
+            <svg id="file-upload-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M463.9-250.05h33.84v-198.13l89.34 89.85 24.1-24.18L480-512.56 349.64-381.69l23.67 23.59 90.59-90.08v198.13ZM258.46-120q-24.58 0-41.52-16.94Q200-153.88 200-178.46v-603.08q0-24.58 16.94-41.52Q233.88-840 258.46-840h327.85L760-666.31v487.85q0 24.58-16.94 41.52Q726.12-120 701.54-120H258.46Zm310.92-530.36v-155.79H258.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v603.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h443.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-471.9H569.38ZM233.85-806.15v155.79-155.79 652.3V-806.15Z"/></svg>  
+          </div> 
+        </div>
+ 
         <div class="login-container">
-          <button id="close-login">Close</button>
-          <!-- SignUp -->
-          <form id="signUpForm">
-            <label for="email">Email:</label>
-            <input type="email" id="emailSignUp" name="email" required>
-        
-            <label for="password">Password:</label>
-            <input type="password" id="passwordSignUp" name="password" required>
-            <button  type="submit">Sign Up</button>
+          <div class="login-ctrls">
+            <button id="close-login">
+              Close  
+            </button>
+          </div>
+          
+          <h1 id="login-header">Sign In</h1>
+              
+          <form id="login-form">
+            <label id="login-email-label" for="email">Email:</label>
+            <input id="login-email-input" type="email"  name="email" required>
+            <label id="login-password-label" for="password">Password:</label>
+            <input id="login-password-input" type="password"  name="password" required>
+            <button id="login-btn"  type="submit">Sign Up</button>
           </form>
-        
-           <!-- SignIn -->
-          <form id="logInForm">
-            <label for="email">Email:</label>
-            <input type="email" id="emailLogin" name="email" required>
-        
-            <label for="password">Password:</label>
-            <input type="password" id="passwordLogin" name="password" required>
-         
-            <button type="submit">Login</button>
-          </form>
-         </div> <!--login-container -->
 
+          <p id="register-mssg">Don't have an account? <span id="open-sign-up">Create One</span></p>   
+        </div>
+
+        <div class="sign-up-container">
+          <div class="sign-up-ctrls">
+            <button id="close-sign-up">
+              Close  
+            </button>
+          </div>
+           
+          <h1 id="sign-up-header">Sign Up</h1>
+           
+          <!-- SignUp -->
+          <form id="sign-up-form">
+            <label id="sign-up-email-label" for="email">Email:</label>
+            <input id="sign-up-email-input" type="email"  name="email" required>
+            <label id="sign-up-password-label" for="password">Password:</label>
+            <input id="sign-up-password-input" type="password"  name="password" required>
+            <button id="sign-up-btn"  type="submit">Sign Up</button>
+          </form>
+        </div> 
+       
          <div class="terms-container">
           <button id="close-terms">Close</button>
           <h1>Terms</h1>
-         </div> <!--terms-container -->
-
+         </div> 
+   
          <div class="about-container">
           <button id="close-about">Close</button>
           <h1>About</h1>
-         </div> <!--about-container -->
-
+         </div> 
+      
          <div class="contact-container">
           <button id="close-contact">Close</button>
           <h1>Contact</h1>
-         </div> <!--contact-container -->
-     
-      </div>
+         </div>
+                   
+        </div>
      </div>
 
      <footer>
