@@ -565,12 +565,154 @@ gsap.set(
     ".password-ctrls",
     ".encrypt-complete-dialog",
     ".encrypt-error-dialog",
+    ".login-container",
+    ".terms-container",
+    ".about-container",
+    ".contact-container",
   ],
   {
     opacity: 0,
     visibility: "hidden",
   }
 );
+
+function openLogin() {
+  let tl = gsap.timeline({ paused: true });
+
+  tl.fromTo(
+    ".login-container",
+    {
+      opacity: 0,
+      visibility: "hidden",
+    },
+    {
+      opacity: 1,
+      visibility: "visible",
+      x: "-90vw",
+      ease: "sine.out",
+      duration: 1,
+    }
+  );
+
+  tl.timeScale(1.5);
+
+  return tl;
+}
+const openLoginTL = openLogin();
+
+document.getElementById("open-login").addEventListener("click", function (e) {
+  e.preventDefault();
+  openLoginTL.play();
+});
+
+document.getElementById("close-login").addEventListener("click", function (e) {
+  e.preventDefault();
+  openLoginTL.reverse();
+});
+
+function openTerms() {
+  let tl = gsap.timeline({ paused: true });
+
+  tl.fromTo(
+    ".terms-container",
+    {
+      opacity: 0,
+      visibility: "hidden",
+    },
+    {
+      opacity: 1,
+      visibility: "visible",
+      x: "-90vw",
+      ease: "sine.out",
+      duration: 1,
+    }
+  );
+
+  tl.timeScale(1.5);
+
+  return tl;
+}
+const openTermsTL = openTerms();
+
+document.getElementById("open-terms").addEventListener("click", function (e) {
+  e.preventDefault();
+  openTermsTL.play();
+});
+
+document.getElementById("close-terms").addEventListener("click", function (e) {
+  e.preventDefault();
+  openTermsTL.reverse();
+});
+
+function openAbout() {
+  let tl = gsap.timeline({ paused: true });
+
+  tl.fromTo(
+    ".about-container",
+    {
+      opacity: 0,
+      visibility: "hidden",
+    },
+    {
+      opacity: 1,
+      visibility: "visible",
+      x: "-90vw",
+      ease: "sine.out",
+      duration: 1,
+    }
+  );
+
+  tl.timeScale(1.5);
+
+  return tl;
+}
+const openAboutTL = openAbout();
+
+document.getElementById("open-about").addEventListener("click", function (e) {
+  e.preventDefault();
+  openAboutTL.play();
+});
+
+document.getElementById("close-about").addEventListener("click", function (e) {
+  e.preventDefault();
+  openAboutTL.reverse();
+});
+
+function openContact() {
+  let tl = gsap.timeline({ paused: true });
+
+  tl.fromTo(
+    ".contact-container",
+    {
+      opacity: 0,
+      visibility: "hidden",
+    },
+    {
+      opacity: 1,
+      visibility: "visible",
+      x: "-90vw",
+      ease: "sine.out",
+      duration: 1,
+    }
+  );
+
+  tl.timeScale(1.5);
+
+  return tl;
+}
+const openContactTL = openContact();
+
+document.getElementById("open-contact").addEventListener("click", function (e) {
+  e.preventDefault();
+  openContactTL.play();
+});
+
+document
+  .getElementById("close-contact")
+  .addEventListener("click", function (e) {
+    e.preventDefault();
+    openContactTL.reverse();
+  });
 
 function sceneOne() {
   var tl = gsap.timeline({ paused: true });

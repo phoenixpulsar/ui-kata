@@ -154,6 +154,7 @@ body {
   padding: 0;
   font-size: var(--base-size);
   line-height: 1.5;
+  background-color: red;
 }
 h1,
 h2,
@@ -183,23 +184,96 @@ h6 {
   font-size: var(--h6);
 }
 
+.main-nav ul {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+
+  li{
+    &:first-child{
+      margin-right: auto;
+    }
+  }
+}
+
+.install-container{
+  text-align: right;
+}
+
 .main-layout-container{
   display: grid;
   // background-color: #ca5d5a;
-  height: 80vh;
-  width: 80vw;
+  height: 90vh;
+  width: 100vw;
   place-items: center;
-  // outline: 1px solid red;
   outline: 1px solid rgba(38, 39, 46, 0.338);
-  margin: 10vh auto;
+  // margin: 5vh auto;
 }
 
 .main-experience-container{
   outline: 1px solid pink;
   position: relative;
-  height: 75vh;
-  width: 75vw;
+  height: 90vh;
+  width: 100vw;
+  overflow: hidden;
+  overflow-y: scroll;
 }
+
+.login-container{
+  position: absolute;
+  height: 90vh;
+  width: 100vw;
+  top:0;
+  left:90vw;
+  background-color: pink;
+}
+
+.terms-container{
+  position: absolute;
+  height: 90vh;
+  width: 100vw;
+  top:0;
+  left:90vw;
+  background-color: rgb(78, 119, 12);
+}
+
+.about-container{
+  position: absolute;
+  height: 90vh;
+  width: 100vw;
+  top:0;
+  left:90vw;
+  background-color: rgb(219, 192, 255);
+}
+
+.contact-container{
+  position: absolute;
+  height: 90vh;
+  width: 100vw;
+  top:0;
+  left:90vw;
+  background-color: rgb(183, 42, 42);
+}
+
+footer nav ul{
+  height: 10vh;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+  outline: 1px solid green;
+}
+
+
 
 #welcome-header{
   position: absolute;
@@ -275,7 +349,6 @@ h6 {
     cursor: pointer;
   }
 }
-
 
 
 .password-ctrls{
