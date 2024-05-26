@@ -197,6 +197,17 @@ h6 {
   font-size: var(--h6);
 }
 
+// .color-container{
+//   --dark-theme: false;
+// }
+
+// @container style(--dark-theme:true){
+//   .color-container {
+//     background-color: white;
+//     color: black;
+//   }
+// }
+
 button {
     font-family: 'Nunito', sans-serif;
     letter-spacing: .1rem;
@@ -209,16 +220,16 @@ button {
     height: 3rem;
     background-color: #697077;
 
-    transition-duration: 0.3s;
-    transition-property: background-color transform;
+    // transition-duration: 0.3s;
+    // transition-property: background-color transform;
 
-    &:hover {
-      transform: translateY(5%);
-      cursor: pointer;
-    }
-    &:active {
-      transform: translateY(5%);
-    }
+    // &:hover {
+    //   transform: translateY(5%);
+    //   cursor: pointer;
+    // }
+    // &:active {
+    //   transform: translateY(5%);
+    // }
 
 }
 
@@ -243,6 +254,11 @@ button {
       margin-right: auto;
     }
   }
+}
+
+.logo{
+  width: 100px;
+  margin-top: 1rem;
 }
 
 .install-container {
@@ -274,13 +290,12 @@ button {
   overflow-y: scroll;
 }
 
-
 .file-upload-ctrls {
+  position: absolute;
   padding: 10rem;
   width: 90vw;
   outline: 1px dashed #4d5358;
   display: inline-block;
-  position: absolute;
   top: 40%;
   left: 50%;
   // background-color: #21272a;
@@ -292,16 +307,12 @@ button {
   display: grid;
   justify-items: center;
   grid-template-areas: 
-    "file-upload-svg-icon"
     "welcome-mssg"
     "file-upload-label"
     "file-upload"
 }
 
-#file-upload-svg-icon {
-  grid-area:file-upload-svg-icon;
-  transform: scale(1.2);
-}
+
 
 #welcome-mssg {
   grid-area: welcome-mssg;
@@ -336,6 +347,279 @@ button {
   display: none;
   grid-area:file-upload;
 }
+// finish init screen start screen 2
+//=========================================
+
+#back-svg-icon{
+  position: absolute;
+  top:15%;
+  left: 7%;
+  transform: scale(1.8);
+  
+  transition-duration: 0.7;
+  cursor: pointer;
+
+  &:hover{
+    transform: scale(1.8) translateX(-4%);
+  }
+}
+
+@media (max-width: 600px) {
+  #back-svg-icon {
+    top: 12%;
+    left:10%;
+    transform:scale(1.4); 
+
+    &:hover{
+      transform:scale(1.4) translateX(-4%);
+    }
+
+  }
+
+  
+}
+
+
+// ====================
+// ====================
+// ====================
+
+#file-upload-svg-icon {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: scale(1.2) translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+  #file-upload-svg-icon {
+    top: 23%;
+    transform:scale(1.4); 
+  }
+}
+
+#start-svg{
+  position: absolute;
+  top:20%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+#clock-svg{
+  position: absolute;
+  top:20%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#lock-svg{
+  position: absolute;
+  top:20%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#empty-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+#checkered-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#plus-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#wait-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#exclamation-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#healthy-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#star-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#check-shield-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+#done-svg{
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+
+
+
+
+
+
+
+// ====================
+// ====================
+// ====================
+
+
+#file-name-display {
+  position: absolute;
+  // outline: 1px solid yellowgreen;
+  width: 50vw;
+  // width: 500px;
+
+  // width: 90vw;
+  top: 18%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: x-large;
+  // padding-left: 5%;
+  // padding-right: 5%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 600px) {
+  .file-name-display {
+    top: 19%; 
+  }
+}
+
+
+
+.password-ctrls {
+  position: absolute;
+  width: 90vw;
+  left:50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+.password-ctrls-inner-grid {
+  display: grid;
+  grid-template-areas: 
+    "encrypt-label"
+    "encrypt-input"
+    "encrypt-btn";
+}
+
+#encrypt-label {
+  grid-area: encrypt-label;
+  margin-left: 5%;
+  font-size: x-large;
+}
+
+#encrypt-input {
+  width: 80vw;
+  text-decoration: none;
+  margin-top: 1rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  // margin: 0 auto;
+  font-size: xx-large;
+  outline: none;
+  grid-area: input;
+  padding: 0 1rem;
+  border-radius: 0.25rem;
+  height: 4rem;
+  color: white;
+  border: 2px solid #4d5358;
+  background-color: #121619;
+  grid-area: encrypt-input;
+
+  &:focus {
+    border: 2px solid #c1c7cd;
+  }
+}
+
+
+
+#encrypt-btn {
+  grid-area: encrypt-btn;
+  width: 80vw;
+  margin-left: 5%;
+  background-color: #121619;
+  border: 1px solid #4d5358;
+  font-size: large;
+  margin-top: 2rem;
+  height: 4rem;
+  font-size: x-large;
+  
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+    transform: translateY(5%);
+    background-color: #21272a;
+    letter-spacing: .2rem;
+    cursor: pointer;
+  }
+  &:active {
+    transform: translateY(5%);
+  }
+}
+
+
+
+//=========================================
+
 
 .login-container {
   position: absolute;
@@ -473,14 +757,21 @@ button {
   font-size: x-large;
 }
 
-
 .terms-container {
   position: absolute;
   height: 90vh;
   width: 100vw;
+  overflow: hidden;
+  overflow-y: auto;
   top:0;
   left:90vw;
-  background-color: rgb(78, 119, 12);
+  background-color: #343a3f;
+}
+
+.terms-content {
+  padding-top:1rem;
+  padding-left: 1rem;
+  max-width: 535px;
 }
 
 .about-container{
@@ -518,13 +809,6 @@ footer nav ul{
 }
 
 
-#file-name-display{
-  position: absolute;
-  width: 100%;
-  left:0;
-  text-align: center;
-  top: 50%;
-}
 
 
 
@@ -540,50 +824,7 @@ footer nav ul{
 }
 
 
-.password-ctrls{
-  position: absolute;
-  width: 100%;
-  left:50%;
-  top: 45%;
-  transform: translate(-50%, -50%);
-}
 
-.password-ctrls-inner-grid{
-  display: grid;
-  justify-items: center;
-
-  grid-template-areas: 
-    "encrypt-label"
-    "encrypt-input"
-    "encrypt-btn";
-}
-
-#encrypt-label{
-  grid-area: encrypt-label;
-}
-
-#encrypt-input{
-  width: 80%;
-  margin: 0 auto;
-  font-size: xx-large;
-  outline: none;
-  grid-area: input;
-  padding: 0 1rem;
-  border-radius: 0.25rem;
-  height: 4rem;
-  border: 2px solid white;
-  grid-area: encrypt-input;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-}
-
-#encrypt-btn{
-  grid-area: encrypt-btn;
-  border: 1px solid gray;
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-}
 
 .encrypt-complete-dialog{
   position:absolute;

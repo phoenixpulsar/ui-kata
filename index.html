@@ -6,14 +6,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="app.js" defer type="module"></script>
+     
+    <script type="module" src="/main.js" defer></script>
+     <script type="module" src="/firebase.js" defer></script> 
   
     <title>Ordo</title>
     </head>
 
     <body>
+    
+
+      
      <nav class="main-nav">
       <ul>
-        <li><h1>Ordo-One</h1></li>
+        <li><h1 id="logo">Ordo One</h1></li>
+        <!-- <li><a href=""><img id="logo" src="assets/ordo-one-logo.png"></a></li> -->
+        <li>
+          <label>
+            <input type="checkbox" id="theme-box"> Theme
+          </label>
+        </li>
         <li id="open-login">Log In</li>
         <li id="signOutBtn">Sign Out</li>
       </ul>
@@ -31,8 +44,34 @@
             <p id="welcome-mssg">Choose a file to Encrypt | Decrypt</p>
             <label id="file-upload-label" for="file-upload" >Choose File</label>
             <input id="file-upload" type="file" />
-            <svg id="file-upload-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M463.9-250.05h33.84v-198.13l89.34 89.85 24.1-24.18L480-512.56 349.64-381.69l23.67 23.59 90.59-90.08v198.13ZM258.46-120q-24.58 0-41.52-16.94Q200-153.88 200-178.46v-603.08q0-24.58 16.94-41.52Q233.88-840 258.46-840h327.85L760-666.31v487.85q0 24.58-16.94 41.52Q726.12-120 701.54-120H258.46Zm310.92-530.36v-155.79H258.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v603.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h443.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-471.9H569.38ZM233.85-806.15v155.79-155.79 652.3V-806.15Z"/></svg>  
           </div> 
+        </div>
+        
+        <svg id="file-upload-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M463.9-250.05h33.84v-198.13l89.34 89.85 24.1-24.18L480-512.56 349.64-381.69l23.67 23.59 90.59-90.08v198.13ZM258.46-120q-24.58 0-41.52-16.94Q200-153.88 200-178.46v-603.08q0-24.58 16.94-41.52Q233.88-840 258.46-840h327.85L760-666.31v487.85q0 24.58-16.94 41.52Q726.12-120 701.54-120H258.46Zm310.92-530.36v-155.79H258.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v603.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h443.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-471.9H569.38ZM233.85-806.15v155.79-155.79 652.3V-806.15Z"/></svg>  
+        <svg id="start-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M255.38-597.08h349.24v-87.54q0-51.92-36.3-88.26-36.3-36.35-88.16-36.35-51.85 0-88.31 36.35-36.47 36.34-36.47 88.26h-30.76q0-65.15 45.27-110.27Q415.16-840 480.16-840q64.99 0 110.11 45.23 45.11 45.22 45.11 110.15v87.54h69.24q22.44 0 38.91 16.18Q760-564.73 760-541.69v366.31q0 22.44-16.47 38.91Q727.06-120 704.62-120H255.38q-22.44 0-38.91-16.47Q200-152.94 200-175.38v-366.31q0-23.04 16.47-39.21 16.47-16.18 38.91-16.18Zm0 446.31h449.24q10.76 0 17.69-6.92 6.92-6.93 6.92-17.69v-366.31q0-10.77-6.92-17.69-6.93-6.93-17.69-6.93H255.38q-10.76 0-17.69 6.93-6.92 6.92-6.92 17.69v366.31q0 10.76 6.92 17.69 6.93 6.92 17.69 6.92ZM480.17-300q24.14 0 41.25-17.03 17.12-17.03 17.12-41.05 0-23.07-17.28-41.04-17.29-17.96-41.43-17.96t-41.25 17.96q-17.12 17.97-17.12 41.54 0 23.58 17.28 40.58 17.29 17 41.43 17Zm-249.4 149.23v-415.54 415.54Z"/></svg>
+        <svg id="clock-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M355.38-597.08h249.24v-86.37q0-52.86-36.35-89.32-36.35-36.46-88.27-36.46-51.92 0-88.27 36.46-36.35 36.46-36.35 89.32v86.37ZM537.77-120H255.38q-23 0-39.19-16.19Q200-152.38 200-175.38v-366.31q0-23 16.19-39.19 16.19-16.2 39.19-16.2h69.24v-86.07q0-66.45 45-111.65T480-840q65.38 0 110.38 45.2t45 111.65v86.07h69.24q23 0 39.19 16.2Q760-564.69 760-541.69v63.15q-5.31-.69-13.54-1.69t-17.23-1v-60.46q0-10.77-6.92-17.69-6.93-6.93-17.69-6.93H255.38q-10.76 0-17.69 6.93-6.92 6.92-6.92 17.69v366.31q0 10.76 6.92 17.69 6.93 6.92 17.69 6.92h262.54q2.39 8.14 7.31 16.07t12.54 14.7Zm182.15 21.69q-65.15 0-111-45.84-45.84-45.85-45.84-110.62 0-64.77 45.84-111 45.85-46.23 111-46.23 65.16 0 111 46.2 45.85 46.2 45.85 110.65 0 65.15-45.85 111-45.84 45.84-111 45.84Zm69.39-65.84L810.92-185l-77.07-73.69v-114.77h-32v125.48l87.46 83.83ZM230.77-335.54V-150.77v-415.54V-335.54Z"/></svg>
+        <svg id="lock-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M255.38-120q-22.44 0-38.91-16.47Q200-152.94 200-175.38v-366.31q0-23.04 16.47-39.21 16.47-16.18 38.91-16.18h69.24v-87.54q0-64.93 45.27-110.15Q415.16-840 480.16-840q64.99 0 110.11 45.23 45.11 45.22 45.11 110.15v87.54h69.24q22.44 0 38.91 16.18Q760-564.73 760-541.69v366.31q0 22.44-16.47 38.91Q727.06-120 704.62-120H255.38Zm0-30.77h449.24q10.76 0 17.69-6.92 6.92-6.93 6.92-17.69v-366.31q0-10.77-6.92-17.69-6.93-6.93-17.69-6.93H255.38q-10.76 0-17.69 6.93-6.92 6.92-6.92 17.69v366.31q0 10.76 6.92 17.69 6.93 6.92 17.69 6.92ZM480.17-300q24.14 0 41.25-17.03 17.12-17.03 17.12-41.05 0-23.07-17.28-41.04-17.29-17.96-41.43-17.96t-41.25 17.96q-17.12 17.97-17.12 41.54 0 23.58 17.28 40.58 17.29 17 41.43 17ZM355.38-597.08h249.24v-87.54q0-51.92-36.3-88.26-36.3-36.35-88.16-36.35-51.85 0-88.31 36.35-36.47 36.34-36.47 88.26v87.54ZM230.77-150.77v-415.54 415.54Z"/></svg>
+        <svg id="empty-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="checkered-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-121.54q-120.77-35.77-200.38-147.11Q200-380 200-518.92v-213.39l280-104.61 280 104.61v213.39q0 138.92-79.62 250.27Q600.77-157.31 480-121.54Zm0-32q100.62-32.69 168.19-123.5Q715.77-367.85 727-480H480v-323.46l-249.23 92.38v192.16q0 10.46.5 18.96T233-480h247v326.46Z"/></svg>
+        <svg id="wait-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-322.62q65.15 0 111-46.23 45.85-46.23 45.85-110.61 0-65.16-45.85-111-45.85-45.85-111-45.85t-111 45.85q-45.85 45.84-45.85 111 0 64.38 45.85 110.61 45.85 46.23 111 46.23Zm69.38-65.84-86.69-84.08v-125.23h31.23v114L571-410.08l-21.62 21.62ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="exclamation-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="healthy-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="star-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="check-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        <svg id="done-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M443.62-380h72.76l-22.69-131.15q17.69-5.93 29.31-20.35 11.62-14.42 11.62-33.12 0-22.84-15.89-38.73-15.88-15.88-38.73-15.88-22.85 0-38.73 15.88-15.89 15.89-15.89 38.73 0 18.7 11.62 33.12 11.62 14.42 29.31 20.35L443.62-380ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+        
+
+        <div id="file-name-display"></div>
+        <svg id="back-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg>
+    
+        <div class="password-ctrls">
+          <div class="password-ctrls-inner-grid">
+            <label for="password" id="encrypt-label">Password</label>
+            <input type="password" id="encrypt-input" placeholder="Password"/> 
+            <button id="encrypt-btn" class="btn">
+              Encrypt
+            </button>
+          </div>
         </div>
  
         <div class="login-container">
@@ -75,8 +114,40 @@
         </div> 
        
          <div class="terms-container">
-          <button id="close-terms">Close</button>
-          <h1>Terms</h1>
+          <div class="login-ctrls">
+            <button id="close-terms">Close</button>
+          </div>
+
+          <div class="terms-content">
+            <h1>Terms and Conditions</h1>
+            <p><strong>Effective Date: May 2024</strong></p>
+
+            <h2>1. Introduction</h2>
+            <p>Welcome to our encryption app. By using this app, you agree to be bound by these Terms and Conditions. Please read them carefully.</p>
+
+            <h2>2. Use at Your Own Risk</h2>
+            <p>This app is provided "as is" and "as available" for your use. We do not guarantee that the app will be error-free or uninterrupted. Use the app at your own risk.</p>
+
+            <h2>3. Encryption and Security</h2>
+            <p>This app utilizes the Web Crypto API to encrypt your data. We do not store your encryption password. If you lose your encryption password, you will be locked out of your encrypted data, and we will not be able to recover it for you.</p>
+        
+            <h2>4. No Responsibility for Data Loss</h2>
+            <p>We are not responsible for any data loss, changes, or damages resulting from the use of this app. You are solely responsible for backing up your data and managing your encryption passwords.</p>
+        
+            <h2>5. Limitation of Liability</h2>
+            <p>To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses, resulting from the use or inability to use the app.</p>
+        
+            <h2>6. No Warranty</h2>
+            <p>We do not warrant that the app will meet your requirements or that it will be suitable for any particular purpose. We disclaim all warranties, express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.</p>
+
+            <h2>7. Changes to Terms</h2>
+            <p>We reserve the right to modify these Terms and Conditions at any time. Any changes will be posted on this page, and your continued use of the app after such changes have been posted will constitute your acceptance of the modified Terms and Conditions.</p>
+
+            <h2>9. Contact Information</h2>
+            <p>If you have any questions about these Terms and Conditions, please contact us at [contact info coming soon].</p>
+
+            <p>By using this app, you acknowledge that you have read and understood these Terms and Conditions and agree to be bound by them.</p>
+          </div>
          </div> 
    
          <div class="about-container">
@@ -102,20 +173,15 @@
       </nav>
      </footer>
    
-     
-     
-     <script type="module" src="/main.js"></script>
-      <!-- <script type="module" src="/firebase.js"></script>     
-      <script type="module" src="/main.js"></script> -->
-      
+
     </body>
   
 </html>
 
 
 
-<!-- <!doctype html>
-<html lang="en">
+
+<!-- <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="style.scss">
@@ -126,7 +192,7 @@
   <body>
     <div class="main-container">
       <p class="init-mssg">Iniaaaaa</p>
-      <div class="box green"></div> -->
+      <div class="box green"></div>  -->
       
       
     
