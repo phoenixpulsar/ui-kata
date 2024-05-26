@@ -9,8 +9,6 @@ import {
   sendPasswordResetEmail,
 } from "firebase/auth";
 
-gsap.registerPlugin(TextPlugin);
-
 // const formSignUp = document.getElementById("sign-up-form");
 // formSignUp.addEventListener("submit", (event) => {
 //   event.preventDefault();
@@ -59,12 +57,6 @@ gsap.registerPlugin(TextPlugin);
 //     });
 // });
 
-document.querySelector("#signOutBtn").addEventListener("click", function (e) {
-  e.preventDefault();
-
-  auth.signOut();
-});
-
 // document.querySelector("#close-svg").addEventListener("click", function (e) {
 //   console.log("Close");
 //   e.preventDefault();
@@ -83,30 +75,6 @@ document.querySelector("#signOutBtn").addEventListener("click", function (e) {
 //   document.getElementById("welcome-mssg").textContent =
 //     "Choose a file to Encrypt | Decrypt";
 // });
-
-document.querySelector("#encrypt-btn").addEventListener("click", function (e) {
-  e.preventDefault();
-  removePasswordFromInput();
-  Timelines.startEncryptionLabels.play();
-  // startEncryptionTl.play();
-  // encryptionAnimationTimeline.restart();
-});
-
-function removePasswordFromInput() {
-  document
-    .querySelectorAll("input[type=password]")
-    .forEach((input) => (input.value = ""));
-}
-
-function saveFile(data, fileName, mimeType) {
-  const blob = new Blob([data], { type: mimeType });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
 
 const token = {
   data: "tokenDataToBeAddedHere",

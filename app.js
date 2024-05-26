@@ -23,11 +23,9 @@ onAuthStateChanged(auth, (user) => {
 window.addEventListener("DOMContentLoaded", () => {
   // Init
   const $ = (selector) => document.querySelector(selector);
-
   HTMLElement.prototype.on = function (a, b, c) {
     this.addEventListener(a, b, c);
   };
-
   HTMLElement.prototype.$ = function (s) {
     return this.querySelector(s);
   };
@@ -141,7 +139,18 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openContactPanel.reverse();
   });
 
-  // can't use "on" on svg element
+  $("#encrypt-btn").on("click", (e) => {
+    e.preventDefault();
+    removePasswordFromInput();
+    Timelines.startEncryptionLabels.play();
+  });
+
+  $("#sign-out-btn").on("click", (e) => {
+    e.preventDefault();
+    auth.signOut();
+  });
+
+  // can't use "on" use addEventListener on svg element
   $("#back-svg-icon").addEventListener("click", function (e) {
     e.preventDefault();
     reverseFileUpload();
@@ -155,5 +164,21 @@ window.addEventListener("DOMContentLoaded", () => {
     gsap.delayedCall(2, () => {
       Timelines.fileLoop.resume();
     });
+  }
+
+  function removePasswordFromInput() {
+    document
+      .querySelectorAll("input[type=password]")
+      .forEach((input) => (input.value = ""));
+  }
+
+  function saveFile(data, fileName, mimeType) {
+    const blob = new Blob([data], { type: mimeType });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 });
