@@ -104,13 +104,6 @@ window.addEventListener("DOMContentLoaded", () => {
     // Timelines.startEncryptionLabels.play();
   });
 
-  $("#password-btn").on("keydown", (e) => {
-    e.preventDefault();
-    getCurrentPasswordInput();
-    Timelines.showConfirmPassword.play();
-    // Timelines.startEncryptionLabels.play();
-  });
-
   $("#confirm-password-input").on("input", (event) => {
     if (passwordToConfirm.length !== event.target.value.length) {
       if (passwordToConfirm.startsWith(event.target.value)) {
@@ -123,6 +116,11 @@ window.addEventListener("DOMContentLoaded", () => {
         Timelines.showEncryptBtn.play();
       }
     }
+  });
+
+  $("#encrypt-btn").on("click", (event) => {
+    Timelines.startEncryption.play();
+    Timelines.startEncryptionLabels.play();
   });
 
   $("#open-login").on("click", (e) => {

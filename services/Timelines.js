@@ -138,6 +138,7 @@ const Timelines = {
   })(),
   showEncryptBtn: (() => {
     var tl = gsap.timeline({ paused: true });
+    let encryptBtn = document.querySelector("#encrypt-btn");
 
     tl.add("begin");
     tl.to(
@@ -234,6 +235,9 @@ const Timelines = {
           duration: 1,
           visibility: "visible",
           ease: "sine.out",
+          onComplete: () => {
+            encryptBtn.focus();
+          },
         },
         "begin+=1"
       );
@@ -362,7 +366,7 @@ const Timelines = {
         text: "0111000",
         duration: 1,
       },
-      "begin"
+      "begin+=1.5"
     )
       .to(
         "#file-name-display",
@@ -370,7 +374,7 @@ const Timelines = {
           duration: 1,
           text: "00101000",
         },
-        "begin-=.5"
+        "begin+=1"
       )
       .to(
         "#file-name-display",
@@ -378,7 +382,7 @@ const Timelines = {
           duration: 1,
           text: "10010101",
         },
-        "begin+=.5"
+        "begin+=1"
       );
 
     tl.timeScale(1);
@@ -548,17 +552,38 @@ const Timelines = {
     var tl = gsap.timeline({ paused: true });
 
     tl.add("begin");
-    tl.to(".password-ctrls", {
-      opacity: 0,
-      visibility: "hidden",
-    })
+    tl.to(
+      "#back-svg-icon",
+      {
+        opacity: 0,
+        visibility: "hidden",
+      },
+      "begin"
+    )
+      .to(
+        "#encrypt-btn",
+        {
+          opacity: 0,
+          visibility: "hidden",
+        },
+        "begin"
+      )
+      .to(
+        "#file-name-display",
+        {
+          y: 180,
+          duration: 0.5,
+          ease: "sine.out",
+        },
+        "begin"
+      )
       .to(
         "#file-upload-svg-icon",
         {
           opacity: 0,
           visibility: "hidden",
         },
-        "begin"
+        "begin=+0.5"
       )
       .to(
         "#empty-shield-svg",
@@ -568,79 +593,9 @@ const Timelines = {
           opacity: 1,
           visibility: "visible",
         },
-        "begin"
-      )
-      .to(
-        "#checkered-shield-svg",
-        {
-          duration: 1,
-          opacity: 1,
-          visibility: "visible",
-        },
-        "begin+=2"
-      )
-      .to(
-        "#checkered-shield-svg",
-        {
-          duration: 1,
-          opacity: 0,
-          visibility: "hidden",
-        },
-        "begin+=3"
-      )
-      .to(
-        "#wait-shield-svg",
-        {
-          duration: 1,
-          scale: 1.8,
-          opacity: 1,
-          visibility: "visible",
-        },
-        "begin+=3"
-      )
-      .to(
-        "#wait-shield-svg",
-        {
-          duration: 1,
-          scale: 1.8,
-          opacity: 0,
-          visibility: "hidden",
-        },
-        "begin+=5"
-      )
-      .to(
-        "#exclamation-shield-svg",
-        {
-          duration: 1,
-          scale: 1.8,
-          opacity: 1,
-          visibility: "visible",
-        },
-        "begin+=5"
-      )
-      .to(
-        "#exclamation-shield-svg",
-        {
-          duration: 1,
-          scale: 1.8,
-          opacity: 0,
-          visibility: "hidden",
-        },
-        "begin+=6"
-      )
-      .to(
-        "#done-svg",
-        {
-          duration: 1,
-          scale: 1.8,
-          opacity: 1,
-          visibility: "visible",
-        },
-        "begin+=7"
+        "begin=+0.5"
       );
-
     tl.timeScale(1.1);
-
     return tl;
   })(),
 };
