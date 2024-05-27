@@ -43,12 +43,71 @@ const Timelines = {
 
     return tl;
   })(),
+  userLoggedIn: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+    tl.to(
+      "#open-login",
+      {
+        opacity: 0,
+        visibility: "hidden",
+        display: "none",
+      },
+      "begin"
+    )
+      .to("#user-email", {
+        opacity: 1,
+        visibility: "visible",
+        display: "block",
+      })
+      .to(
+        "#sign-out-btn",
+        {
+          opacity: 1,
+          visibility: "visible",
+          display: "block",
+        },
+        "begin"
+      );
+    return tl;
+  })(),
+  userLoggedOut: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+    tl.to(
+      "#open-login",
+      {
+        opacity: 1,
+        visibility: "visible",
+        display: "block",
+      },
+      "begin"
+    )
+      .to(
+        "#user-email",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          display: "none",
+        },
+        "begin"
+      )
+      .to(
+        "#sign-out-btn",
+        {
+          opacity: 0,
+          display: "none",
+          visibility: "hidden",
+        },
+        "begin"
+      );
+    return tl;
+  })(),
   fileWasUploaded: (() => {
     var tl = gsap.timeline({ paused: true });
     let passwordInput = document.querySelector("#password-input");
 
     tl.add("begin");
-
     tl.to("#welcome-mssg", { opacity: 0 })
       .to("#file-upload-label", { opacity: 0 })
       .to("#file-upload", { opacity: 0 })
@@ -233,6 +292,7 @@ const Timelines = {
         {
           opacity: 1,
           duration: 1,
+          display: "block",
           visibility: "visible",
           ease: "sine.out",
           onComplete: () => {
@@ -248,6 +308,7 @@ const Timelines = {
   })(),
   openLoginPanel: (() => {
     let tl = gsap.timeline({ paused: true });
+    let emailInput = document.querySelector("#login-email-input");
 
     tl.fromTo(
       ".login-container",
@@ -261,6 +322,9 @@ const Timelines = {
         x: "-90vw",
         ease: "sine.out",
         duration: 1,
+        onComplete: () => {
+          emailInput.focus();
+        },
       }
     );
 
@@ -270,6 +334,7 @@ const Timelines = {
   })(),
   openSignUpPanel: (() => {
     let tl = gsap.timeline({ paused: true });
+    let emailInput = document.querySelector("#sign-up-email-input");
 
     tl.fromTo(
       ".sign-up-container",
@@ -283,6 +348,9 @@ const Timelines = {
         x: "-90vw",
         ease: "sine.out",
         duration: 1,
+        onComplete: () => {
+          emailInput.focus();
+        },
       }
     );
 
@@ -389,167 +457,8 @@ const Timelines = {
 
     return tl;
   })(),
-  encryptionAnimation: (() => {
-    var tl = gsap.timeline({ paused: true });
-
-    tl.add("start-encrypt");
-    tl.to(
-      "#welcome-header",
-      {
-        opacity: 0,
-      },
-      "start-encrypt"
-    )
-      .to(
-        "#welcome-mssg",
-        {
-          opacity: 0,
-        },
-        "start-encrypt"
-      )
-      .to(
-        ".file-upload-ctrls",
-        {
-          opacity: 0,
-        },
-        "start-encrypt"
-      )
-      .to(
-        "#encrypt-label",
-        {
-          opacity: 0,
-        },
-        "start-encrypt"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          opacity: 0,
-        },
-        "start-encrypt"
-      )
-      .to(
-        "#encrypt-input",
-        {
-          width: 20,
-          height: 20,
-          padding: 0,
-          opacity: 0.15,
-          borderRadius: "1000px",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=1"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          width: 20,
-          height: 20,
-          padding: 0,
-          opacity: 0.15,
-          borderRadius: "1000px",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=1"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          opacity: 0.8,
-          y: "+=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=2"
-      )
-      .to(
-        "#encrypt-input",
-        {
-          opacity: 0.8,
-          y: "-=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=2"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          opacity: 0.8,
-          y: "-=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=3"
-      )
-      .to(
-        "#encrypt-input",
-        {
-          opacity: 0.8,
-          y: "+=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=3"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          opacity: 0.8,
-          y: "+=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=4"
-      )
-      .to(
-        "#encrypt-input",
-        {
-          opacity: 0.8,
-          y: "-=30",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=4"
-      )
-      .to(
-        "#encrypt-btn",
-        {
-          opacity: 0,
-          y: "-=20",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=5"
-      )
-      .to(
-        "#encrypt-input",
-        {
-          opacity: 0.8,
-          y: "+=20",
-          ease: "sine.out",
-          duration: 0.5,
-        },
-        "start-encrypt+=5"
-      )
-      .to("#encrypt-input", {
-        backgroundColor: "#09CA51",
-        transformOrigin: "50% 50%",
-        scale: 1.75,
-        y: "-=80",
-        ease: "Power3.easeIn",
-      })
-      .to(".encrypt-complete-dialog", {
-        opacity: 1,
-        visibility: "visible",
-      });
-
-    return tl;
-  })(),
   startEncryption: (() => {
-    var tl = gsap.timeline({ paused: true });
+    let tl = gsap.timeline({ paused: true });
 
     tl.add("begin");
     tl.to(
@@ -596,6 +505,64 @@ const Timelines = {
         "begin=+0.5"
       );
     tl.timeScale(1.1);
+    return tl;
+  })(),
+  encryptionFail: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+    tl.to("#empty-shield-svg", {
+      opacity: 0,
+      display: "hidden",
+      duration: 1,
+      scale: 1,
+      ease: "sine.out",
+    })
+      .to(
+        "#exclamation-shield-svg",
+        {
+          opacity: 1,
+          display: "visible",
+          duration: 1,
+          scale: 1.8,
+          ease: "sine.out",
+        },
+        "begin=-1"
+      )
+      .to("#file-name-display", {
+        text: "Error Encrypting File",
+        duration: 0.5,
+        ease: "sine.out",
+      });
+
+    return tl;
+  })(),
+  encryptionSuccess: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+    tl.to("#empty-shield-svg", {
+      opacity: 0,
+      visibility: "hidden",
+      duration: 1,
+      scale: 1,
+      ease: "sine.out",
+    })
+      .to(
+        "#done-svg",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+          scale: 1.8,
+          ease: "sine.out",
+        },
+        "begin=-1"
+      )
+      .to("#file-name-display", {
+        text: "Encrypted",
+        duration: 0.5,
+        ease: "sine.out",
+      });
+
     return tl;
   })(),
 };

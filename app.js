@@ -3,21 +3,11 @@ import Timelines from "./services/Timelines.js";
 import EncryptionAPI from "./services/EncryptionAPI";
 import { gsap } from "gsap";
 import { auth } from "./firebase";
-import { onAuthStateChanged } from "firebase/auth";
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    const uid = user.uid;
-    console.log("user", user, uid);
-    // ...
-  } else {
-    console.log("no user signed in");
-    // User is signed out
-    // ...
-  }
-});
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -30,11 +20,29 @@ window.addEventListener("DOMContentLoaded", () => {
     return this.querySelector(s);
   };
 
+  // Module Globals
+  let currentUser = null;
   let passwordToConfirm = "";
+  let uploadedFile = null;
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      currentUser = user.email;
+      Timelines.userLoggedIn.restart();
+      $("#user-email").textContent = `Welcome, ${currentUser}`;
+    } else {
+      console.log("no user signed in");
+      $("#user-email").textContent = ``;
+      Timelines.userLoggedOut.restart();
+    }
+  });
 
   gsap.set(
     [
-      ".experience-bkg",
+      "#sign-out-btn",
       "#close-svg",
       ".password-ctrls",
       "#confirm-password-label",
@@ -74,28 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
   Timelines.logoLoop.play();
   Timelines.fileLoop.play();
 
-  $("#file-upload").on("change", (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log(`File chosen: ${file.name}`);
-      // const reader = new FileReader();
-      // reader.onload = function (event) {
-      //   const arrayBuffer = event.target.result;
-      //   // encryptData(arrayBuffer, "myPassword"); // Encrypt the file content
-      //   encryptFileData(
-      //     arrayBuffer,
-      //     "myPassword",
-      //     "resumeEncrypted2",
-      //     "application/pdf"
-      //   );
-      // };
-      // reader.readAsArrayBuffer(file);
-      document.getElementById("file-name-display").textContent = file.name;
-
-      Timelines.fileLoop.pause();
-      Timelines.fileWasUploaded.play();
-    }
-  });
+  $("#file-upload").on("change", handleFileUpload);
 
   $("#password-btn").on("click", (e) => {
     e.preventDefault();
@@ -128,6 +115,25 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openLoginPanel.play();
   });
 
+  $("#login-form").on("submit", (e) => {
+    e.preventDefault();
+
+    const email = $("#login-email-input").value;
+    const password = $("#login-password-input").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("user", user);
+        Timelines.openLoginPanel.reverse();
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(error);
+      });
+  });
+
   $("#close-login").on("click", (e) => {
     e.preventDefault();
     Timelines.openLoginPanel.reverse();
@@ -136,6 +142,25 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#open-sign-up").on("click", (e) => {
     e.preventDefault();
     Timelines.openSignUpPanel.play();
+    Timelines.openLoginPanel.reverse();
+  });
+
+  $("#sign-up-form").on("submit", (e) => {
+    e.preventDefault();
+
+    const email = $("#sign-up-email-input").value;
+    const password = $("#sign-up-password-input").value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log("user", user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(error);
+      });
   });
 
   $("#close-sign-up").on("click", (e) => {
@@ -143,7 +168,7 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openSignUpPanel.reverse();
   });
 
-  $("#open-terms").on("click", (e) => {
+  $(".open-terms").on("click", (e) => {
     e.preventDefault();
     Timelines.openTermsPanel.play();
   });
@@ -183,6 +208,41 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     reverseFileUpload();
   });
+
+  $("#success-encrypt").on("click", (e) => {
+    Timelines.startEncryptionLabels.pause();
+    Timelines.encryptionSuccess.play();
+  });
+
+  $("#error-encrypt").on("click", (e) => {
+    Timelines.startEncryptionLabels.pause();
+    Timelines.encryptionFail.play();
+  });
+
+  function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (file) {
+      console.log(`File chosen: ${file.name}`);
+      uploadedFile = file; // Store the file temporarily
+      $("$file-name-display").textContent = file.name;
+      Timelines.fileLoop.pause();
+      Timelines.fileWasUploaded.play();
+    }
+  }
+
+  function processFile(file, password) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const arrayBuffer = event.target.result;
+      encryptFileData(
+        arrayBuffer,
+        password,
+        "resumeEncrypted2",
+        "application/pdf"
+      );
+    };
+    reader.readAsArrayBuffer(file);
+  }
 
   function reverseFileUpload() {
     $("#file-upload").value = "";

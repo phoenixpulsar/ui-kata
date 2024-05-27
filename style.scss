@@ -427,6 +427,7 @@ button {
 
 #password-mismatch-mssg {
   margin-left: 5%;
+  // display: none;
 }
 
 #confirm-password-input {
@@ -435,6 +436,7 @@ button {
 
 #encrypt-btn {
   grid-area: password-btn;
+  display: none;
 }
 
 .password-ctrls-label {
@@ -443,22 +445,20 @@ button {
 }
 
 .password-ctrls-input{
+  grid-area: input;
   width: 80vw;
-  text-decoration: none;
+  height: 4rem;
   margin-top: 1rem;
   margin-left: 5%;
-  font-family: 'Nunito', sans-serif;
   margin-right: 5%;
-  // margin: 0 auto;
-  font-size: xx-large;
-  outline: none;
-  grid-area: input;
   padding: 0 1rem;
-  border-radius: 0.25rem;
-  height: 4rem;
   color: white;
+  outline: none;
+  font-size: xx-large;
+  border-radius: 0.25rem;
   border: 2px solid #4d5358;
   background-color: #121619;
+  font-family: 'Nunito', sans-serif;
 
   &:focus {
     border: 2px solid #c1c7cd;
@@ -471,7 +471,6 @@ button {
   margin-left: 5%;
   background-color: #121619;
   border: 1px solid #4d5358;
-  font-size: large;
   margin-top: 2rem;
   height: 4rem;
   font-size: x-large;
@@ -512,6 +511,27 @@ button {
   max-width: 535px;
 }
 
+#close-login {
+  height: 3rem;
+  margin-top: 1rem;
+  align-self: center; 
+  font-size: large;
+  border-radius: 0.25rem;
+  border: 1px solid #4d5358;
+  background-color: #121619;
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+    transform: translateY(5%);
+    background-color: #21272a;
+  }
+  &:active {
+    transform: translateY(5%);
+  }
+}
+
 #login-form {
   display: grid;
   grid-template-areas: 
@@ -533,6 +553,9 @@ button {
 #open-sign-up {
   color: #a2a9b0;
   cursor: pointer;
+  &:hover {
+    color: #dde1e6;
+  }
 }
 
 #login-header {
@@ -546,9 +569,18 @@ button {
 }
 
 #login-email-input {
-  grid-area: login-email-input; 
+  grid-area: login-email-input;
   height: 3rem;
+  outline: none;
+  border-radius: 0.25rem;
+  color: white;
+  border: 2px solid #4d5358;
+  background-color: #121619;
+  font-family: 'Nunito', sans-serif; 
   font-size: x-large;
+  &:focus {
+    border: 2px solid #c1c7cd;
+  }
 }
 
 #login-password-label {
@@ -560,15 +592,41 @@ button {
 #login-password-input {
   grid-area: login-password-input; 
   height: 3rem;
+  outline: none;
+  border-radius: 0.25rem;
+  color: white;
+  border: 2px solid #4d5358;
+  background-color: #121619;
+  font-family: 'Nunito', sans-serif; 
   font-size: x-large;
+  &:focus {
+    border: 2px solid #c1c7cd;
+  }
 }
 
 #login-btn {
-  grid-area: login-btn; 
+  grid-area: login-btn;
+  height: 3rem;
   margin-top: 2rem;
   align-self: center; 
   font-size: x-large;
+  border-radius: 0.25rem;
+  border: 1px solid #4d5358;
+  background-color: #121619;
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+    transform: translateY(5%);
+    background-color: #21272a;
+  }
+  &:active {
+    transform: translateY(5%);
+  }
 }
+
+// ======== SIGN UP
 
 .sign-up-container {
   position: absolute;
@@ -583,6 +641,27 @@ button {
   text-align: right;
   padding-top:1rem;
   max-width: 500px;
+}
+
+#close-sign-up {
+  height: 3rem;
+  margin-top: 1rem;
+  align-self: center; 
+  font-size: large;
+  border-radius: 0.25rem;
+  border: 1px solid #4d5358;
+  background-color: #121619;
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+    transform: translateY(5%);
+    background-color: #21272a;
+  }
+  &:active {
+    transform: translateY(5%);
+  }
 }
 
 #sign-up-form {
@@ -611,7 +690,16 @@ button {
 #sign-up-email-input {
   grid-area: sign-up-email-input; 
   height: 3rem;
+  outline: none;
+  border-radius: 0.25rem;
+  color: white;
+  border: 2px solid #4d5358;
+  background-color: #121619;
+  font-family: 'Nunito', sans-serif; 
   font-size: x-large;
+  &:focus {
+    border: 2px solid #c1c7cd;
+  }
 }
 
 #sign-up-password-label {
@@ -623,14 +711,46 @@ button {
 #sign-up-password-input {
   grid-area: sign-up-password-input; 
   height: 3rem;
+  outline: none;
+  border-radius: 0.25rem;
+  color: white;
+  border: 2px solid #4d5358;
+  background-color: #121619;
+  font-family: 'Nunito', sans-serif; 
   font-size: x-large;
+  &:focus {
+    border: 2px solid #c1c7cd;
+  }
 }
 
 #sign-up-btn {
   grid-area: sign-up-btn; 
+  height: 3rem;
   margin-top: 2rem;
-  align-self: center; /* Center the button vertically */
+  align-self: center; 
   font-size: x-large;
+  border-radius: 0.25rem;
+  border: 1px solid #4d5358;
+  background-color: #121619;
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+    transform: translateY(5%);
+    background-color: #21272a;
+  }
+  &:active {
+    transform: translateY(5%);
+  }
+}
+
+.open-terms {
+  color: #a2a9b0;
+  cursor: pointer;
+  &:hover {
+    color: #dde1e6;
+  }
 }
 
 .terms-container {
