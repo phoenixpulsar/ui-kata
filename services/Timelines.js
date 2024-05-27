@@ -124,6 +124,19 @@ const Timelines = {
 
     return tl;
   })(),
+  passwordsNoMatch: (() => {
+    let tl = gsap.timeline({ paused: true });
+
+    tl.to("#password-mismatch-mssg", {
+      opacity: 1,
+      visibility: "visible",
+      display: "block",
+      duration: 1,
+      ease: "sine.out",
+      color: "red",
+    });
+    return tl;
+  })(),
   showEncryptBtn: (() => {
     var tl = gsap.timeline({ paused: true });
 

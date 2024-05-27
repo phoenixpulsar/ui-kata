@@ -425,6 +425,12 @@ button {
   grid-area: password-label;
 }
 
+#password-mismatch-mssg {
+  display: none;
+  grid-area: password-mssg;
+  margin-left: 5%;
+}
+
 #confirm-password-input {
   grid-area: password-input;
 }

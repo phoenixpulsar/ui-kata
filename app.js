@@ -42,6 +42,7 @@ window.addEventListener("DOMContentLoaded", () => {
       "#top-bulls",
       "#bulls-mssg",
       "#btm-bulls",
+      "#password-mismatch-mssg",
       "#encrypt-btn",
       ".encrypt-complete-dialog",
       ".encrypt-error-dialog",
@@ -60,7 +61,6 @@ window.addEventListener("DOMContentLoaded", () => {
       "#star-shield-svg",
       "#check-shield-svg",
       "#done-svg",
-
       ".sign-up-container",
       ".terms-container",
       ".about-container",
@@ -112,8 +112,18 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#confirm-password-input").on("input", (event) => {
-    if (event.target.value === passwordToConfirm) {
-      Timelines.showEncryptBtn.play();
+    if (passwordToConfirm.length !== event.target.value.length) {
+      if (passwordToConfirm.startsWith(event.target.value)) {
+        console.log("match so far");
+        Timelines.passwordsNoMatch.reverse();
+      } else {
+        console.log("no match");
+        Timelines.passwordsNoMatch.play();
+      }
+    } else {
+      if (event.target.value === passwordToConfirm) {
+        Timelines.showEncryptBtn.play();
+      }
     }
   });
 
