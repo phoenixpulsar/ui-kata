@@ -45,6 +45,7 @@ const Timelines = {
   })(),
   fileWasUploaded: (() => {
     var tl = gsap.timeline({ paused: true });
+    let passwordInput = document.querySelector("#password-input");
 
     tl.add("begin");
 
@@ -84,9 +85,78 @@ const Timelines = {
         {
           opacity: 1,
           visibility: "visible",
+          onComplete: () => {
+            passwordInput.focus();
+          },
         },
         "begin+=1"
       );
+
+    tl.timeScale(1.5);
+
+    return tl;
+  })(),
+  showConfirmPassword: (() => {
+    var tl = gsap.timeline({ paused: true });
+
+    tl.add("begin");
+
+    tl.to("#password-label", { opacity: 0, visibility: "hidden" })
+      .to("#password-input", { opacity: 0, visibility: "hidden" })
+      .to("#password-btn", { opacity: 0, visibility: "hidden" })
+      .to("#confirm-password-label", { opacity: 1, visibility: "visible" })
+      .to("#confirm-password-input", { opacity: 1, visibility: "visible" });
+
+    tl.timeScale(1.5);
+
+    return tl;
+  })(),
+  showEncryptBtn: (() => {
+    var tl = gsap.timeline({ paused: true });
+
+    tl.add("begin");
+    tl.to(
+      "#confirm-password-label",
+      { opacity: 0, visibility: "hidden" },
+      "begin"
+    )
+      .to(
+        "#confirm-password-input",
+        { opacity: 0, visibility: "hidden" },
+        "begin"
+      )
+      .to(
+        "#top-bulls",
+        { opacity: 1, visibility: "visible", display: "block" },
+        "begin"
+      )
+      .to(
+        "#bulls-mssg",
+        { opacity: 1, visibility: "visible", display: "block" },
+        "begin"
+      )
+      .to(
+        "#btm-bulls",
+        { opacity: 1, visibility: "visible", display: "block" },
+        "begin"
+      )
+      .to("#encrypt-btn", { opacity: 1, visibility: "visible" }, "begin")
+      .to(
+        "#top-bulls",
+        { opacity: 1, visibility: "visible", display: "none" },
+        "begin+=4"
+      )
+      .to(
+        "#bulls-mssg",
+        { opacity: 1, visibility: "visible", display: "none" },
+        "begin+=4"
+      )
+      .to(
+        "#btm-bulls",
+        { opacity: 1, visibility: "visible", display: "none" },
+        "begin+=4"
+      )
+      .to("#encrpt-btn", { y: 40 });
 
     tl.timeScale(1.5);
 

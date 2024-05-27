@@ -30,11 +30,19 @@ window.addEventListener("DOMContentLoaded", () => {
     return this.querySelector(s);
   };
 
+  let passwordToConfirm = "";
+
   gsap.set(
     [
       ".experience-bkg",
       "#close-svg",
       ".password-ctrls",
+      "#confirm-password-label",
+      "#confirm-password-input",
+      "#top-bulls",
+      "#bulls-mssg",
+      "#btm-bulls",
+      "#encrypt-btn",
       ".encrypt-complete-dialog",
       ".encrypt-error-dialog",
       ".login-container",
@@ -89,6 +97,26 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  $("#password-btn").on("click", (e) => {
+    e.preventDefault();
+    getCurrentPasswordInput();
+    Timelines.showConfirmPassword.play();
+    // Timelines.startEncryptionLabels.play();
+  });
+
+  $("#password-btn").on("keydown", (e) => {
+    e.preventDefault();
+    getCurrentPasswordInput();
+    Timelines.showConfirmPassword.play();
+    // Timelines.startEncryptionLabels.play();
+  });
+
+  $("#confirm-password-input").on("input", (event) => {
+    if (event.target.value === passwordToConfirm) {
+      Timelines.showEncryptBtn.play();
+    }
+  });
+
   $("#open-login").on("click", (e) => {
     e.preventDefault();
     Timelines.openLoginPanel.play();
@@ -139,12 +167,6 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openContactPanel.reverse();
   });
 
-  $("#encrypt-btn").on("click", (e) => {
-    e.preventDefault();
-    removePasswordFromInput();
-    Timelines.startEncryptionLabels.play();
-  });
-
   $("#sign-out-btn").on("click", (e) => {
     e.preventDefault();
     auth.signOut();
@@ -166,10 +188,16 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function getCurrentPasswordInput() {
+    let input = $("#password-input");
+    passwordToConfirm = input.value;
+  }
+
   function removePasswordFromInput() {
-    document
-      .querySelectorAll("input[type=password]")
-      .forEach((input) => (input.value = ""));
+    document.querySelectorAll("input[type=password]").forEach((input) => {
+      console.log(input.value);
+      input.value = "";
+    });
   }
 
   function saveFile(data, fileName, mimeType) {

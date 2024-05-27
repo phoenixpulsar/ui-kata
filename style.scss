@@ -392,22 +392,56 @@ button {
 .password-ctrls-inner-grid {
   display: grid;
   grid-template-areas: 
-    "encrypt-label"
-    "encrypt-input"
-    "encrypt-btn";
+    "password-label"
+    "password-input"
+    "password-mssg"
+    "password-btn";
+    grid-template-rows: auto auto minmax(0, auto) auto;
 }
 
-#encrypt-label {
-  grid-area: encrypt-label;
+#password-label {
+  grid-area: password-label;
+}
+
+#password-input {
+  grid-area: password-input;
+}
+
+#top-bulls, #bulls-mssg, #btm-bulls{
+  grid-area: password-mssg;
+  font-size: x-large;
+  text-align: center;
+  visibility: hidden;
+  display: none;
+}
+
+#password-btn {
+  grid-area: password-btn;
+}
+
+#confirm-password-label {
+  grid-area: password-label;
+}
+
+#confirm-password-input {
+  grid-area: password-input;
+}
+
+#encrypt-btn {
+  grid-area: password-btn;
+}
+
+.password-ctrls-label {
   margin-left: 5%;
   font-size: x-large;
 }
 
-#encrypt-input {
+.password-ctrls-input{
   width: 80vw;
   text-decoration: none;
   margin-top: 1rem;
   margin-left: 5%;
+  font-family: 'Nunito', sans-serif;
   margin-right: 5%;
   // margin: 0 auto;
   font-size: xx-large;
@@ -419,15 +453,14 @@ button {
   color: white;
   border: 2px solid #4d5358;
   background-color: #121619;
-  grid-area: encrypt-input;
 
   &:focus {
     border: 2px solid #c1c7cd;
   }
+
 }
 
-#encrypt-btn {
-  grid-area: encrypt-btn;
+.password-ctrls-btn {
   width: 80vw;
   margin-left: 5%;
   background-color: #121619;
@@ -453,6 +486,8 @@ button {
     transform: translateY(5%);
   }
 }
+
+
 
 //=========================================
 
