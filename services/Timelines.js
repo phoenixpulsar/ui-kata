@@ -130,7 +130,6 @@ const Timelines = {
     tl.to("#password-mismatch-mssg", {
       opacity: 1,
       visibility: "visible",
-      display: "block",
       duration: 1,
       ease: "sine.out",
       color: "red",
