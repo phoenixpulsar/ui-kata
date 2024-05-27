@@ -68,21 +68,21 @@
           <div class="password-ctrls-inner-grid">
             
             <!-- Step 1 -->
-            <label class="password-ctrls-label" for="password-input" id="password-label">Password</label>
-            <input class="password-ctrls-input" type="password" id="password-input" placeholder="Password"/> 
+            <form id="password-form-step-1">
+              <label class="password-ctrls-label" for="password-input" id="password-label">Password</label>
+              <input class="password-ctrls-input" type="password" id="password-input" placeholder="Password"/> 
+              <button type="submit" id="password-btn" class="password-ctrls-btn">
+                Continue
+              </button>
+            </form>
 
             <!-- Step 2 -->
             <label class="password-ctrls-label" for="confirm-password-input" id="confirm-password-label">Confirm Password</label>
             <input class="password-ctrls-input" type="password" id="confirm-password-input" placeholder="000000"/> 
+          
             
-
             <!-- Step 3 -->
-            <button id="password-btn" class="password-ctrls-btn">
-              Continue
-            </button>
-
             <span id="top-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-            <p id="bulls-mssg">Password Symmetry</p>
             <span id="btm-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
             
             <button id="encrypt-btn" class="password-ctrls-btn">

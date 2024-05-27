@@ -407,9 +407,11 @@ button {
   grid-area: password-input;
 }
 
-#top-bulls, #bulls-mssg, #btm-bulls{
+
+#top-bulls,  #btm-bulls{
   grid-area: password-mssg;
   font-size: x-large;
+  letter-spacing: 1rem;
   text-align: center;
   visibility: hidden;
   display: none;

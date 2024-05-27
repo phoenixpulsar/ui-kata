@@ -98,14 +98,27 @@ const Timelines = {
   })(),
   showConfirmPassword: (() => {
     var tl = gsap.timeline({ paused: true });
+    let confirmPasswordInput = document.querySelector(
+      "#confirm-password-input"
+    );
 
     tl.add("begin");
 
-    tl.to("#password-label", { opacity: 0, visibility: "hidden" })
-      .to("#password-input", { opacity: 0, visibility: "hidden" })
-      .to("#password-btn", { opacity: 0, visibility: "hidden" })
+    tl.to(
+      "#password-form-step-1",
+      { opacity: 0, visibility: "hidden", display: "none" },
+      "begin"
+    )
+      .to("#password-input", { opacity: 0, visibility: "hidden" }, "begin")
+      .to("#password-btn", { opacity: 0, visibility: "hidden" }, "begin")
       .to("#confirm-password-label", { opacity: 1, visibility: "visible" })
-      .to("#confirm-password-input", { opacity: 1, visibility: "visible" });
+      .to("#confirm-password-input", {
+        opacity: 1,
+        visibility: "visible",
+        onComplete: () => {
+          confirmPasswordInput.focus();
+        },
+      });
 
     tl.timeScale(1.5);
 
@@ -116,49 +129,104 @@ const Timelines = {
 
     tl.add("begin");
     tl.to(
-      "#confirm-password-label",
-      { opacity: 0, visibility: "hidden" },
+      "#password-form-step-1",
+      {
+        opacity: 0,
+        visibility: "hidden",
+        duration: 0.5,
+        display: "none",
+        ease: "sine.out",
+      },
       "begin"
     )
       .to(
+        "#confirm-password-label",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 0.5,
+          display: "none",
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
         "#confirm-password-input",
-        { opacity: 0, visibility: "hidden" },
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 0.5,
+          display: "none",
+          ease: "sine.out",
+        },
         "begin"
+      )
+      .fromTo(
+        "#top-bulls",
+        { y: -60, duration: 1, opacity: 0, visibility: "hidden" },
+        {
+          y: -20,
+          opacity: 1,
+          visibility: "visible",
+          display: "block",
+          ease: "sine.out",
+        },
+        "begin+=0.5"
+      )
+      .fromTo(
+        "#btm-bulls",
+        { y: 60, duration: 1, opacity: 0, visibility: "hidden" },
+        {
+          y: -20,
+          opacity: 1,
+          visibility: "visible",
+          display: "block",
+          ease: "sine.out",
+        },
+        "begin+=0.5"
       )
       .to(
         "#top-bulls",
-        { opacity: 1, visibility: "visible", display: "block" },
-        "begin"
-      )
-      .to(
-        "#bulls-mssg",
-        { opacity: 1, visibility: "visible", display: "block" },
-        "begin"
-      )
-      .to(
-        "#btm-bulls",
-        { opacity: 1, visibility: "visible", display: "block" },
-        "begin"
-      )
-      .to("#encrypt-btn", { opacity: 1, visibility: "visible" }, "begin")
-      .to(
-        "#top-bulls",
-        { opacity: 1, visibility: "visible", display: "none" },
-        "begin+=4"
-      )
-      .to(
-        "#bulls-mssg",
-        { opacity: 1, visibility: "visible", display: "none" },
-        "begin+=4"
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 0.5,
+          display: "none",
+          ease: "sine.out",
+        },
+        "begin+=1.5"
       )
       .to(
         "#btm-bulls",
-        { opacity: 1, visibility: "visible", display: "none" },
-        "begin+=4"
+        {
+          text: "Password Symmetry",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin+=1.5"
       )
-      .to("#encrpt-btn", { y: 40 });
+      .to(
+        "#btm-bulls",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin+=3.5"
+      )
+      .to(
+        "#encrypt-btn",
+        {
+          opacity: 1,
+          duration: 1,
+          visibility: "visible",
+          ease: "sine.out",
+        },
+        "begin+=1"
+      );
 
-    tl.timeScale(1.5);
+    tl.timeScale(1);
 
     return tl;
   })(),
