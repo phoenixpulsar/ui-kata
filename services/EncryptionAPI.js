@@ -142,11 +142,13 @@ const EncryptionAPI = {
     }
     return uint8Array;
   },
-  encryptFileData: (secretData, password) => {
+  encryptFileData: (dataToEncrypt, password) => {
     const encoder = new TextEncoder();
+    // =========================================
     // STEP 1 Convert Password and Data to Bytes
-    // const dataAsBytes = encoder.encode(secretData); // returns Unit8Array
-    const dataAsBytes = new Uint8Array(secretData);
+    // =========================================
+    // const dataAsBytes = encoder.encode(dataToEncrypt); // returns Unit8Array
+    const dataAsBytes = new Uint8Array(dataToEncrypt);
     const passwordAsBytes = encoder.encode(password); // returns Unit8Array
     // const fileNameAsBytes = padOrTruncateUint8Array(
     //   encoder.encode(fileName),
@@ -157,8 +159,12 @@ const EncryptionAPI = {
     //   MIME_TYPE_SIZE
     // ); // 50
 
-    // Step 2 import Key used to derive our key later, false we can't extract bytes used to deriveKey
-    window.crypto.subtle
+    // ====================================================
+    // Step 2 import Key used to derive our key later,
+    //        we can't extract bytes used to deriveKey
+    // it takes as input a key in an external, portable format and gives you a CryptoKey
+    // ====================================================
+    return window.crypto.subtle
       .importKey("raw", passwordAsBytes, "PBKDF2", false, ["deriveKey"])
       .then((passwordKey) => {
         // 256 bit | 32 byte
@@ -209,8 +215,8 @@ const EncryptionAPI = {
         // We use salt and iv so that repeated encrypted items do not hash to the same value -> prevent brute force
         // We will concat the salt + iv + encrypted data
         // Then we will convert to base64 encoding to convert to a string
-        const encryptedPackage = concat(salt, iv, encryptedBytes);
-        const base64String = toBase64(encryptedPackage);
+        const encryptedPackage = EncryptionAPI.concat(salt, iv, encryptedBytes);
+        const base64String = EncryptionAPI.toBase64(encryptedPackage);
         console.log("base64String:", base64String);
         // Returning base64String for testing decryption
         return base64String;
@@ -279,7 +285,7 @@ const EncryptionAPI = {
         console.error("Decryption failed:", error);
       });
   },
-  concat: (...arays) => {
+  concat: (...arrays) => {
     // Calculate total length of all arrays
     let totalLength = arrays.reduce((acc, array) => acc + array.length, 0);
 

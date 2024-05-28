@@ -299,7 +299,7 @@ const Timelines = {
             encryptBtn.focus();
           },
         },
-        "begin+=1"
+        "begin+=3.5"
       );
 
     tl.timeScale(1);

@@ -9,69 +9,7 @@
 // export const coolGray90 = '#21272a';
 // export const coolGray100 = '#121619';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
 
-:root {
-  --black: #000501;
-  --white: #ffffff;
-  --green: #31b28a;
-  --lightgreen: #8cdfc5;
-  --red: #ff4404;
-  --tan: #b6b57b;
-  --main: "Nunito", sans-serif;
-  --heading: "Nunito", sans-serif;
-
-  --base-size: 1rem;
-  --scale: 1.2;
-  --h1: calc(var(--h2) * var(--scale));
-  --h2: calc(var(--h3) * var(--scale));
-  --h3: calc(var(--h4) * var(--scale));
-  --h4: calc(var(--h5) * var(--scale));
-  --h5: calc(var(--h6) * var(--scale));
-  --h6: var(--base-size);
-}
-body {
-  font-family: var(--main);
-  margin: 0;
-  padding: 0;
-  font-size: var(--base-size);
-  line-height: 1.5;
-  background-color: #121619;
-  color:#ffffff;
-  letter-spacing: .1rem;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--heading);
-  margin: 0
-}
-h1 {
-  font-size: var(--h1);
-  font-weight: 300;
-}
-h2 {
-  font-size: var(--h2);
-}
-h3 {
-  font-size: var(--h3);
-}
-h4 {
-  font-size: var(--h4);
-}
-h5 {
-  font-size: var(--h5);
-}
-h6 {
-  font-size: var(--h6);
-}
 
 // .color-container{
 //   --dark-theme: false;
@@ -84,29 +22,7 @@ h6 {
 //   }
 // }
 
-button {
-  font-family: 'Nunito', sans-serif;
-  letter-spacing: .1rem;
-  font-size:medium;
-  border: none;
-  color: white;
-  padding: 0 .5rem;
-  min-width: 3rem;
-  border-radius: 0.25rem;
-  height: 3rem;
-  background-color: #697077;
-
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
-
-  &:hover {
-    transform: translateY(5%);
-    cursor: pointer;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
-}
+@import 'styles/base.scss';
 
 .main-nav {
   padding-left: 1rem;
@@ -115,12 +31,12 @@ button {
 
 .main-nav ul {
   display: flex;
+  gap: 2rem;
+  align-items: center;
   flex-flow: row nowrap;
   justify-content: flex-end;
-  align-items: center;
-  gap: 2rem;
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style-type: none;
 
   li {
@@ -131,7 +47,7 @@ button {
   }
 }
 
-.logo{
+.logo{ 
   width: 100px;
   margin-top: 1rem;
 }
@@ -140,24 +56,22 @@ button {
   text-align: right;
   padding-right:1rem;
   padding-bottom: 1rem;
+
   button{
-    background-color: #e4007c;
     width: 8rem;
+    font-size: medium;
+    background-color: var(--pink);
   }
 }
 
 .main-layout-container {
   display: grid;
-  // background-color: #ca5d5a;
   height: 90vh;
   width: 100vw;
   place-items: center;
-  // outline: 1px solid rgba(38, 39, 46, 0.338);
-  // margin: 5vh auto;
 }
 
 .main-experience-container {
-  // outline: 1px solid pink;
   position: relative;
   height: 90vh;
   width: 100vw;
@@ -167,15 +81,13 @@ button {
 
 .file-upload-ctrls {
   position: absolute;
-  padding: 10rem;
-  width: 90vw;
-  outline: 1px dashed #4d5358;
-  display: inline-block;
   top: 40%;
   left: 50%;
-  // background-color: #21272a;
-  transform: translate(-50%, -50%);
+  width: 90vw;
+  padding: 10rem;
   border-radius: 1rem;
+  outline: 1px dashed var(--gray70);
+  transform: translate(-50%, -50%);
 }
 
 .file-upload-inner-grid {
@@ -194,22 +106,21 @@ button {
 }
 
 #file-upload-label {
-  grid-area:file-upload-label;
-  // background-color: #b6b57b;
-  border: 1px solid #4d5358;
-  font-size: large;
-  margin-top: 1rem;
+  grid-area: file-upload-label;
   padding: 1rem;
+  margin-top: 1rem;
+  font-size: large;
   border-radius: 1rem;
-  cursor: pointer;
+  border: 1px solid var(--gray70);
   box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+
   transition-duration: 0.3s;
   transition-property: background-color transform;
 
   &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
     cursor: pointer;
+    transform: translateY(5%);
+    background-color: var(--gray90);
   }
   &:active {
     transform: translateY(5%);
@@ -217,22 +128,22 @@ button {
 }
 
 #file-upload {
+  grid-area: file-upload;
   display: none;
-  grid-area:file-upload;
 }
-// finish init screen start screen 2
-//=========================================
 
-#back-svg-icon{
+
+#back-svg-icon {
   position: absolute;
-  top:15%;
+  top: 15%;
   left: 7%;
   transform: scale(1.8);
   
   transition-duration: 0.7;
-  cursor: pointer;
-
+  transition-property: transform;
+  
   &:hover{
+    cursor: pointer;
     transform: scale(1.8) translateX(-4%);
   }
 }
@@ -240,17 +151,20 @@ button {
 @media (max-width: 600px) {
   #back-svg-icon {
     top: 12%;
-    left:10%;
-    transform:scale(1.4); 
+    left: 10%;
+    transform: scale(1.4);
+
+    transition-duration: 0.7;
+    transition-property: transform;
 
     &:hover{
-      transform:scale(1.4) translateX(-4%);
+      transform: scale(1.4) translateX(-4%);
     }
   }  
 }
 
 // ====================
-// ===ICONS
+// SVG ICONS
 // ====================
 
 #file-upload-svg-icon {
@@ -267,49 +181,7 @@ button {
   }
 }
 
-#start-svg {
-  position: absolute;
-  top:20%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#clock-svg {
-  position: absolute;
-  top:20%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#lock-svg {
-  position: absolute;
-  top:20%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
 #empty-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#checkered-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#plus-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#wait-shield-svg {
   position: absolute;
   top:25%;
   left: 50%;
@@ -323,27 +195,6 @@ button {
   transform:  translate(-50%, -50%);
 }
 
-#healthy-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#star-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
-#check-shield-svg {
-  position: absolute;
-  top:25%;
-  left: 50%;
-  transform:  translate(-50%, -50%);
-}
-
 #done-svg {
   position: absolute;
   top:25%;
@@ -351,28 +202,21 @@ button {
   transform:  translate(-50%, -50%);
 }
 
-// ====================
-// ======ICONS END=====
-// ====================
-
+// =========================
+// SVG ICONS END
+// =========================
 
 #file-name-display {
   position: absolute;
-  // outline: 1px solid yellowgreen;
-  width: 50vw;
-  // width: 500px;
-
-  // width: 90vw;
   top: 18%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  width: 50vw;
   font-size: x-large;
-  // padding-left: 5%;
-  // padding-right: 5%;
+  overflow: hidden;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
+  transform: translate(-50%, -50%);
 }
 
 @media (max-width: 600px) {
@@ -407,14 +251,13 @@ button {
   grid-area: password-input;
 }
 
-
 #top-bulls,  #btm-bulls{
   grid-area: password-mssg;
+  display: none;
+  visibility: hidden;
+  text-align: center;
   font-size: x-large;
   letter-spacing: 1rem;
-  text-align: center;
-  visibility: hidden;
-  display: none;
 }
 
 #password-btn {
@@ -427,7 +270,6 @@ button {
 
 #password-mismatch-mssg {
   margin-left: 5%;
-  // display: none;
 }
 
 #confirm-password-input {
@@ -452,84 +294,53 @@ button {
   margin-left: 5%;
   margin-right: 5%;
   padding: 0 1rem;
-  color: white;
   outline: none;
+  color: var(--white);
   font-size: xx-large;
   border-radius: 0.25rem;
-  border: 2px solid #4d5358;
-  background-color: #121619;
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
 
   &:focus {
-    border: 2px solid #c1c7cd;
+    border: 2px solid var(--gray30);
   }
-
 }
 
 .password-ctrls-btn {
   width: 80vw;
-  margin-left: 5%;
-  background-color: #121619;
-  border: 1px solid #4d5358;
-  margin-top: 2rem;
   height: 4rem;
+  margin-left: 5%;
+  margin-top: 2rem;
   font-size: x-large;
-  
-  border-radius: 1rem;
-  cursor: pointer;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
-
-  &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
-    letter-spacing: .2rem;
-    cursor: pointer;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
 }
 
-
-
-//=========================================
+// =================
+// Log In
+// =================
 
 .login-container {
   position: absolute;
+  top: 0;
   height: 90vh;
   width: 100vw;
-  top:0;
-  left:90vw;
-  background-color: #21272a;
+  left:90vw; //move right until open
+  background-color: var(--gray100);
 }
 
-.login-ctrls {
+.panel-ctrls {
   text-align: right;
-  padding-top:1rem;
+  padding-top: 1rem;
   max-width: 535px;
 }
 
-#close-login {
-  height: 3rem;
+.close-panel-btn {
   margin-top: 1rem;
-  align-self: center; 
   font-size: large;
-  border-radius: 0.25rem;
-  border: 1px solid #4d5358;
-  background-color: #121619;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
+}
 
-  &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
+#login-header {
+  padding-left: 1rem;
 }
 
 #login-form {
@@ -545,6 +356,44 @@ button {
   max-width: 535px;
 }
 
+#login-email-label {
+  grid-area: login-email-label; 
+  font-size: x-large;
+  margin-top: 3rem;
+}
+
+.email-password-input {
+  height: 3rem;
+  outline: none;
+  font-size: x-large;
+  color: var(--white);
+  border-radius: 0.25rem;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
+  &:focus {
+    border: 2px solid var(--gray30);
+  }
+}
+
+#login-email-input {
+  grid-area: login-email-input;
+}
+
+#login-password-label {
+  grid-area: login-password-label;
+  margin-top: 2rem;
+}
+
+#login-password-input {
+  grid-area: login-password-input; 
+}
+
+#login-btn {
+  grid-area: login-btn;
+  margin-top: 2rem;
+}
+
 #register-mssg {
   margin-left: 1rem;
   margin-top: 1rem;
@@ -558,110 +407,17 @@ button {
   }
 }
 
-#login-header {
-  padding-left: 1rem;
-}
-
-#login-email-label {
-  grid-area: login-email-label; 
-  font-size: x-large;
-  margin-top: 3rem;
-}
-
-#login-email-input {
-  grid-area: login-email-input;
-  height: 3rem;
-  outline: none;
-  border-radius: 0.25rem;
-  color: white;
-  border: 2px solid #4d5358;
-  background-color: #121619;
-  font-family: 'Nunito', sans-serif; 
-  font-size: x-large;
-  &:focus {
-    border: 2px solid #c1c7cd;
-  }
-}
-
-#login-password-label {
-  grid-area: login-password-label;
-  font-size: x-large; 
-  margin-top: 2rem;
-}
-
-#login-password-input {
-  grid-area: login-password-input; 
-  height: 3rem;
-  outline: none;
-  border-radius: 0.25rem;
-  color: white;
-  border: 2px solid #4d5358;
-  background-color: #121619;
-  font-family: 'Nunito', sans-serif; 
-  font-size: x-large;
-  &:focus {
-    border: 2px solid #c1c7cd;
-  }
-}
-
-#login-btn {
-  grid-area: login-btn;
-  height: 3rem;
-  margin-top: 2rem;
-  align-self: center; 
-  font-size: x-large;
-  border-radius: 0.25rem;
-  border: 1px solid #4d5358;
-  background-color: #121619;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
-
-  &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
-}
-
-// ======== SIGN UP
+// ====================
+// SIGN UP
+// ====================
 
 .sign-up-container {
   position: absolute;
-  height: 90vh;
-  width: 100vw;
   top:0;
   left:90vw;
-  background-color: #21272a;
-}
-
-.sign-up-ctrls {
-  text-align: right;
-  padding-top:1rem;
-  max-width: 500px;
-}
-
-#close-sign-up {
-  height: 3rem;
-  margin-top: 1rem;
-  align-self: center; 
-  font-size: large;
-  border-radius: 0.25rem;
-  border: 1px solid #4d5358;
-  background-color: #121619;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
-
-  &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
+  height: 90vh;
+  width: 100vw;
+  background-color: var(--gray90);
 }
 
 #sign-up-form {
@@ -683,23 +439,12 @@ button {
 
 #sign-up-email-label {
   grid-area: sign-up-email-label; 
-  font-size: x-large;
   margin-top: 3rem;
+  font-size: x-large;
 }
 
 #sign-up-email-input {
   grid-area: sign-up-email-input; 
-  height: 3rem;
-  outline: none;
-  border-radius: 0.25rem;
-  color: white;
-  border: 2px solid #4d5358;
-  background-color: #121619;
-  font-family: 'Nunito', sans-serif; 
-  font-size: x-large;
-  &:focus {
-    border: 2px solid #c1c7cd;
-  }
 }
 
 #sign-up-password-label {
@@ -710,39 +455,12 @@ button {
 
 #sign-up-password-input {
   grid-area: sign-up-password-input; 
-  height: 3rem;
-  outline: none;
-  border-radius: 0.25rem;
-  color: white;
-  border: 2px solid #4d5358;
-  background-color: #121619;
-  font-family: 'Nunito', sans-serif; 
-  font-size: x-large;
-  &:focus {
-    border: 2px solid #c1c7cd;
-  }
 }
 
 #sign-up-btn {
   grid-area: sign-up-btn; 
-  height: 3rem;
   margin-top: 2rem;
   align-self: center; 
-  font-size: x-large;
-  border-radius: 0.25rem;
-  border: 1px solid #4d5358;
-  background-color: #121619;
-  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
-  transition-duration: 0.3s;
-  transition-property: background-color transform;
-
-  &:hover {
-    transform: translateY(5%);
-    background-color: #21272a;
-  }
-  &:active {
-    transform: translateY(5%);
-  }
 }
 
 .open-terms {
@@ -753,6 +471,10 @@ button {
   }
 }
 
+// ====================
+// Terms
+// ====================
+
 .terms-container {
   position: absolute;
   height: 90vh;
@@ -761,7 +483,8 @@ button {
   overflow-y: auto;
   top:0;
   left:90vw;
-  background-color: #343a3f;
+  background-color: var(--gray90);
+  padding-left: 1rem;
 }
 
 .terms-content {
@@ -770,14 +493,23 @@ button {
   max-width: 535px;
 }
 
+// ====================
+// About
+// ====================
+
 .about-container{
   position: absolute;
   height: 90vh;
   width: 100vw;
   top:0;
   left:90vw;
-  background-color: rgb(219, 192, 255);
+  background-color: var(--gray90);
+  padding-left: 1rem;
 }
+
+// ====================
+// Contact
+// ====================
 
 .contact-container{
   position: absolute;
@@ -785,8 +517,13 @@ button {
   width: 100vw;
   top:0;
   left:90vw;
-  background-color: rgb(183, 42, 42);
+  background-color: var(--gray90);
+  padding-left: 1rem;
 }
+
+// ====================
+// Footer
+// ====================
 
 footer nav ul {
   height: 10vh;
@@ -804,36 +541,99 @@ footer nav ul {
   }
 }
 
-#close-svg {
+
+
+
+
+@mixin inactiveMixin {
+  content: "";
   position: absolute;
-  left:95%;
-  top: 5%;
-  z-index: 5;
-  &:hover {
-    cursor: pointer;
+  display: block;
+}
+
+@mixin beforeAnimation {
+  -moz-transition: .2s cubic-bezier(.24, 0, .5, 1);
+  -o-transition: .2s cubic-bezier(.24, 0, .5, 1);
+  -webkit-transition: .2s cubic-bezier(.24, 0, .5, 1);
+  transition: .2s cubic-bezier(.24, 0, .5, 1);
+}
+
+@mixin afterAnimation {
+  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 0px 0 hsla(0, 0%, 0%, .04), 0 4px 9px hsla(0, 0%, 0%, .13), 0 3px 3px hsla(0, 0%, 0%, .05);
+  -moz-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
+  -o-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
+  -webkit-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
+  transition: .35s cubic-bezier(.54, 1.60, .5, 1);
+}
+
+// Mobile Toggle Switch
+.toggleWrapper {
+  position: absolute;
+  top: 1rem;
+  left: 83vw;
+  margin: auto;
+ 
+  width: 60px;
+  border-radius: 5px;
+
+  
+  input {
+    &.mobileToggle {
+      opacity: 0; // hides checkbox
+      position: absolute;
+      
+      & + label {
+        position: relative;
+        display: inline-block;
+        user-select: none;
+        -moz-transition: .4s ease;
+        -o-transition: .4s ease;
+        -webkit-transition: .4s ease;
+        transition: .4s ease;
+        -webkit-tap-highlight-color: transparent;
+        height: 30px;
+        width: 50px;
+        border: 1px solid #e4e4e4;
+        border-radius: 60px;
+        
+        &:before {
+          @include inactiveMixin;
+          @include beforeAnimation;
+          height: 30px;
+          width: 51px;
+          top: 0;
+          left: 0;
+          border-radius: 30px;
+        }
+        
+        &:after {
+          @include inactiveMixin;
+          @include afterAnimation;
+          background: blueviolet;
+          height: 28px;
+          width: 28px;
+          top: 1px;
+          left: 0px;
+          border-radius: 60px;
+        }
+      }
+      
+      // When Active
+      &:checked {
+        & + label:before {
+          background: #121619; // Active Color
+          -moz-transition: width .2s cubic-bezier(.24, 0, .5, 1);
+          -o-transition: width .2s cubic-bezier(.24, 0, .5, 1);
+          -webkit-transition: width .2s cubic-bezier(.24, 0, .5, 1);
+          transition: width .2s cubic-bezier(.24, 0, .5, 1);
+        }
+        
+        & + label:after {
+          left: 22px;
+        }
+      }
+    }
   }
-}
-
-.encrypt-complete-dialog{
-  position:absolute;
-  text-align: center;
-  width: 33%;
-  left:33%;
-  top: 33%;
-}
-
-.encrypt-error-dialog{
-  position:absolute;
-}
-
-.experience-bkg {
-  background-color: rgb(237, 223, 225);
-  position: absolute;
-  left:0;
-  top:0;
-  height: 100%;
-  width: 100%;
-  z-index: -1;
 }
 
 // .hide {

@@ -101,6 +101,7 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       if (event.target.value === passwordToConfirm) {
         Timelines.showEncryptBtn.play();
+        processFile(uploadedFile, passwordToConfirm);
       }
     }
   });
@@ -168,7 +169,12 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openSignUpPanel.reverse();
   });
 
-  $(".open-terms").on("click", (e) => {
+  $("#open-terms-from-register").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openTermsPanel.play();
+  });
+
+  $("#open-terms").on("click", (e) => {
     e.preventDefault();
     Timelines.openTermsPanel.play();
   });
@@ -219,27 +225,62 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.encryptionFail.play();
   });
 
+  function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
+    // Create a Blob from the base64 string
+    const binaryString = atob(base64String);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([bytes], { type: mimeType });
+
+    // Create a link element
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `${fileName}.${extension}`;
+
+    // Append the link to the document and trigger the download
+    document.body.appendChild(link);
+    link.click();
+
+    // Remove the link from the document
+    document.body.removeChild(link);
+  }
+
   function handleFileUpload(event) {
     const file = event.target.files[0];
     if (file) {
       console.log(`File chosen: ${file.name}`);
       uploadedFile = file; // Store the file temporarily
-      $("$file-name-display").textContent = file.name;
+      $("#file-name-display").textContent = file.name;
       Timelines.fileLoop.pause();
       Timelines.fileWasUploaded.play();
     }
   }
 
-  function processFile(file, password) {
+  async function processFile(file, password) {
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       const arrayBuffer = event.target.result;
-      encryptFileData(
-        arrayBuffer,
-        password,
-        "resumeEncrypted2",
-        "application/pdf"
-      );
+      try {
+        const base64String = await EncryptionAPI.encryptFileData(
+          arrayBuffer,
+          password,
+          "resumeEncrypted2",
+          "application/pdf"
+        );
+        console.log("Encrypted file:", base64String);
+
+        downloadBase64AsFile(
+          base64String,
+          "resumeEncrypted2",
+          "application/pdf",
+          "pdf"
+        );
+      } catch (error) {
+        console.error("Encryption failed:", error);
+      }
     };
     reader.readAsArrayBuffer(file);
   }

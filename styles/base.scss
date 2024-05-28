@@ -1,0 +1,103 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --white: #ffffff;
+  --gray30: #c1c7cd;
+  --gray60: #697077;
+  --gray70: #4d5358;
+  --gray90: #21272a;
+  --gray100: #121619;
+  --pink: #e4007c;
+  --red: #ff4404;
+  --main: "Nunito", sans-serif;
+  --heading: "Nunito", sans-serif;
+
+  --base-size: 1rem;
+  --scale: 1.2;
+  --h1: calc(var(--h2) * var(--scale));
+  --h2: calc(var(--h3) * var(--scale));
+  --h3: calc(var(--h4) * var(--scale));
+  --h4: calc(var(--h5) * var(--scale));
+  --h5: calc(var(--h6) * var(--scale));
+  --h6: var(--base-size);
+}
+body {
+  font-family: var(--main);
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  color:var(--white);
+  letter-spacing: .1rem;
+  font-size: var(--base-size);
+  background-color: var(--gray100);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--heading);
+  margin: 0
+}
+h1 {
+  font-size: var(--h1);
+  font-weight: 300;
+}
+h2 {
+  font-size: var(--h2);
+}
+h3 {
+  font-size: var(--h3);
+}
+h4 {
+  font-size: var(--h4);
+}
+h5 {
+  font-size: var(--h5);
+}
+h6 {
+  font-size: var(--h6);
+}
+
+button {
+  font-family: 'Nunito', sans-serif;
+  height: 3rem;
+  min-width: 3rem;
+  padding: 0 .5rem;
+  font-size: x-large;
+  letter-spacing: .1rem;
+  border-radius: 0.25rem;
+  color: var(--white);
+  border-radius: 0.25rem;
+  border: 1px solid var(--gray70);
+  background-color: var(--gray100);
+  box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+
+  transition-duration: 0.3s;
+  transition-property: background-color transform;
+
+  &:hover {
+      cursor: pointer;
+      transform: translateY(5%);
+      background-color: var(--gray90);
+  }
+  &:active {
+      transform: translateY(5%);
+  }
+}
+
+/* h/t Scott O'Hara https://css-tricks.com/inclusively-hidden/ */
+.sr-only:not(:focus):not(:active) {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
