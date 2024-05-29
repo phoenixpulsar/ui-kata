@@ -80,7 +80,7 @@
   overflow-y: scroll;
 }
 
-.file-upload-ctrls {
+.main-ctrls {
   position: absolute;
   top: 40%;
   left: 50%;
@@ -91,7 +91,13 @@
   transform: translate(-50%, -50%);
 }
 
-.file-upload-inner-grid {
+@media (max-width: 600px) {
+  .main-ctrls {
+   padding: 5rem;
+  }  
+}
+
+.file-upload-ctrls {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -140,8 +146,8 @@
 
 #back-svg-icon {
   position: absolute;
-  top: 15%;
-  left: 7%;
+  top: 8%;
+  left: 5%;
   transform: scale(1.8);
   
   transition-duration: 0.7;
@@ -155,8 +161,8 @@
 
 @media (max-width: 600px) {
   #back-svg-icon {
-    top: 12%;
-    left: 10%;
+    top: 8%;
+    left: 8%;
     transform: scale(1.4);
 
     transition-duration: 0.7;
@@ -226,17 +232,11 @@
   transform: translate(-50%, -50%);
 }
 
-@media (max-width: 600px) {
-  .file-name-display {
-    top: 19%; 
-  }
-}
-
 .password-ctrls {
   position: absolute;
   width: 90vw;
   left:50%;
-  top: 45%;
+  top: 55%;
   transform: translate(-50%, -50%);
 }
 
@@ -273,6 +273,7 @@
 
 #confirm-password-label {
   grid-area: password-label;
+  margin-top: 2rem;
 }
 
 #password-mismatch-mssg {

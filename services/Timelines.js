@@ -124,10 +124,20 @@ const Timelines = {
       .to(
         "#mssg-mode",
         {
-          text: "Decrypt",
-          duration: 1,
+          text: "010010",
+          duration: 0.3,
+          ease: "sine.out",
         },
-        "begin"
+        "begin=-0.1"
+      )
+      .to(
+        "#mssg-mode",
+        {
+          text: "Decrypt",
+          duration: 0.3,
+          ease: "sine.out",
+        },
+        "begin+=0.3"
       );
 
     return tl;
@@ -144,7 +154,7 @@ const Timelines = {
       .to(
         "#file-name-display",
         {
-          y: 90,
+          y: 110,
           opacity: 1,
           visibility: "visible",
           duration: 1,

@@ -6,188 +6,182 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="app.js" defer type="module"></script>
-     
+    <script src="app.js" defer type="module"></script>   
     <script type="module" src="/main.js" defer></script>
-     <script type="module" src="/firebase.js" defer></script> 
-  
+    <script type="module" src="/firebase.js" defer></script> 
     <title>Ordo</title>
     </head>
+    <body>    
+      <nav class="main-nav">
+        <ul>
+          <li><h1 id="logo">Ordo One</h1></li>
+          <!-- <li><a href=""><img id="logo" src="assets/ordo-one-logo.png"></a></li> -->
+          <!-- <li>
+            <label>
+              <input type="checkbox" id="theme-box"> Theme
+            </label>
+          </li> -->
+          <li id="success-encrypt">S</li>
+          <li id="error-encrypt">E</li>
+          <li id="user-email"></li>
+          <li id="open-login">Log In</li>
+          <li id="sign-out-btn">Sign Out</li>
+        </ul>
+      </nav>
 
-    <body>
-    
+      <div class="install-container">
+        <button>Install</button>
+      </div>
 
-      
-     <nav class="main-nav">
-      <ul>
-        <li><h1 id="logo">Ordo One</h1></li>
-        <!-- <li><a href=""><img id="logo" src="assets/ordo-one-logo.png"></a></li> -->
-        <!-- <li>
-          <label>
-            <input type="checkbox" id="theme-box"> Theme
-          </label>
-        </li> -->
-        <li id="success-encrypt">S</li>
-        <li id="error-encrypt">E</li>
-        <li id="user-email"></li>
-        <li id="open-login">Log In</li>
-        <li id="sign-out-btn">Sign Out</li>
-      </ul>
-     </nav>
+      <div class="main-layout-container">
+        <div class="main-experience-container">
 
-     <div class="install-container">
-      <button>Install</button>
-     </div>
-
-     <div class="main-layout-container">
-      <div class="main-experience-container">
-
-        <div class="file-upload-ctrls">
-          <div class="file-upload-inner-grid">
-            <!-- <p id="welcome-mssg">Choose a file to Encrypt | Decrypt</p> -->
-            <svg id="file-upload-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M463.9-250.05h33.84v-198.13l89.34 89.85 24.1-24.18L480-512.56 349.64-381.69l23.67 23.59 90.59-90.08v198.13ZM258.46-120q-24.58 0-41.52-16.94Q200-153.88 200-178.46v-603.08q0-24.58 16.94-41.52Q233.88-840 258.46-840h327.85L760-666.31v487.85q0 24.58-16.94 41.52Q726.12-120 701.54-120H258.46Zm310.92-530.36v-155.79H258.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v603.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h443.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-471.9H569.38ZM233.85-806.15v155.79-155.79 652.3V-806.15Z"/></svg>  
-            <p id="welcome-mssg">Choose a file to <span id="mssg-mode">Encrypt</span></p>
-            <div id="encryption-mode-switch">
-              <span id="mode-encrypt">Encrypt</span>
-              <input type="checkbox" id="check">
-              <label for="check" class="checkbtn"></label>
-              <span id="mode-decrypt">Decrypt</span>
+          <div class="main-ctrls">
+            <div class="ctrl-icons">
+              <svg id="back-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg>
+              <svg id="empty-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+              <svg id="exclamation-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
+              <svg id="done-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M443.62-380h72.76l-22.69-131.15q17.69-5.93 29.31-20.35 11.62-14.42 11.62-33.12 0-22.84-15.89-38.73-15.88-15.88-38.73-15.88-22.85 0-38.73 15.88-15.89 15.89-15.89 38.73 0 18.7 11.62 33.12 11.62 14.42 29.31 20.35L443.62-380ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
             </div>
-            <label id="file-upload-label" for="file-upload-input">Choose File</label>
-            <input id="file-upload-input" type="file" />
-          </div> 
-        </div>
-        
-        <svg id="empty-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
-        <svg id="exclamation-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
-        <svg id="done-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M443.62-380h72.76l-22.69-131.15q17.69-5.93 29.31-20.35 11.62-14.42 11.62-33.12 0-22.84-15.89-38.73-15.88-15.88-38.73-15.88-22.85 0-38.73 15.88-15.89 15.89-15.89 38.73 0 18.7 11.62 33.12 11.62 14.42 29.31 20.35L443.62-380ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
-        
-
-        <div id="file-name-display"></div>
-        <svg id="back-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg>
-    
-        <div class="password-ctrls">
-          <div class="password-ctrls-inner-grid">
             
-            <!-- Step 1 -->
-            <form id="password-form-step-1">
-              <label class="password-ctrls-label" for="password-input" id="password-label">Password</label>
-              <input class="password-ctrls-input" type="password" id="password-input" placeholder="Password"/> 
-              <button type="submit" id="password-btn" class="password-ctrls-btn">
-                Continue
+            
+            <div class="file-upload-ctrls">
+              <svg id="file-upload-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M463.9-250.05h33.84v-198.13l89.34 89.85 24.1-24.18L480-512.56 349.64-381.69l23.67 23.59 90.59-90.08v198.13ZM258.46-120q-24.58 0-41.52-16.94Q200-153.88 200-178.46v-603.08q0-24.58 16.94-41.52Q233.88-840 258.46-840h327.85L760-666.31v487.85q0 24.58-16.94 41.52Q726.12-120 701.54-120H258.46Zm310.92-530.36v-155.79H258.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v603.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h443.08q9.23 0 16.92-7.69 7.69-7.69 7.69-16.92v-471.9H569.38ZM233.85-806.15v155.79-155.79 652.3V-806.15Z"/></svg>  
+              <p id="welcome-mssg">Choose a file to <span id="mssg-mode">Encrypt</span></p>
+              <div id="encryption-mode-switch">
+                <span id="mode-encrypt">Encrypt</span>
+                <input type="checkbox" id="check">
+                <label for="check" class="checkbtn"></label>
+                <span id="mode-decrypt">Decrypt</span>
+              </div>
+              <label id="file-upload-label" for="file-upload-input">Choose File</label>
+              <input id="file-upload-input" type="file" />
+              <div id="file-name-display"></div>
+            </div> 
+
+            <div class="password-ctrls">
+              <div class="password-ctrls-inner-grid">
+                
+                <!-- Step 1 -->
+                <form id="password-form-step-1">
+                  <label class="password-ctrls-label" for="password-input" id="password-label">Password</label>
+                  <input class="password-ctrls-input" type="password" id="password-input" placeholder="Password"/> 
+                  <button type="submit" id="password-btn" class="password-ctrls-btn">
+                    Continue
+                  </button>
+                </form>
+  
+                <!-- Step 2 -->
+                <label class="password-ctrls-label" for="confirm-password-input" id="confirm-password-label">Confirm Password</label>
+                <input class="password-ctrls-input" type="password" id="confirm-password-input" placeholder="0000000000"/> 
+                
+                <!-- Step 3 -->
+                <span id="top-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                <span id="btm-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
+                
+                <button id="encrypt-btn" class="password-ctrls-btn">
+                  Encrypt
+                </button>
+                
+                <p id="password-mismatch-mssg">Password mismatch</p>
+              </div>
+            </div>
+          </div>
+
+   
+          <!-- Login -->
+          <div class="login-container">
+            <div class="panel-ctrls">
+              <button id="close-login" class="close-panel-btn">
+                Close  
               </button>
+            </div>
+            
+            <h1 id="login-header">Sign In</h1>
+                
+            <form id="login-form">
+              <label id="login-email-label" for="email">Email:</label>
+              <input id="login-email-input" class="email-password-input" type="email" name="email"  required>
+              <label id="login-password-label" for="password">Password:</label>
+              <input id="login-password-input" class="email-password-input" type="password" name="password"  required>
+              <button id="login-btn"  type="submit">Sign In</button>
             </form>
 
-            <!-- Step 2 -->
-            <label class="password-ctrls-label" for="confirm-password-input" id="confirm-password-label">Confirm Password</label>
-            <input class="password-ctrls-input" type="password" id="confirm-password-input" placeholder="0000000000"/> 
-            
-            
-            <!-- Step 3 -->
-            <span id="top-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-            <span id="btm-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
-            
-            <button id="encrypt-btn" class="password-ctrls-btn">
-              Encrypt
-            </button>
-            
-            <p id="password-mismatch-mssg">Password mismatch</p>
+            <p id="register-mssg">Don't have an account? <span id="open-sign-up">Create One</span></p>   
           </div>
-        </div>
- 
-        <!-- SignUp -->
-        <div class="login-container">
-          <div class="panel-ctrls">
-            <button id="close-login" class="close-panel-btn">
-              Close  
-            </button>
-          </div>
-          
-          <h1 id="login-header">Sign In</h1>
-              
-          <form id="login-form">
-            <label id="login-email-label" for="email">Email:</label>
-            <input id="login-email-input" class="email-password-input" type="email" name="email"  required>
-            <label id="login-password-label" for="password">Password:</label>
-            <input id="login-password-input" class="email-password-input" type="password" name="password"  required>
-            <button id="login-btn"  type="submit">Sign In</button>
-          </form>
 
-          <p id="register-mssg">Don't have an account? <span id="open-sign-up">Create One</span></p>   
-        </div>
-
-        <!-- SignUp -->
-        <div class="sign-up-container">
-          <div class="panel-ctrls">
-            <button id="close-sign-up" class="close-panel-btn">
-              Close  
-            </button>
-          </div>
-          <h1 id="sign-up-header">Sign Up</h1>
-          <form id="sign-up-form">
-            <label id="sign-up-email-label" for="email">Email:</label>
-            <input id="sign-up-email-input" class="email-password-input"  type="email"  name="email" required>
-            <label id="sign-up-password-label" for="password">Password:</label>
-            <input id="sign-up-password-input" class="email-password-input"  type="password"  name="password" required>
-            <button id="sign-up-btn"  type="submit">Sign Up</button>
-          </form>
-          <p id="register-mssg">By creating an account, you agree to our <span id="open-terms-from-register">Terms</span></p>  
-        </div> 
+          <!-- SignUp -->
+          <div class="sign-up-container">
+            <div class="panel-ctrls">
+              <button id="close-sign-up" class="close-panel-btn">
+                Close  
+              </button>
+            </div>
+            <h1 id="sign-up-header">Sign Up</h1>
+            <form id="sign-up-form">
+              <label id="sign-up-email-label" for="email">Email:</label>
+              <input id="sign-up-email-input" class="email-password-input"  type="email"  name="email" required>
+              <label id="sign-up-password-label" for="password">Password:</label>
+              <input id="sign-up-password-input" class="email-password-input"  type="password"  name="password" required>
+              <button id="sign-up-btn"  type="submit">Sign Up</button>
+            </form>
+            <p id="register-mssg">By creating an account, you agree to our <span id="open-terms-from-register">Terms</span></p>  
+          </div> 
        
-         <!-- Terms -->
-        <div class="terms-container">
-          <div class="panel-ctrls">
-            <button id="close-terms" class="close-panel-btn">Close</button>
-          </div>
+          <!-- Terms -->
+          <div class="terms-container">
+            <div class="panel-ctrls">
+              <button id="close-terms" class="close-panel-btn">Close</button>
+            </div>
 
-          <div class="terms-content">
-            <h1>Terms and Conditions</h1>
-            <p><strong>Effective Date: May 2024</strong></p>
+            <div class="terms-content">
+              <h1>Terms and Conditions</h1>
+              <p><strong>Effective Date: May 2024</strong></p>
 
-            <h2>1. Introduction</h2>
-            <p>Welcome to our encryption app. By using this app, you agree to be bound by these Terms and Conditions. Please read them carefully.</p>
+              <h2>1. Introduction</h2>
+              <p>Welcome to our encryption app. By using this app, you agree to be bound by these Terms and Conditions. Please read them carefully.</p>
 
-            <h2>2. Use at Your Own Risk</h2>
-            <p>This app is provided "as is" and "as available" for your use. We do not guarantee that the app will be error-free or uninterrupted. Use the app at your own risk.</p>
+              <h2>2. Use at Your Own Risk</h2>
+              <p>This app is provided "as is" and "as available" for your use. We do not guarantee that the app will be error-free or uninterrupted. Use the app at your own risk.</p>
 
-            <h2>3. Encryption and Security</h2>
-            <p>This app utilizes the Web Crypto API to encrypt your data. We do not store your encryption password. If you lose your encryption password, you will be locked out of your encrypted data, and we will not be able to recover it for you.</p>
-        
-            <h2>4. No Responsibility for Data Loss</h2>
-            <p>We are not responsible for any data loss, changes, or damages resulting from the use of this app. You are solely responsible for backing up your data and managing your encryption passwords.</p>
-        
-            <h2>5. Limitation of Liability</h2>
-            <p>To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses, resulting from the use or inability to use the app.</p>
-        
-            <h2>6. No Warranty</h2>
-            <p>We do not warrant that the app will meet your requirements or that it will be suitable for any particular purpose. We disclaim all warranties, express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.</p>
+              <h2>3. Encryption and Security</h2>
+              <p>This app utilizes the Web Crypto API to encrypt your data. We do not store your encryption password. If you lose your encryption password, you will be locked out of your encrypted data, and we will not be able to recover it for you.</p>
+          
+              <h2>4. No Responsibility for Data Loss</h2>
+              <p>We are not responsible for any data loss, changes, or damages resulting from the use of this app. You are solely responsible for backing up your data and managing your encryption passwords.</p>
+          
+              <h2>5. Limitation of Liability</h2>
+              <p>To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental, special, consequential, or exemplary damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses, resulting from the use or inability to use the app.</p>
+          
+              <h2>6. No Warranty</h2>
+              <p>We do not warrant that the app will meet your requirements or that it will be suitable for any particular purpose. We disclaim all warranties, express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.</p>
 
-            <h2>7. Changes to Terms</h2>
-            <p>We reserve the right to modify these Terms and Conditions at any time. Any changes will be posted on this page, and your continued use of the app after such changes have been posted will constitute your acceptance of the modified Terms and Conditions.</p>
+              <h2>7. Changes to Terms</h2>
+              <p>We reserve the right to modify these Terms and Conditions at any time. Any changes will be posted on this page, and your continued use of the app after such changes have been posted will constitute your acceptance of the modified Terms and Conditions.</p>
 
-            <h2>9. Contact Information</h2>
-            <p>If you have any questions about these Terms and Conditions, please contact us at [contact info coming soon].</p>
+              <h2>9. Contact Information</h2>
+              <p>If you have any questions about these Terms and Conditions, please contact us at [contact info coming soon].</p>
 
-            <p>By using this app, you acknowledge that you have read and understood these Terms and Conditions and agree to be bound by them.</p>
-          </div>
-        </div> 
+              <p>By using this app, you acknowledge that you have read and understood these Terms and Conditions and agree to be bound by them.</p>
+            </div>
+          </div> 
    
-        <!-- About -->
-        <div class="about-container">
-          <div class="panel-ctrls">
-            <button id="close-about" class="close-panel-btn">Close</button>
-          </div>
-         
-          <h1>About</h1>
-        </div> 
+          <!-- About -->
+          <div class="about-container">
+            <div class="panel-ctrls">
+              <button id="close-about" class="close-panel-btn">Close</button>
+            </div>
+          
+            <h1>About</h1>
+          </div> 
       
-        <!-- Contact -->
-        <div class="contact-container">
-          <div class="panel-ctrls">
-            <button id="close-contact" class="close-panel-btn">Close</button>
+          <!-- Contact -->
+          <div class="contact-container">
+            <div class="panel-ctrls">
+              <button id="close-contact" class="close-panel-btn">Close</button>
+            </div>
+            <h1>Contact</h1>
           </div>
-          <h1>Contact</h1>
-        </div>
                    
         </div>
      </div>
@@ -201,6 +195,8 @@
         </ul>
       </nav>
      </footer>
+
+ 
     </body>  
 </html>
 

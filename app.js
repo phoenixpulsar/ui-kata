@@ -109,7 +109,7 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       if (event.target.value === passwordToConfirm) {
         Timelines.showEncryptBtn.play();
-        processFile(uploadedFile, passwordToConfirm);
+        // processFile(uploadedFile, passwordToConfirm);
       }
     }
   });
