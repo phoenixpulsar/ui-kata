@@ -24,6 +24,8 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentUser = null;
   let passwordToConfirm = "";
   let uploadedFile = null;
+  let currentStep = "init";
+  let encryptionMode = "encrypt";
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -96,7 +98,7 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     getCurrentPasswordInput();
     Timelines.showConfirmPassword.play();
-    // Timelines.startEncryptionLabels.play();
+    currentStep = "confirm";
   });
 
   $("#confirm-password-input").on("input", (event) => {
@@ -117,6 +119,8 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#encrypt-btn").on("click", (event) => {
     Timelines.startEncryption.play();
     Timelines.startEncryptionLabels.play();
+    runRandomOutcome();
+    currentStep = "encrypt";
   });
 
   $("#open-login").on("click", (e) => {
@@ -223,16 +227,6 @@ window.addEventListener("DOMContentLoaded", () => {
     reverseFileUpload();
   });
 
-  $("#success-encrypt").on("click", (e) => {
-    Timelines.startEncryptionLabels.pause();
-    Timelines.encryptionSuccess.play();
-  });
-
-  $("#error-encrypt").on("click", (e) => {
-    Timelines.startEncryptionLabels.pause();
-    Timelines.encryptionFail.play();
-  });
-
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
     // Create a Blob from the base64 string
     const binaryString = atob(base64String);
@@ -257,7 +251,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleFileUpload(event) {
-    console.log("yo");
     const file = event.target.files[0];
     if (file) {
       console.log(`File chosen: ${file.name}`);
@@ -265,6 +258,7 @@ window.addEventListener("DOMContentLoaded", () => {
       $("#file-name-display").textContent = file.name;
       Timelines.fileLoop.pause();
       Timelines.fileWasUploaded.play();
+      currentStep = "password";
     }
   }
 
@@ -324,5 +318,19 @@ window.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  function runRandomOutcome() {
+    setTimeout(() => {
+      let result = Math.random() >= 0.5;
+      Timelines.startEncryptionLabels.pause();
+      if (result) {
+        currentStep = "encrypted";
+        Timelines.encryptionSuccess.play();
+      } else {
+        currentStep = "failEncryption";
+        Timelines.encryptionFail.play();
+      }
+    }, 12000);
   }
 });

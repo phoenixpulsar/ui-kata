@@ -561,7 +561,7 @@ const Timelines = {
         "#exclamation-shield-svg",
         {
           opacity: 1,
-          display: "visible",
+          visibility: "visible",
           duration: 1,
           scale: 1.8,
           ease: "sine.out",
