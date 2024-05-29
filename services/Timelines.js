@@ -103,14 +103,44 @@ const Timelines = {
       );
     return tl;
   })(),
+  modeSwitchToggle: (() => {
+    let tl = gsap.timeline({ paused: true });
+
+    tl.add("begin");
+    tl.to(
+      "#mode-encrypt",
+      {
+        color: "#4d5358",
+      },
+      "begin"
+    )
+      .to(
+        "#mode-decrypt",
+        {
+          color: "white",
+        },
+        "begin"
+      )
+      .to(
+        "#mssg-mode",
+        {
+          text: "Decrypt",
+          duration: 1,
+        },
+        "begin"
+      );
+
+    return tl;
+  })(),
   fileWasUploaded: (() => {
     var tl = gsap.timeline({ paused: true });
     let passwordInput = document.querySelector("#password-input");
 
     tl.add("begin");
     tl.to("#welcome-mssg", { opacity: 0 })
+      .to("#encryption-mode-switch", { opacity: 0 })
       .to("#file-upload-label", { opacity: 0 })
-      .to("#file-upload", { opacity: 0 })
+      .to("#file-upload-input", { opacity: 0 })
       .to(
         "#file-name-display",
         {

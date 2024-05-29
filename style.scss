@@ -23,6 +23,7 @@
 // }
 
 @import 'styles/base.scss';
+@import 'styles/switch.scss';
 
 .main-nav {
   padding-left: 1rem;
@@ -47,7 +48,7 @@
   }
 }
 
-.logo{ 
+.logo { 
   width: 100px;
   margin-top: 1rem;
 }
@@ -91,26 +92,30 @@
 }
 
 .file-upload-inner-grid {
-  display: grid;
-  justify-items: center;
-  grid-template-areas: 
-    "welcome-mssg"
-    "file-upload-label"
-    "file-upload"
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem;
 }
 
 #welcome-mssg {
-  grid-area: welcome-mssg;
+  margin: 0;
+  padding: 0;
   text-align: center;
   font-size: x-large;
 }
 
+#mode-decrypt {
+  color: var(--gray70);
+}
+
 #file-upload-label {
-  grid-area: file-upload-label;
   padding: 1rem;
   margin-top: 1rem;
   font-size: large;
   border-radius: 1rem;
+  text-align: center;
   border: 1px solid var(--gray70);
   box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
 
@@ -127,7 +132,7 @@
   }
 }
 
-#file-upload {
+#file-upload-input {
   grid-area: file-upload;
   display: none;
 }
@@ -168,15 +173,17 @@
 // ====================
 
 #file-upload-svg-icon {
-  position: absolute;
-  top: 26%;
-  left: 50%;
-  transform: scale(1.2) translate(-50%, -50%);
+  // position: absolute;
+  // top: 26%;
+  // left: 50%;
+  margin-bottom: 1rem;
+  transform: scale(1.2);
 }
 
 @media (max-width: 600px) {
   #file-upload-svg-icon {
     top: 23%;
+    left: 52%;
     transform:scale(1.4); 
   }
 }
@@ -541,104 +548,3 @@ footer nav ul {
   }
 }
 
-
-
-
-
-@mixin inactiveMixin {
-  content: "";
-  position: absolute;
-  display: block;
-}
-
-@mixin beforeAnimation {
-  -moz-transition: .2s cubic-bezier(.24, 0, .5, 1);
-  -o-transition: .2s cubic-bezier(.24, 0, .5, 1);
-  -webkit-transition: .2s cubic-bezier(.24, 0, .5, 1);
-  transition: .2s cubic-bezier(.24, 0, .5, 1);
-}
-
-@mixin afterAnimation {
-  box-shadow: 0 0 0 1px hsla(0, 0%, 0%, 0.1), 0 4px 0px 0 hsla(0, 0%, 0%, .04), 0 4px 9px hsla(0, 0%, 0%, .13), 0 3px 3px hsla(0, 0%, 0%, .05);
-  -moz-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
-  -o-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
-  -webkit-transition: .35s cubic-bezier(.54, 1.60, .5, 1);
-  transition: .35s cubic-bezier(.54, 1.60, .5, 1);
-}
-
-// Mobile Toggle Switch
-.toggleWrapper {
-  position: absolute;
-  top: 1rem;
-  left: 83vw;
-  margin: auto;
- 
-  width: 60px;
-  border-radius: 5px;
-
-  
-  input {
-    &.mobileToggle {
-      opacity: 0; // hides checkbox
-      position: absolute;
-      
-      & + label {
-        position: relative;
-        display: inline-block;
-        user-select: none;
-        -moz-transition: .4s ease;
-        -o-transition: .4s ease;
-        -webkit-transition: .4s ease;
-        transition: .4s ease;
-        -webkit-tap-highlight-color: transparent;
-        height: 30px;
-        width: 50px;
-        border: 1px solid #e4e4e4;
-        border-radius: 60px;
-        
-        &:before {
-          @include inactiveMixin;
-          @include beforeAnimation;
-          height: 30px;
-          width: 51px;
-          top: 0;
-          left: 0;
-          border-radius: 30px;
-        }
-        
-        &:after {
-          @include inactiveMixin;
-          @include afterAnimation;
-          background: blueviolet;
-          height: 28px;
-          width: 28px;
-          top: 1px;
-          left: 0px;
-          border-radius: 60px;
-        }
-      }
-      
-      // When Active
-      &:checked {
-        & + label:before {
-          background: #121619; // Active Color
-          -moz-transition: width .2s cubic-bezier(.24, 0, .5, 1);
-          -o-transition: width .2s cubic-bezier(.24, 0, .5, 1);
-          -webkit-transition: width .2s cubic-bezier(.24, 0, .5, 1);
-          transition: width .2s cubic-bezier(.24, 0, .5, 1);
-        }
-        
-        & + label:after {
-          left: 22px;
-        }
-      }
-    }
-  }
-}
-
-// .hide {
-//   transform: scale(0);
-//   visibility: hidden;
-//   height: 0;
-//   width: 0;
-// }

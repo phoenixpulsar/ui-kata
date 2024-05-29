@@ -82,7 +82,15 @@ window.addEventListener("DOMContentLoaded", () => {
   Timelines.logoLoop.play();
   Timelines.fileLoop.play();
 
-  $("#file-upload").on("change", handleFileUpload);
+  $("#check").on("change", function () {
+    if (this.checked) {
+      Timelines.modeSwitchToggle.play();
+    } else {
+      Timelines.modeSwitchToggle.reverse();
+    }
+  });
+
+  $("#file-upload-input").on("change", handleFileUpload);
 
   $("#password-btn").on("click", (e) => {
     e.preventDefault();
@@ -249,6 +257,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function handleFileUpload(event) {
+    console.log("yo");
     const file = event.target.files[0];
     if (file) {
       console.log(`File chosen: ${file.name}`);
@@ -286,7 +295,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function reverseFileUpload() {
-    $("#file-upload").value = "";
+    $("#file-upload-input").value = "";
     $("#file-name-display").textContent = "";
     Timelines.fileWasUploaded.reverse();
 
