@@ -1,0 +1,70 @@
+// ====================
+// SVG ICONS
+// ====================
+
+#file-upload-svg-icon {
+  // position: absolute;
+  // top: 26%;
+  // left: 50%;
+  margin-bottom: 1rem;
+  transform: scale(1.2);
+}
+  
+@media (max-width: 600px) {
+  #file-upload-svg-icon {
+    top: 23%;
+    left: 52%;
+    transform:scale(1.4); 
+  }
+}
+
+#back-svg-icon {
+  position: absolute;
+  top: 8%;
+  left: 5%;
+  transform: scale(1.8);
+  
+  transition-duration: 0.7;
+  transition-property: transform;
+  
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.8) translateX(-4%);
+  }
+}
+
+@media (max-width: 600px) {
+  #back-svg-icon {
+    top: 8%;
+    left: 8%;
+    transform: scale(1.4);
+
+    transition-duration: 0.7;
+    transition-property: transform;
+
+    &:hover{
+      transform: scale(1.4) translateX(-4%);
+    }
+  }  
+}
+  
+#empty-shield-svg {
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+  
+#exclamation-shield-svg {
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+  
+#done-svg {
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}

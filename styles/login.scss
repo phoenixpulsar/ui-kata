@@ -1,0 +1,91 @@
+// =================
+// Log In
+// =================
+
+.login-container {
+    position: absolute;
+    top: 0;
+    height: 90vh;
+    width: 100vw;
+    left:90vw; //move right until open
+    background-color: var(--gray100);
+  }
+  
+  .panel-ctrls {
+    text-align: right;
+    padding-top: 1rem;
+    max-width: 535px;
+  }
+  
+  .close-panel-btn {
+    margin-top: 1rem;
+    font-size: large;
+  }
+  
+  #login-header {
+    padding-left: 1rem;
+  }
+  
+  #login-form {
+    display: grid;
+    grid-template-areas: 
+      "login-email-label"
+      "login-email-input"
+      "login-password-label"
+      "login-password-input"
+      "login-btn";
+    grid-template-rows: auto auto auto auto auto;
+    padding-left: 1rem;
+    max-width: 535px;
+  }
+  
+  #login-email-label {
+    grid-area: login-email-label; 
+    font-size: x-large;
+    margin-top: 3rem;
+  }
+  
+  .email-password-input {
+    height: 3rem;
+    outline: none;
+    font-size: x-large;
+    color: var(--white);
+    border-radius: 0.25rem;
+    font-family: var(--main);
+    border: 2px solid var(--gray70);
+    background-color: var(--gray100);
+    &:focus {
+      border: 2px solid var(--gray30);
+    }
+  }
+  
+  #login-email-input {
+    grid-area: login-email-input;
+  }
+  
+  #login-password-label {
+    grid-area: login-password-label;
+    margin-top: 2rem;
+  }
+  
+  #login-password-input {
+    grid-area: login-password-input; 
+  }
+  
+  #login-btn {
+    grid-area: login-btn;
+    margin-top: 2rem;
+  }
+  
+  #register-mssg {
+    margin-left: 1rem;
+    margin-top: 1rem;
+  }
+  
+  #open-sign-up {
+    color: #a2a9b0;
+    cursor: pointer;
+    &:hover {
+      color: #dde1e6;
+    }
+  }

@@ -281,23 +281,21 @@ window.addEventListener("DOMContentLoaded", () => {
 
   async function processFile(file, password) {
     const reader = new FileReader();
+    const { mimeType, fileName, fileExtension } = getFileDetails(file);
+
     reader.onload = async (event) => {
       const arrayBuffer = event.target.result;
       try {
         const base64String = await EncryptionAPI.encryptFileData(
           arrayBuffer,
-          password,
-          "resumeEncrypted2",
-          "application/pdf"
+          password
         );
-
-        console.log("Encrypted file Success:");
 
         downloadBase64AsFile(
           base64String,
-          "resumeEncrypted2",
-          "application/pdf",
-          "pdf"
+          `${fileName}_encrypted`,
+          mimeType,
+          fileExtension
         );
       } catch (error) {
         console.error("Encryption failed:", error);
@@ -311,7 +309,18 @@ window.addEventListener("DOMContentLoaded", () => {
     reader.onload = async (event) => {
       const base64String = event.target.result.split(",")[1]; // Extract base64 content
       try {
-        await EncryptionAPI.decryptFileData(base64String, password);
+        const decryptedContents = await EncryptionAPI.decryptFileData(
+          base64String,
+          password
+        );
+
+        const { mimeType, fileName } = getFileDetails(file);
+
+        EncryptionAPI.downloadDecryptedFile(
+          decryptedContents,
+          fileName,
+          mimeType
+        );
       } catch (error) {
         console.error("Error decrypting file:", error);
       }
@@ -368,9 +377,29 @@ window.addEventListener("DOMContentLoaded", () => {
         processFile(uploadedFile, passwordToConfirm);
         Timelines.encryptionSuccess.play();
       } else {
-        currentStep = "FAIL";
-        Timelines.encryptionFail.play();
+        currentStep = "ENCRYPTED";
+        processFile(uploadedFile, passwordToConfirm);
+        Timelines.encryptionSuccess.play();
+
+        // currentStep = "FAIL";
+        // Timelines.encryptionFail.play();
       }
     }, 12000);
+  }
+
+  function getFileDetails(file) {
+    if (!file) {
+      throw new Error("No file provided");
+    }
+
+    const mimeType = file.type;
+    const fileName = file.name;
+    const fileExtension = fileName.split(".").pop();
+
+    return {
+      mimeType,
+      fileName,
+      fileExtension,
+    };
   }
 });

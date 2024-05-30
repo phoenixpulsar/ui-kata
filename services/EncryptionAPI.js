@@ -1,6 +1,3 @@
-const FILE_NAME_SIZE = 255; // Updated size for filename
-const MIME_TYPE_SIZE = 50; // Size for MIME type
-
 const EncryptionAPI = {
   toBase64: (uint8Array) => {
     // Convert Uint8Array to a binary string
@@ -147,17 +144,8 @@ const EncryptionAPI = {
     // =========================================
     // STEP 1 Convert Password and Data to Bytes
     // =========================================
-    // const dataAsBytes = encoder.encode(dataToEncrypt); // returns Unit8Array
     const dataAsBytes = new Uint8Array(dataToEncrypt);
     const passwordAsBytes = encoder.encode(password); // returns Unit8Array
-    // const fileNameAsBytes = padOrTruncateUint8Array(
-    //   encoder.encode(fileName),
-    //   FILE_NAME_SIZE
-    // ); // 255
-    // const mimeTypeAsBytes = padOrTruncateUint8Array(
-    //   encoder.encode(mimeType),
-    //   MIME_TYPE_SIZE
-    // ); // 50
 
     // ====================================================
     // Step 2 import Key used to derive our key later,
@@ -232,20 +220,6 @@ const EncryptionAPI = {
     const salt = encryptedBytes.slice(0, 32);
     const iv = encryptedBytes.slice(32, 44); // 12 bytes
     const dataAsBytes = encryptedBytes.slice(44);
-    // const fileNameAsBytes = encryptedBytes.slice(44, 44 + FILE_NAME_SIZE);
-    // const mimeTypeAsBytes = encryptedBytes.slice(
-    //   44 + FILE_NAME_SIZE,
-    //   44 + FILE_NAME_SIZE + MIME_TYPE_SIZE
-    // );
-    // const dataAsBytes = encryptedBytes.slice(
-    //   44 + FILE_NAME_SIZE + MIME_TYPE_SIZE
-    // );
-
-    // const fileName = decoder.decode(fileNameAsBytes).replace(/\0/g, ""); // Remove padding zeros
-    // const mimeType = decoder.decode(mimeTypeAsBytes).replace(/\0/g, ""); // Remove padding zeros
-
-    // console.log("filename", fileName);
-    // console.log(mimeType);
 
     return window.crypto.subtle
       .importKey("raw", passwordAsBytes, "PBKDF2", false, ["deriveKey"])
@@ -280,11 +254,13 @@ const EncryptionAPI = {
       .then(({ decryptedContent }) => {
         const decryptedBytes = new Uint8Array(decryptedContent);
         console.log("File decrypted and ready for download");
-        EncryptionAPI.downloadDecryptedFile(
-          decryptedBytes,
-          "aa",
-          "application/pdf"
-        );
+
+        return decryptedBytes;
+        // EncryptionAPI.downloadDecryptedFile(
+        //   decryptedBytes,
+        //   "aa",
+        //   "application/pdf"
+        // );
       })
       .catch((error) => {
         console.error("Decryption failed:", error);

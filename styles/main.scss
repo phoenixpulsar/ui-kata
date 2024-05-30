@@ -1,0 +1,197 @@
+.main-layout-container {
+    display: grid;
+    height: 90vh;
+    width: 100vw;
+    place-items: center;
+  }
+  
+  .main-experience-container {
+    position: relative;
+    height: 90vh;
+    width: 100vw;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+  
+  .main-ctrls {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 90vw;
+    padding: 10rem;
+    border-radius: 1rem;
+    outline: 1px dashed var(--gray70);
+    transform: translate(-50%, -50%);
+  }
+  
+  @media (max-width: 600px) {
+    .main-ctrls {
+     padding: 5rem;
+    }  
+  }
+  
+  .file-upload-ctrls {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+  
+  #welcome-mssg {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: x-large;
+  }
+  
+  #mode-decrypt {
+    color: var(--gray70);
+  }
+  
+  #file-upload-label {
+    padding: 1rem;
+    margin-top: 1rem;
+    font-size: large;
+    border-radius: 1rem;
+    text-align: center;
+    border: 1px solid var(--gray70);
+    box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.35);
+  
+    transition-duration: 0.3s;
+    transition-property: background-color transform;
+  
+    &:hover {
+      cursor: pointer;
+      transform: translateY(5%);
+      background-color: var(--gray90);
+    }
+    &:active {
+      transform: translateY(5%);
+    }
+  }
+  
+  #file-upload-input {
+    grid-area: file-upload;
+    display: none;
+  }
+  
+  #file-name-display {
+    position: absolute;
+    top: 18%;
+    left: 50%;
+    width: 50vw;
+    font-size: x-large;
+    overflow: hidden;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transform: translate(-50%, -50%);
+  }
+  
+  @media (max-width: 600px) {
+    #file-name-display {
+      top: 4%;
+    }  
+  }
+  
+  .password-ctrls {
+    position: absolute;
+    width: 90vw;
+    // padding-top: 10rem;
+    left:0;
+    top: 50%;
+    // transform: translate(-50%, -50%);
+    display: none;
+    // outline: 1px solid orange;
+  }
+  
+  .password-ctrls-inner-grid {
+    display: grid;
+    grid-template-areas: 
+      "password-label"
+      "password-input"
+      "password-mssg"
+      "password-btn";
+      grid-template-rows: minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto);
+  }
+  
+  #password-label {
+    grid-area: password-label;
+  }
+  
+  #password-input {
+    grid-area: password-input;
+  }
+  
+  #top-bulls,  #btm-bulls{
+    grid-area: password-mssg;
+    display: none;
+    visibility: hidden;
+    text-align: center;
+    font-size: x-large;
+    letter-spacing: 1rem;
+  }
+  
+  #password-btn {
+    grid-area: password-btn;
+  }
+  
+  #confirm-password-label {
+    grid-area: password-label;
+    margin-top: 2rem;
+    display: none;
+  }
+  
+  #password-mismatch-mssg {
+    margin-left: 5%;
+  }
+  
+  #confirm-password-input {
+    grid-area: password-input;
+    display: none;
+  }
+  
+  #encrypt-btn {
+    grid-area: password-btn;
+    outline: none;
+    display: none;
+  
+    &:focus{
+      border: 2px solid var(--gray30);
+    }
+  }
+  
+  .password-ctrls-label {
+    margin-left: 5%;
+    font-size: x-large;
+  }
+  
+  .password-ctrls-input{
+    grid-area: input;
+    width: 80vw;
+    height: 4rem;
+    margin-top: 1rem;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 0 1rem;
+    outline: none;
+    color: var(--white);
+    font-size: xx-large;
+    border-radius: 0.25rem;
+    font-family: var(--main);
+    border: 2px solid var(--gray70);
+    background-color: var(--gray100);
+  
+    &:focus {
+      border: 2px solid var(--gray30);
+    }
+  }
+  
+  .password-ctrls-btn {
+    width: 80vw;
+    height: 4rem;
+    margin-left: 5%;
+    margin-top: 2rem;
+    font-size: x-large;
+  }
