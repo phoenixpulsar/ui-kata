@@ -237,6 +237,7 @@
 #confirm-password-label {
   grid-area: password-label;
   margin-top: 2rem;
+  display: none;
 }
 
 #password-mismatch-mssg {
@@ -245,11 +246,17 @@
 
 #confirm-password-input {
   grid-area: password-input;
+  display: none;
 }
 
 #encrypt-btn {
   grid-area: password-btn;
+  outline: none;
   display: none;
+
+  &:focus{
+    border: 2px solid var(--gray30);
+  }
 }
 
 .password-ctrls-label {

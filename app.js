@@ -24,8 +24,8 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentUser = null;
   let passwordToConfirm = "";
   let uploadedFile = null;
-  let currentStep = "init";
-  let encryptionMode = "encrypt";
+  let currentStep = "INIT";
+  let encryptionMode = "ENCRYPT_FILE";
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -86,8 +86,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#check").on("change", function () {
     if (this.checked) {
+      encryptionMode = "DECRYPT_FILE";
       Timelines.modeSwitchToggle.play();
     } else {
+      encryptionMode = "ENCRYPT_FILE";
       Timelines.modeSwitchToggle.reverse();
     }
   });
@@ -98,7 +100,7 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     getCurrentPasswordInput();
     Timelines.showConfirmPassword.play();
-    currentStep = "confirm";
+    currentStep = "CONFIRM";
   });
 
   $("#confirm-password-input").on("input", (event) => {
@@ -111,6 +113,7 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       if (event.target.value === passwordToConfirm) {
         Timelines.showEncryptBtn.play();
+        currentStep = "ENCRYPT";
         // processFile(uploadedFile, passwordToConfirm);
       }
     }
@@ -120,7 +123,7 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.startEncryption.play();
     Timelines.startEncryptionLabels.play();
     runRandomOutcome();
-    currentStep = "encrypt";
+    currentStep = "ENCRYPTING";
   });
 
   $("#open-login").on("click", (e) => {
@@ -223,8 +226,21 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // can't use "on" use addEventListener on svg element
   $("#back-svg-icon").addEventListener("click", function (e) {
+    console.log("Current Step", currentStep);
     e.preventDefault();
-    reverseFileUpload();
+    if (currentStep === "CONFIRM") {
+      console.log("NEXT STEP", "PASSWORD");
+      Timelines.showConfirmPassword.reverse().then(() => {
+        currentStep = "PASSWORD";
+        $("#confirm-password-input").value = "";
+      });
+    } else if (currentStep === "ENCRYPT") {
+      console.log("NEXT STEP", "CONFIRM");
+      currentStep = "CONFIRM";
+      Timelines.showEncryptBtn.reverse();
+    } else {
+      reverseFileUpload();
+    }
   });
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
@@ -257,8 +273,8 @@ window.addEventListener("DOMContentLoaded", () => {
       uploadedFile = file; // Store the file temporarily
       $("#file-name-display").textContent = file.name;
       Timelines.fileLoop.pause();
-      Timelines.fileWasUploaded.play();
-      currentStep = "password";
+      Timelines.fileWasUploaded.restart().play();
+      currentStep = "PASSWORD";
     }
   }
 
@@ -289,12 +305,20 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   function reverseFileUpload() {
+    // Init State
+    passwordToConfirm = "";
+    uploadedFile = null;
+    console.log("NEXT STEP", "INIT");
+    currentStep = "INIT";
+
+    // File upload value/input
+    $("#password-input").value = "";
     $("#file-upload-input").value = "";
     $("#file-name-display").textContent = "";
-    Timelines.fileWasUploaded.reverse();
-
-    gsap.delayedCall(2, () => {
-      Timelines.fileLoop.resume();
+    Timelines.fileWasUploaded.reverse().then(() => {
+      gsap.delayedCall(2, () => {
+        Timelines.fileLoop.resume();
+      });
     });
   }
 
@@ -325,10 +349,10 @@ window.addEventListener("DOMContentLoaded", () => {
       let result = Math.random() >= 0.5;
       Timelines.startEncryptionLabels.pause();
       if (result) {
-        currentStep = "encrypted";
+        currentStep = "ENCRYPTED";
         Timelines.encryptionSuccess.play();
       } else {
-        currentStep = "failEncryption";
+        currentStep = "FAIL";
         Timelines.encryptionFail.play();
       }
     }, 12000);

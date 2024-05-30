@@ -210,10 +210,15 @@ const Timelines = {
     )
       .to("#password-input", { opacity: 0, visibility: "hidden" }, "begin")
       .to("#password-btn", { opacity: 0, visibility: "hidden" }, "begin")
-      .to("#confirm-password-label", { opacity: 1, visibility: "visible" })
+      .to("#confirm-password-label", {
+        opacity: 1,
+        visibility: "visible",
+        display: "block",
+      })
       .to("#confirm-password-input", {
         opacity: 1,
         visibility: "visible",
+        display: "block",
         onComplete: () => {
           confirmPasswordInput.focus();
         },
@@ -472,17 +477,33 @@ const Timelines = {
       "#file-name-display",
       {
         text: "0111000",
-        duration: 1,
+        duration: 0,
       },
-      "begin+=1.5"
+      "begin=-0.5"
     )
       .to(
         "#file-name-display",
         {
           duration: 1,
-          text: "00101000",
+          text: "1001010001",
         },
-        "begin+=1"
+        "begin"
+      )
+      .to(
+        "#file-name-display",
+        {
+          duration: 1,
+          text: "0010100010",
+        },
+        "begin+=0.5"
+      )
+      .to(
+        "#file-name-display",
+        {
+          duration: 1,
+          text: "00100110110",
+        },
+        "begin+=1.5"
       )
       .to(
         "#file-name-display",
@@ -490,7 +511,7 @@ const Timelines = {
           duration: 1,
           text: "10010101",
         },
-        "begin+=1"
+        "begin+=2"
       );
 
     tl.timeScale(1);
