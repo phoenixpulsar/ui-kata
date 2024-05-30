@@ -226,7 +226,8 @@ const EncryptionAPI = {
       });
   },
   decryptFileData: (encryptedPackage, password) => {
-    const encryptedBytes = base64ToUint8Array(encryptedPackage);
+    const encoder = new TextEncoder();
+    const encryptedBytes = EncryptionAPI.base64ToUint8Array(encryptedPackage);
     const passwordAsBytes = encoder.encode(password);
     const salt = encryptedBytes.slice(0, 32);
     const iv = encryptedBytes.slice(32, 44); // 12 bytes
@@ -246,7 +247,7 @@ const EncryptionAPI = {
     // console.log("filename", fileName);
     // console.log(mimeType);
 
-    window.crypto.subtle
+    return window.crypto.subtle
       .importKey("raw", passwordAsBytes, "PBKDF2", false, ["deriveKey"])
       .then((passwordKey) => {
         return window.crypto.subtle
@@ -278,8 +279,12 @@ const EncryptionAPI = {
       })
       .then(({ decryptedContent }) => {
         const decryptedBytes = new Uint8Array(decryptedContent);
-        saveFile(decryptedBytes, "aa", "application/pdf");
         console.log("File decrypted and ready for download");
+        EncryptionAPI.downloadDecryptedFile(
+          decryptedBytes,
+          "aa",
+          "application/pdf"
+        );
       })
       .catch((error) => {
         console.error("Decryption failed:", error);
@@ -370,6 +375,15 @@ vxYSWfPTUe64k+4cL4hpdQO7EcFomI2YkdRCKFD4xhjWYG2/wob8mTlopKnwkHXL
     } catch (error) {
       console.error("Error verifying token:", error);
     }
+  },
+  downloadDecryptedFile: (data, fileName, mimeType) => {
+    const blob = new Blob([data], { type: mimeType });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   },
 };
 

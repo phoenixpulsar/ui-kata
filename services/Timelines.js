@@ -183,6 +183,7 @@ const Timelines = {
         ".password-ctrls",
         {
           opacity: 1,
+          display: "block",
           visibility: "visible",
           onComplete: () => {
             passwordInput.focus();

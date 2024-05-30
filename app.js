@@ -112,9 +112,12 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     } else {
       if (event.target.value === passwordToConfirm) {
-        Timelines.showEncryptBtn.play();
-        currentStep = "ENCRYPT";
-        // processFile(uploadedFile, passwordToConfirm);
+        if (encryptionMode === "DECRYPT_FILE") {
+          processDecryptFile(uploadedFile, passwordToConfirm);
+        } else {
+          Timelines.showEncryptBtn.play();
+          currentStep = "ENCRYPT";
+        }
       }
     }
   });
@@ -226,7 +229,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // can't use "on" use addEventListener on svg element
   $("#back-svg-icon").addEventListener("click", function (e) {
-    console.log("Current Step", currentStep);
     e.preventDefault();
     if (currentStep === "CONFIRM") {
       console.log("NEXT STEP", "PASSWORD");
@@ -235,7 +237,6 @@ window.addEventListener("DOMContentLoaded", () => {
         $("#confirm-password-input").value = "";
       });
     } else if (currentStep === "ENCRYPT") {
-      console.log("NEXT STEP", "CONFIRM");
       currentStep = "CONFIRM";
       Timelines.showEncryptBtn.reverse();
     } else {
@@ -289,7 +290,8 @@ window.addEventListener("DOMContentLoaded", () => {
           "resumeEncrypted2",
           "application/pdf"
         );
-        console.log("Encrypted file:", base64String);
+
+        console.log("Encrypted file Success:");
 
         downloadBase64AsFile(
           base64String,
@@ -302,6 +304,19 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     };
     reader.readAsArrayBuffer(file);
+  }
+
+  async function processDecryptFile(uploadedFile, password) {
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      const base64String = event.target.result.split(",")[1]; // Extract base64 content
+      try {
+        await EncryptionAPI.decryptFileData(base64String, password);
+      } catch (error) {
+        console.error("Error decrypting file:", error);
+      }
+    };
+    reader.readAsDataURL(uploadedFile);
   }
 
   function reverseFileUpload() {
@@ -350,6 +365,7 @@ window.addEventListener("DOMContentLoaded", () => {
       Timelines.startEncryptionLabels.pause();
       if (result) {
         currentStep = "ENCRYPTED";
+        processFile(uploadedFile, passwordToConfirm);
         Timelines.encryptionSuccess.play();
       } else {
         currentStep = "FAIL";

@@ -195,12 +195,21 @@
   transform: translate(-50%, -50%);
 }
 
+@media (max-width: 600px) {
+  #file-name-display {
+    top: 4%;
+  }  
+}
+
 .password-ctrls {
   position: absolute;
   width: 90vw;
-  left:50%;
-  top: 55%;
-  transform: translate(-50%, -50%);
+  // padding-top: 10rem;
+  left:0;
+  top: 50%;
+  // transform: translate(-50%, -50%);
+  display: none;
+  // outline: 1px solid orange;
 }
 
 .password-ctrls-inner-grid {
@@ -210,7 +219,7 @@
     "password-input"
     "password-mssg"
     "password-btn";
-    grid-template-rows: auto auto minmax(0, auto) auto;
+    grid-template-rows: minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto);
 }
 
 #password-label {
