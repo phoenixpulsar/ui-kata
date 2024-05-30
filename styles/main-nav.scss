@@ -5,6 +5,7 @@
   
 .main-nav ul {
   display: flex;
+  position: relative;
   gap: 2rem;
   align-items: center;
   flex-flow: row nowrap;
@@ -25,6 +26,15 @@
   width: 100px;
   margin-top: 1rem;
 }
+
+.ordo-one-version {
+  position: absolute;
+  top: 47px;
+  left: 184px;
+  font-size: x-small;
+  color: var(--pink);
+}
+
 
 .install-container {
   text-align: right;
