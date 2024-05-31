@@ -75,6 +75,7 @@ window.addEventListener("DOMContentLoaded", () => {
       ".terms-container",
       ".about-container",
       ".contact-container",
+      ".privacy-container",
     ],
     {
       opacity: 0,
@@ -220,6 +221,16 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#close-contact").on("click", (e) => {
     e.preventDefault();
     Timelines.openContactPanel.reverse();
+  });
+
+  $("#open-privacy").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openPrivacyPanel.play();
+  });
+
+  $("#close-privacy").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openPrivacyPanel.reverse();
   });
 
   $("#sign-out-btn").on("click", (e) => {

@@ -470,6 +470,28 @@ const Timelines = {
 
     return tl;
   })(),
+  openPrivacyPanel: (() => {
+    let tl = gsap.timeline({ paused: true });
+
+    tl.fromTo(
+      ".privacy-container",
+      {
+        opacity: 0,
+        visibility: "hidden",
+      },
+      {
+        opacity: 1,
+        visibility: "visible",
+        x: "-90vw",
+        ease: "sine.out",
+        duration: 1,
+      }
+    );
+
+    tl.timeScale(1.5);
+
+    return tl;
+  })(),
   startEncryptionLabels: (() => {
     let tl = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
 

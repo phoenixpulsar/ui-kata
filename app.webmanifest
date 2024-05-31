@@ -1,0 +1,16 @@
+{
+  "name": "Ordo One App",
+  "short_name": "Ordo One",
+  "start_url": "./",
+  "orientation": "all",
+  "theme_color": "#e4007c",
+  "scope": "./",
+  "display": "standalone",
+  "icons": [
+    {
+        "src": "icons/01.png",
+        "sizes": "512x512",
+        "type:  image/png"
+    }
+  ]
+}
