@@ -108,3 +108,11 @@ button {
   height: 0;
   width: 0;
 }
+
+// TODO add this for PWA safe area IOS
+.container {
+  margin: env(safe-area-inset-top) 
+          env(safe-area-inset-right) 
+          env(safe-area-inset-bottom) 
+          env(safe-area-inset-left) !important;
+}
