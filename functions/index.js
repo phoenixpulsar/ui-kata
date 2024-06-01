@@ -2,6 +2,7 @@ const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
+const { beforeUserCreated } = require("firebase-functions/v2/identity");
 
 initializeApp();
 
@@ -20,10 +21,10 @@ const publicKey = fs.readFileSync("../public_key.pem", "utf-8");
 // ========================================
 // Generate Token Server Side Firebase fn()
 // ========================================
-exports.generateToken = onRequest(async (req, res) => {
-  //   const userId = req.user.id; // Assuming you have the user's ID from the request context
-  const tokenId = uuidv4(); // Generate a unique token ID
-  const createdAt = Date.now(); // Token expires in 1 hour
+
+const generateToken = async () => {
+  const tokenId = uuidv4();
+  const createdAt = Date.now();
 
   // Create data to sign
   const dataToSign = JSON.stringify({
@@ -31,34 +32,21 @@ exports.generateToken = onRequest(async (req, res) => {
     createdAt,
   });
 
-  try {
-    // Create a signer object
-    const sign = crypto.createSign("SHA256");
-    sign.update(dataToSign); // Use dataToSign
-    sign.end();
+  // Create a signer object
+  const sign = crypto.createSign("SHA256");
+  sign.update(dataToSign); // Use dataToSign
+  sign.end();
 
-    // Sign the data
-    const signature = sign.sign(privateKey, "base64");
+  // Sign the data
+  const signature = sign.sign(privateKey, "base64");
 
-    const token = {
-      data: dataToSign,
-      signature: signature,
-    };
+  const token = {
+    data: dataToSign,
+    signature: signature,
+  };
 
-    const writeResult = await getFirestore()
-      .collection("tokens")
-      .add({ token: token });
-
-    // Send back a message that we've successfully written the message
-    res.json({
-      result: `Message with ID: ${writeResult.id} added.`,
-      token: token,
-    });
-  } catch (error) {
-    console.error("Error signing or verifying the token:", error);
-    res.status(500).json({ error: "Failed to generate or verify token" });
-  }
-});
+  return token;
+};
 
 // =============================
 // Verify Token Server Side
@@ -84,21 +72,32 @@ exports.verifyToken = onRequest(async (req, res) => {
   }
 });
 
-// ===============================
-// Generate Initial TOKENS for APP
-// ===============================
+// =============================
+// Add tokens on signup
+// =============================
+exports.addOnSignUpTokens = onRequest(async (req, res) => {
+  const user = req.body.user;
 
-exports.createCustomerInitialTokens = functios.auth
-  .user()
-  .onCreate(async (user) => {
-    const tokens = [];
-    for (let i = 0; i < 10; i++) {
-      const token = await generateToken();
-      tokens.push(token);
-    }
+  if (!user || !user.uid) {
+    return res.status(400).json({ error: "Invalid user data" });
+  }
 
-    await admin.firestore().collection("customer_tokens").doc(user.uid).set({
+  const tokens = [];
+  for (let i = 0; i < 10; i++) {
+    const token = await generateToken();
+    tokens.push(token);
+  }
+
+  try {
+    await getFirestore().collection("customer_tokens").doc(user.uid).set({
       tokens: tokens,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
     });
-  });
+
+    res
+      .status(200)
+      .json({ message: `Added user tokens on signup: ${user.uid}.` });
+  } catch (error) {
+    console.error("Error creating init tokens:", error);
+    res.status(500).json({ error: "Failed to create initial tokens" });
+  }
+});
