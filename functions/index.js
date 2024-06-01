@@ -2,7 +2,9 @@ const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
-const { beforeUserCreated } = require("firebase-functions/v2/identity");
+
+// for local dev
+require("dotenv").config();
 
 initializeApp();
 
@@ -15,13 +17,14 @@ exports.helloWorld = onRequest((request, response) => {
   response.send("Hello from Firebase!");
 });
 
-const privateKey = fs.readFileSync("private_key.pem", "utf-8");
-const publicKey = fs.readFileSync("../public_key.pem", "utf-8");
+const privateKeyBase64 = process.env.PRIVATE_KEY;
+const publicKeyBase64 = process.env.PUBLIC_KEY;
+const privateKey = Buffer.from(privateKeyBase64, "base64").toString("utf-8");
+const publicKey = Buffer.from(publicKeyBase64, "base64").toString("utf-8");
 
 // ========================================
 // Generate Token Server Side Firebase fn()
 // ========================================
-
 const generateToken = async () => {
   const tokenId = uuidv4();
   const createdAt = Date.now();
