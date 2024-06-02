@@ -27,17 +27,49 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentStep = "INIT";
   let encryptionMode = "ENCRYPT_FILE";
 
-  onAuthStateChanged(auth, (user) => {
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) {
+  //     // User is signed in, see docs for a list of available properties
+  //     // https://firebase.google.com/docs/reference/js/auth.user
+  //     const uid = user.uid;
+  //     currentUser = user.email;
+  //     Timelines.userLoggedIn.restart();
+  //     $("#user-email").textContent = `Welcome, ${currentUser}`;
+  //   } else {
+  //     console.log("no user signed in");
+  //     $("#user-email").textContent = ``;
+  //     Timelines.userLoggedOut.restart();
+  //   }
+  // });
+
+  onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
+      // User is signed in
       const uid = user.uid;
       currentUser = user.email;
       Timelines.userLoggedIn.restart();
-      $("#user-email").textContent = `Welcome, ${currentUser}`;
+      document.getElementById(
+        "user-email"
+      ).textContent = `Welcome, ${currentUser}`;
+
+      try {
+        const docRef = doc(db, "customer_tokens", uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const tokens = docSnap.data().tokens;
+          console.log("Tokens:", tokens);
+          // You can now use the tokens as needed
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error getting document:", error);
+      }
     } else {
-      console.log("no user signed in");
-      $("#user-email").textContent = ``;
+      // No user is signed in
+      console.log("No user signed in");
+      document.getElementById("user-email").textContent = ``;
       Timelines.userLoggedOut.restart();
     }
   });
