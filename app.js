@@ -175,8 +175,7 @@ window.addEventListener("DOMContentLoaded", () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("user", user);
-
-        fetch("http://127.0.0.1:5002/ordo-one/us-central1/addOnSignUpTokens", {
+        fetch("https://addonsignuptokens-h5q4nbdnia-uc.a.run.app", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

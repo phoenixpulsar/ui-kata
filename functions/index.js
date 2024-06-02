@@ -1,19 +1,17 @@
-const { onRequest } = require("firebase-functions/v2/https");
+const {onRequest} = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
-const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const {initializeApp} = require("firebase-admin/app");
+const {getFirestore} = require("firebase-admin/firestore");
 
-// for local dev
 require("dotenv").config();
 
 initializeApp();
 
-const fs = require("fs");
 const crypto = require("crypto");
-const { v4: uuidv4 } = require("uuid");
+const {v4: uuidv4} = require("uuid");
 
 exports.helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", { structuredData: true });
+  logger.info("Hello logs!", {structuredData: true});
   response.send("Hello from Firebase!");
 });
 
@@ -65,13 +63,13 @@ exports.verifyToken = onRequest(async (req, res) => {
     const isValid = verify.verify(publicKey, token.signature, "base64");
 
     if (isValid) {
-      res.json({ isValid: true, message: "Token is valid" });
+      res.json({isValid: true, message: "Token is valid"});
     } else {
-      res.status(400).json({ isValid: false, message: "Invalid token" });
+      res.status(400).json({isValid: false, message: "Invalid token"});
     }
   } catch (error) {
     console.error("Error verifying the token:", error);
-    res.status(500).json({ error: "Failed to verify token" });
+    res.status(500).json({error: "Failed to verify token"});
   }
 });
 
@@ -82,7 +80,7 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
   const user = req.body.user;
 
   if (!user || !user.uid) {
-    return res.status(400).json({ error: "Invalid user data" });
+    return res.status(400).json({error: "Invalid user data"});
   }
 
   const tokens = [];
@@ -97,10 +95,10 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
     });
 
     res
-      .status(200)
-      .json({ message: `Added user tokens on signup: ${user.uid}.` });
+        .status(200)
+        .json({message: `Added user tokens on signup: ${user.uid}.`});
   } catch (error) {
     console.error("Error creating init tokens:", error);
-    res.status(500).json({ error: "Failed to create initial tokens" });
+    res.status(500).json({error: "Failed to create initial tokens"});
   }
 });

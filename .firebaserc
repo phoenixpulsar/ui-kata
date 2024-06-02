@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "ordo-one"
-  }
+    "default": "ordo-one-app",
+    "prod": "ordo-one-app"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
