@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Module Globals
   let currentUser = null;
-  let currentUserId = null;
+  let wholeUser = null;
   let passwordToConfirm = "";
   let uploadedFile = null;
   let currentStep = "INIT";
@@ -49,7 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (user) {
       // User is signed in
       const uid = user.uid;
-      currentUserId = uid;
+      wholeUser = user;
       currentUser = user.email;
       Timelines.userLoggedIn.restart();
       document.getElementById(
@@ -308,7 +308,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#install-btn").on("click", (e) => {
     e.preventDefault();
-    addTokens(currentUserId);
+    console.log(wholeUser);
+    addTokens(wholeUser);
   });
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {

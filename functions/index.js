@@ -105,14 +105,18 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
         tokens: tokens,
       });
 
-      res
-        .status(200)
-        .json({
-          message: `Added user tokens on signup and pubkey: ${user.uid}, ${publicKeyBase64}.`,
-        });
+      res.status(200).json({
+        message: `Added user tokens on signup and pubkey: ${user.uid}, 
+            ${publicKeyBase64}.`,
+      });
     } catch (error) {
       console.error("Error creating init tokens:", error);
-      res.status(500).json({ error: "Failed to create initial tokens" });
+      res
+        .status(500)
+        .json({
+          error: "Failed to create initial tokens",
+          details: error.message,
+        });
     }
   });
 });
