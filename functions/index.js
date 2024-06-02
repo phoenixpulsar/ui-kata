@@ -1,17 +1,25 @@
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 const logger = require("firebase-functions/logger");
-const {initializeApp} = require("firebase-admin/app");
-const {getFirestore} = require("firebase-admin/firestore");
+const { initializeApp } = require("firebase-admin/app");
+const cors = require("cors");
+const { getFirestore } = require("firebase-admin/firestore");
 
 require("dotenv").config();
 
 initializeApp();
 
+const corsHandler = cors({
+  origin: ["https://ordo-one-app.web.app", "http://localhost:5173"],
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true,
+});
+
 const crypto = require("crypto");
-const {v4: uuidv4} = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 exports.helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
+  logger.info("Hello logs!", { structuredData: true });
   response.send("Hello from Firebase!");
 });
 
@@ -53,52 +61,57 @@ const generateToken = async () => {
 // Verify Token Server Side
 // =============================
 exports.verifyToken = onRequest(async (req, res) => {
-  const token = req.body.token;
+  corsHandler(req, res, async () => {
+    const token = req.body.token;
 
-  try {
-    // Create a verifier object
-    const verify = crypto.createVerify("SHA256");
-    verify.update(token.data); // Use token.data (which is dataToSign)
-    verify.end();
-    const isValid = verify.verify(publicKey, token.signature, "base64");
+    try {
+      // Create a verifier object
+      const verify = crypto.createVerify("SHA256");
+      verify.update(token.data); // Use token.data (which is dataToSign)
+      verify.end();
+      const isValid = verify.verify(publicKey, token.signature, "base64");
 
-    if (isValid) {
-      res.json({isValid: true, message: "Token is valid"});
-    } else {
-      res.status(400).json({isValid: false, message: "Invalid token"});
+      if (isValid) {
+        res.json({ isValid: true, message: "Token is valid" });
+      } else {
+        res.status(400).json({ isValid: false, message: "Invalid token" });
+      }
+    } catch (error) {
+      console.error("Error verifying the token:", error);
+      res.status(500).json({ error: "Failed to verify token" });
     }
-  } catch (error) {
-    console.error("Error verifying the token:", error);
-    res.status(500).json({error: "Failed to verify token"});
-  }
+  });
 });
 
 // =============================
 // Add tokens on signup
 // =============================
 exports.addOnSignUpTokens = onRequest(async (req, res) => {
-  const user = req.body.user;
+  corsHandler(req, res, async () => {
+    const user = req.body.user;
 
-  if (!user || !user.uid) {
-    return res.status(400).json({error: "Invalid user data"});
-  }
+    if (!user || !user.uid) {
+      return res.status(400).json({ error: "Invalid user data" });
+    }
 
-  const tokens = [];
-  for (let i = 0; i < 10; i++) {
-    const token = await generateToken();
-    tokens.push(token);
-  }
+    const tokens = [];
+    try {
+      for (let i = 0; i < 10; i++) {
+        const token = await generateToken();
+        tokens.push(token);
+      }
 
-  try {
-    await getFirestore().collection("customer_tokens").doc(user.uid).set({
-      tokens: tokens,
-    });
+      await admin.firestore().collection("customer_tokens").doc(user.uid).set({
+        tokens: tokens,
+        createdAt: FieldValue.serverTimestamp(),
+      });
 
-    res
+      res
         .status(200)
-        .json({message: `Added user tokens on signup: ${user.uid}.`});
-  } catch (error) {
-    console.error("Error creating init tokens:", error);
-    res.status(500).json({error: "Failed to create initial tokens"});
-  }
+        .json({ message: `Added user tokens on signup: ${user.uid}.` });
+    } catch (error) {
+      console.error("Error creating init tokens:", error);
+      res.status(500).json({ error: "Failed to create initial tokens" });
+    }
+  });
 });
