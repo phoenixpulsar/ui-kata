@@ -101,14 +101,15 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
         tokens.push(token);
       }
 
-      await admin.firestore().collection("customer_tokens").doc(user.uid).set({
+      await getFirestore.collection("customer_tokens").doc(user.uid).set({
         tokens: tokens,
-        createdAt: FieldValue.serverTimestamp(),
       });
 
       res
         .status(200)
-        .json({ message: `Added user tokens on signup: ${user.uid}.` });
+        .json({
+          message: `Added user tokens on signup and pubkey: ${user.uid}, ${publicKeyBase64}.`,
+        });
     } catch (error) {
       console.error("Error creating init tokens:", error);
       res.status(500).json({ error: "Failed to create initial tokens" });
