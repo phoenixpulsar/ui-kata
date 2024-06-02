@@ -101,7 +101,7 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
         tokens.push(token);
       }
 
-      await getFirestore.collection("customer_tokens").doc(user.uid).set({
+      await getFirestore().collection("customer_tokens").doc(user.uid).set({
         tokens: tokens,
       });
 
@@ -111,12 +111,10 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
       });
     } catch (error) {
       console.error("Error creating init tokens:", error);
-      res
-        .status(500)
-        .json({
-          error: "Failed to create initial tokens",
-          details: error.message,
-        });
+      res.status(500).json({
+        error: "Failed to create initial tokens",
+        details: error.message,
+      });
     }
   });
 });
