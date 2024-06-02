@@ -2,12 +2,14 @@ import Store from "./services/Store.js";
 import Timelines from "./services/Timelines.js";
 import EncryptionAPI from "./services/EncryptionAPI";
 import { gsap } from "gsap";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
+import { doc, getDoc } from "firebase/firestore";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -22,6 +24,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Module Globals
   let currentUser = null;
+  let currentUserId = null;
   let passwordToConfirm = "";
   let uploadedFile = null;
   let currentStep = "INIT";
@@ -46,6 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (user) {
       // User is signed in
       const uid = user.uid;
+      currentUserId = uid;
       currentUser = user.email;
       Timelines.userLoggedIn.restart();
       document.getElementById(
@@ -53,6 +57,7 @@ window.addEventListener("DOMContentLoaded", () => {
       ).textContent = `Welcome, ${currentUser}`;
 
       try {
+        console.log("hereeee");
         const docRef = doc(db, "customer_tokens", uid);
         const docSnap = await getDoc(docRef);
 
@@ -301,6 +306,11 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  $("#install-btn").on("click", (e) => {
+    e.preventDefault();
+    addTokens(currentUserId);
+  });
+
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
     // Create a Blob from the base64 string
     const binaryString = atob(base64String);
@@ -458,6 +468,30 @@ window.addEventListener("DOMContentLoaded", () => {
       fileName,
       fileExtension,
     };
+  }
+
+  async function addTokens(user) {
+    try {
+      const response = await fetch(
+        "https://addonsignuptokens-h5q4nbdnia-uc.a.run.app",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user: { uid: user.uid } }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   const token = {
