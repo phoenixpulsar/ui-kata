@@ -27,12 +27,53 @@
   margin-top: 1rem;
 }
 
+// little pink Beta mssg top left
 .ordo-one-version {
   position: absolute;
   top: 47px;
   left: 184px;
   font-size: x-small;
   color: var(--pink);
+}
+
+#open-login{
+  transition-duration: 0.7s;
+  transition-property: transform;
+  
+  &:hover {
+    cursor: pointer;
+
+    #log-in-svg {
+      transform: translateX(4%);
+      transition: transform 0.3s;
+    }
+  }
+}
+
+#log-in-svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#log-out-svg {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#token-svg{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#person-sensor-svg {
+  margin-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#closer-svg {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 

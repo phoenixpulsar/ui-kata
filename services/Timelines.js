@@ -51,24 +51,19 @@ const Timelines = {
       {
         opacity: 0,
         visibility: "hidden",
+        duration: 0.3,
         display: "none",
       },
       "begin"
-    )
-      .to("#user-email", {
+    ).to(
+      "#user-profile",
+      {
         opacity: 1,
         visibility: "visible",
         display: "block",
-      })
-      .to(
-        "#sign-out-btn",
-        {
-          opacity: 1,
-          visibility: "visible",
-          display: "block",
-        },
-        "begin"
-      );
+      },
+      "begin"
+    );
     return tl;
   })(),
   userLoggedOut: (() => {
@@ -82,25 +77,16 @@ const Timelines = {
         display: "block",
       },
       "begin"
-    )
-      .to(
-        "#user-email",
-        {
-          opacity: 0,
-          visibility: "hidden",
-          display: "none",
-        },
-        "begin"
-      )
-      .to(
-        "#sign-out-btn",
-        {
-          opacity: 0,
-          display: "none",
-          visibility: "hidden",
-        },
-        "begin"
-      );
+    ).to(
+      "#user-profile",
+      {
+        opacity: 0,
+        visibility: "hidden",
+        display: "none",
+      },
+      "begin"
+    );
+
     return tl;
   })(),
   modeSwitchToggle: (() => {
@@ -352,6 +338,7 @@ const Timelines = {
 
     return tl;
   })(),
+
   openLoginPanel: (() => {
     let tl = gsap.timeline({ paused: true });
     let emailInput = document.querySelector("#login-email-input");
@@ -397,6 +384,28 @@ const Timelines = {
         onComplete: () => {
           emailInput.focus();
         },
+      }
+    );
+
+    tl.timeScale(1.5);
+
+    return tl;
+  })(),
+  openProfilePanel: (() => {
+    let tl = gsap.timeline({ paused: true });
+
+    tl.fromTo(
+      ".profile-container",
+      {
+        opacity: 0,
+        visibility: "hidden",
+      },
+      {
+        opacity: 1,
+        visibility: "visible",
+        x: "-45vw",
+        ease: "sine.out",
+        duration: 1,
       }
     );
 

@@ -1,0 +1,55 @@
+// =================
+// Profile
+// =================
+
+.profile-container {
+	position: absolute;
+	top: 0;
+	height: 90vh;
+	width: 25vw;
+	left:120vw; //move right until open
+	background-color: var(--gray90);
+}
+
+.profile-container ul {
+	display: flex;
+	gap: 2rem;
+	flex-flow: column;
+	font-size: larger;
+	list-style-type: none;
+	
+
+	li {
+		cursor: pointer;
+	}
+
+}
+
+#sign-out-btn{
+	transition-duration: 0.7s;
+  transition-property: transform;
+	&:hover {
+   
+    #log-out-svg {
+      transform: translateX(4%);
+      transition: transform 0.3s;
+    }
+  }
+}
+
+
+#profile-header {
+	padding-left: 1rem;
+}
+
+.profile-ctrls{
+	display: flex;
+	justify-content: end;
+}
+
+#close-profile{
+	margin: 0.3rem;
+}
+  
+ 
+  

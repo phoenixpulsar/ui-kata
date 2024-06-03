@@ -52,9 +52,6 @@ window.addEventListener("DOMContentLoaded", () => {
       wholeUser = user;
       currentUser = user.email;
       Timelines.userLoggedIn.restart();
-      document.getElementById(
-        "user-email"
-      ).textContent = `Welcome, ${currentUser}`;
 
       try {
         console.log("hereeee");
@@ -74,14 +71,13 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       // No user is signed in
       console.log("No user signed in");
-      document.getElementById("user-email").textContent = ``;
       Timelines.userLoggedOut.restart();
     }
   });
 
   gsap.set(
     [
-      "#sign-out-btn",
+      "#user-profile",
       "#close-svg",
       ".password-ctrls",
       "#confirm-password-label",
@@ -93,7 +89,6 @@ window.addEventListener("DOMContentLoaded", () => {
       "#encrypt-btn",
       ".encrypt-complete-dialog",
       ".encrypt-error-dialog",
-      ".login-container",
       "#back-svg-icon",
       "#file-name-display",
       "#start-svg",
@@ -108,6 +103,8 @@ window.addEventListener("DOMContentLoaded", () => {
       "#star-shield-svg",
       "#check-shield-svg",
       "#done-svg",
+      ".login-container",
+      ".profile-container",
       ".sign-up-container",
       ".terms-container",
       ".about-container",
@@ -165,6 +162,11 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.startEncryptionLabels.play();
     runRandomOutcome();
     currentStep = "ENCRYPTING";
+  });
+
+  $("#user-profile").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openProfilePanel.play();
   });
 
   $("#open-login").on("click", (e) => {
@@ -287,6 +289,12 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#sign-out-btn").on("click", (e) => {
     e.preventDefault();
     auth.signOut();
+    Timelines.openProfilePanel.reverse();
+  });
+
+  $("#close-profile").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openProfilePanel.reverse();
   });
 
   // can't use "on" use addEventListener on svg element
