@@ -18,5 +18,7 @@
 - add information on
 - market it more as an informational learning place
 - add roadmap to webpage - open source fns used to encrypt decrypt if as a community we can make these easier to use and harder to misuse - larger files - share encryption - cloud storage - cache layer to not lose your file when you go to the payment gateway
+  on encrypted allow to download instead of automatic download
+  figure out a way to get out of encrupted get back to home, add a reset all on ordo one
 
 - add contact form (check captcha) - save it firebase - use a fn to trigger an email

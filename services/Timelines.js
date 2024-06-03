@@ -338,7 +338,27 @@ const Timelines = {
 
     return tl;
   })(),
+  openCheckoutPanel: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.fromTo(
+      ".checkout-container",
+      {
+        opacity: 0,
+        visibility: "hidden",
+      },
+      {
+        opacity: 1,
+        visibility: "visible",
+        x: "-90vw",
+        ease: "sine.out",
+        duration: 1,
+      }
+    );
 
+    tl.timeScale(1.5);
+
+    return tl;
+  })(),
   openLoginPanel: (() => {
     let tl = gsap.timeline({ paused: true });
     let emailInput = document.querySelector("#login-email-input");

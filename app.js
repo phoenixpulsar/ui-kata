@@ -105,6 +105,7 @@ window.addEventListener("DOMContentLoaded", () => {
       "#done-svg",
       ".login-container",
       ".profile-container",
+      ".checkout-container",
       ".sign-up-container",
       ".terms-container",
       ".about-container",
@@ -251,6 +252,12 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openTermsPanel.play();
   });
 
+  $("#open-checkout").on("click", (e) => {
+    console.log("checkout");
+    e.preventDefault();
+    Timelines.openCheckoutPanel.play();
+  });
+
   $("#close-terms").on("click", (e) => {
     e.preventDefault();
     Timelines.openTermsPanel.reverse();
@@ -284,6 +291,11 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#close-privacy").on("click", (e) => {
     e.preventDefault();
     Timelines.openPrivacyPanel.reverse();
+  });
+
+  $("#close-checkout").on("click", (e) => {
+    e.preventDefault();
+    Timelines.openCheckoutPanel.reverse();
   });
 
   $("#sign-out-btn").on("click", (e) => {
