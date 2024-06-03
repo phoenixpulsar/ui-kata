@@ -9,18 +9,25 @@
 	width: 25vw;
 	left:120vw; //move right until open
 	background-color: var(--gray90);
+	box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.35);
 }
 
 .profile-container ul {
 	display: flex;
-	gap: 2rem;
+	gap: 1rem;
 	flex-flow: column;
 	font-size: larger;
 	list-style-type: none;
+	margin: 0;
+	padding: .5rem;
 	
 
 	li {
 		cursor: pointer;
+		padding: .5rem;
+		&:hover {
+			background-color: var(--gray100);
+		}
 	}
 
 }
