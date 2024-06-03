@@ -11,6 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <script src="app.js" type="module" defer></script>   
     <script src="/firebase.js" type="module" defer></script> 
+
+    <!-- Always load Stripe.js from js.stripe.com to remain PCI compliant. Don’t include the script in a bundle or host it yourself. -->
     <script src="https://js.stripe.com/v3/" defer></script>
     <!-- <script src="/sw-register.js"></script>  -->
     <title>Ordo One Encryption App</title>
@@ -174,6 +176,9 @@
               <button id="close-checkout" class="close-panel-btn">Close</button>
             </div>
             <h1 id="checkout-header">Checkout</h1>
+            <div id="checkout">
+              <!-- Checkout will insert the payment form here -->
+            </div>
           </div>
 
           
