@@ -10,7 +10,6 @@ import {
 } from "firebase/auth";
 
 import { doc, getDoc } from "firebase/firestore";
-import initializeCheckout from "./checkout.js";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -256,7 +255,8 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#open-checkout").on("click", (e) => {
     console.log("checkout");
     e.preventDefault();
-    initializeCheckout();
+    startStripeSession();
+
     Timelines.openCheckoutPanel.play();
   });
 
@@ -491,6 +491,29 @@ window.addEventListener("DOMContentLoaded", () => {
       fileName,
       fileExtension,
     };
+  }
+
+  async function startStripeSession() {
+    try {
+      const response = await fetch(
+        "https://createcheckout-h5q4nbdnia-uc.a.run.app",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   async function addTokens(user) {
