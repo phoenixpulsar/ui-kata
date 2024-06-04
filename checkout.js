@@ -4,11 +4,14 @@ const stripe = Stripe(
 );
 
 // Create a Checkout Session
-export async function initializeCheckout() {
+async function initializeCheckout() {
   const fetchClientSecret = async () => {
-    const response = await fetch("/create-checkout-session", {
-      method: "POST",
-    });
+    const response = await fetch(
+      "https://createcheckoutsession-h5q4nbdnia-uc.a.run.app",
+      {
+        method: "POST",
+      }
+    );
     const { clientSecret } = await response.json();
     return clientSecret;
   };
@@ -20,3 +23,5 @@ export async function initializeCheckout() {
   // Mount Checkout
   checkout.mount("#checkout");
 }
+
+export default initializeCheckout;

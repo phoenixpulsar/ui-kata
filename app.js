@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 
 import { doc, getDoc } from "firebase/firestore";
+import initializeCheckout from "./checkout.js";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -255,6 +256,7 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#open-checkout").on("click", (e) => {
     console.log("checkout");
     e.preventDefault();
+    initializeCheckout();
     Timelines.openCheckoutPanel.play();
   });
 
