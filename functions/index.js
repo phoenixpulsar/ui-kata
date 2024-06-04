@@ -1,12 +1,11 @@
-const { onRequest } = require("firebase-functions/v2/https");
+require("dotenv").config();
 const { initializeApp } = require("firebase-admin/app");
+const { onRequest } = require("firebase-functions/v2/https");
 const cors = require("cors");
 const { getFirestore } = require("firebase-admin/firestore");
 const stripe = require("stripe")(
   "sk_test_51PIL7VKpOcGnLnRbXHBcqUF8SonQelhHAJyS2ExSvk8UCsPTyCcc8mWdr1U4kv9Ic1wQzcaU9Qpt1D5MKo4TSF2W008GSuLK3Z"
 );
-
-require("dotenv").config();
 
 initializeApp();
 
@@ -116,15 +115,21 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
   });
 });
 
-exports.createCheckout = onRequest((req, res) => {
-  cors(req, res, async () => {
+// =============================
+// Create Stripe Checkout Session
+// =============================
+exports.createCheckout = onRequest(async (req, res) => {
+  corsHandler(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.create({
         line_items: [
           {
-            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
             price: "price_1PILWJKpOcGnLnRbgRa6EtNp",
-            quantity: 1,
+            quantity: 10,
+            adjustable_quantity: {
+              enabled: true,
+              minimum: 1,
+            },
           },
         ],
         mode: "payment",
@@ -133,58 +138,10 @@ exports.createCheckout = onRequest((req, res) => {
         automatic_tax: { enabled: true },
       });
 
-      res.redirect(303, session.url);
+      res.status(200).send({ url: session.url });
     } catch (error) {
       console.error("Error creating checkout session:", error);
       res.status(500).send({ error: "Failed to create checkout session" });
     }
   });
 });
-
-// =============================
-// Create Checkout Session
-// =============================
-// exports.createCheckoutSession = onRequest(async (req, res) => {
-//   cors(req, res, async () => {
-//     try {
-//       const session = await stripe.checkout.sessions.create({
-//         ui_mode: "embedded",
-//         line_items: [
-//           {
-//             price: "price_1PILWJKpOcGnLnRbgRa6EtNp",
-//             quantity: 1,
-//           },
-//         ],
-//         mode: "payment",
-//         return_url: `${LOCAL_DOMAIN}/return.html?session_id={CHECKOUT_SESSION_ID}`,
-//         automatic_tax: {enabled: true},
-//       });
-
-//       res.json({clientSecret: session.client_secret});
-//     } catch (error) {
-//       console.error("Error creating checkout session:", error);
-//       res.status(500).send({error: "Failed to create checkout session"});
-//     }
-//   });
-// });
-
-// =============================
-// Create Checkout Session
-// =============================
-// exports.getSessionStatus = onRequest(async (req, res) => {
-//   cors(req, res, async () => {
-//     try {
-//       const session = await stripe.checkout.sessions.retrieve(
-//           req.query.session_id,
-//       );
-
-//       res.json({
-//         status: session.status,
-//         customer_email: session.customer_details.email,
-//       });
-//     } catch (error) {
-//       console.error("Error getting session Status:", error);
-//       res.status(500).send({error: "Failed to get session status"});
-//     }
-//   });
-// });

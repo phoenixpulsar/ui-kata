@@ -13,6 +13,52 @@ import { doc, getDoc } from "firebase/firestore";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
+  const successUrl = "http://localhost:5173/success.html";
+  const cancelUrl = "http://localhost:5173/cancel.html";
+
+  function handleNavigation(event) {
+    console.log("e navigation");
+    // Check if the URL matches the success or cancel URL
+    if (window.location.href === successUrl) {
+      // Handle success URL navigation
+      console.log("User navigated to success page");
+      // Add your code to handle success
+
+      // Remove success.html from the URL
+      window.history.replaceState({}, document.title, "/");
+    } else if (window.location.href === cancelUrl) {
+      // Handle cancel URL navigation
+      console.log("User navigated to cancel page");
+      // Add your code to handle cancel
+
+      // Remove cancel.html from the URL
+      window.history.replaceState({}, document.title, "/");
+    }
+  }
+
+  // Override history.pushState and history.replaceState to trigger custom event
+  const originalPushState = history.pushState;
+  const originalReplaceState = history.replaceState;
+
+  history.pushState = function (state, title, url) {
+    const result = originalPushState.apply(this, arguments);
+    window.dispatchEvent(new Event("pushstate"));
+    window.dispatchEvent(new Event("locationchange"));
+    return result;
+  };
+
+  history.replaceState = function (state, title, url) {
+    const result = originalReplaceState.apply(this, arguments);
+    window.dispatchEvent(new Event("replacestate"));
+    window.dispatchEvent(new Event("locationchange"));
+    return result;
+  };
+
+  window.addEventListener("popstate", handleNavigation);
+  window.addEventListener("locationchange", handleNavigation);
+
+  // Initial check if already on the target page
+  handleNavigation();
   // Init
   const $ = (selector) => document.querySelector(selector);
   HTMLElement.prototype.on = function (a, b, c) {
@@ -257,7 +303,7 @@ window.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     startStripeSession();
 
-    Timelines.openCheckoutPanel.play();
+    // Timelines.openCheckoutPanel.play();
   });
 
   $("#close-terms").on("click", (e) => {
@@ -493,15 +539,29 @@ window.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  async function testExpressApi() {
+    try {
+      const response = await fetch("https://ordo-api.vercel.app/yo", {
+        method: "GET",
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   async function startStripeSession() {
     try {
       const response = await fetch(
         "https://createcheckout-h5q4nbdnia-uc.a.run.app",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
         }
       );
 
@@ -510,6 +570,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
 
       const data = await response.json();
+      window.location = data.url;
       console.log("Success:", data);
     } catch (error) {
       console.error("Error:", error);
