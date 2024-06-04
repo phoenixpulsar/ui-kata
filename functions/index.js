@@ -1,10 +1,10 @@
-const {onRequest} = require("firebase-functions/v2/https");
+const { onRequest } = require("firebase-functions/v2/https");
 // const logger = require("firebase-functions/logger");
-const {initializeApp} = require("firebase-admin/app");
+const { initializeApp } = require("firebase-admin/app");
 const cors = require("cors");
-const {getFirestore} = require("firebase-admin/firestore");
+const { getFirestore } = require("firebase-admin/firestore");
 const stripe = require("stripe")(
-    "sk_test_51PIL7VKpOcGnLnRbXHBcqUF8SonQelhHAJyS2ExSvk8UCsPTyCcc8mWdr1U4kv9Ic1wQzcaU9Qpt1D5MKo4TSF2W008GSuLK3Z",
+  "sk_test_51PIL7VKpOcGnLnRbXHBcqUF8SonQelhHAJyS2ExSvk8UCsPTyCcc8mWdr1U4kv9Ic1wQzcaU9Qpt1D5MKo4TSF2W008GSuLK3Z"
 );
 
 require("dotenv").config();
@@ -21,7 +21,7 @@ const corsHandler = cors({
 const LOCAL_DOMAIN = "http://localhost:5173";
 
 const crypto = require("crypto");
-const {v4: uuidv4} = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 const privateKeyBase64 = process.env.PRIVATE_KEY;
 const publicKeyBase64 = process.env.PUBLIC_KEY;
@@ -72,13 +72,13 @@ exports.verifyToken = onRequest(async (req, res) => {
       const isValid = verify.verify(publicKey, token.signature, "base64");
 
       if (isValid) {
-        res.json({isValid: true, message: "Token is valid"});
+        res.json({ isValid: true, message: "Token is valid" });
       } else {
-        res.status(400).json({isValid: false, message: "Invalid token"});
+        res.status(400).json({ isValid: false, message: "Invalid token" });
       }
     } catch (error) {
       console.error("Error verifying the token:", error);
-      res.status(500).json({error: "Failed to verify token"});
+      res.status(500).json({ error: "Failed to verify token" });
     }
   });
 });
@@ -91,7 +91,7 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
     const user = req.body.user;
 
     if (!user || !user.uid) {
-      return res.status(400).json({error: "Invalid user data"});
+      return res.status(400).json({ error: "Invalid user data" });
     }
 
     const tokens = [];
@@ -122,29 +122,29 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
 // =============================
 // Create Checkout Session
 // =============================
-exports.createCheckoutSession = onRequest(async (req, res) => {
-  cors(req, res, async () => {
-    try {
-      const session = await stripe.checkout.sessions.create({
-        ui_mode: "embedded",
-        line_items: [
-          {
-            price: "price_1PILWJKpOcGnLnRbgRa6EtNp",
-            quantity: 1,
-          },
-        ],
-        mode: "payment",
-        return_url: `${LOCAL_DOMAIN}/return.html?session_id={CHECKOUT_SESSION_ID}`,
-        automatic_tax: {enabled: true},
-      });
+// exports.createCheckoutSession = onRequest(async (req, res) => {
+//   cors(req, res, async () => {
+//     try {
+//       const session = await stripe.checkout.sessions.create({
+//         ui_mode: "embedded",
+//         line_items: [
+//           {
+//             price: "price_1PILWJKpOcGnLnRbgRa6EtNp",
+//             quantity: 1,
+//           },
+//         ],
+//         mode: "payment",
+//         return_url: `${LOCAL_DOMAIN}/return.html?session_id={CHECKOUT_SESSION_ID}`,
+//         automatic_tax: {enabled: true},
+//       });
 
-      res.json({clientSecret: session.client_secret});
-    } catch (error) {
-      console.error("Error creating checkout session:", error);
-      res.status(500).send({error: "Failed to create checkout session"});
-    }
-  });
-});
+//       res.json({clientSecret: session.client_secret});
+//     } catch (error) {
+//       console.error("Error creating checkout session:", error);
+//       res.status(500).send({error: "Failed to create checkout session"});
+//     }
+//   });
+// });
 
 // =============================
 // Create Checkout Session
@@ -153,7 +153,7 @@ exports.getSessionStatus = onRequest(async (req, res) => {
   cors(req, res, async () => {
     try {
       const session = await stripe.checkout.sessions.retrieve(
-          req.query.session_id,
+        req.query.session_id
       );
 
       res.json({
@@ -162,7 +162,7 @@ exports.getSessionStatus = onRequest(async (req, res) => {
       });
     } catch (error) {
       console.error("Error getting session Status:", error);
-      res.status(500).send({error: "Failed to get session status"});
+      res.status(500).send({ error: "Failed to get session status" });
     }
   });
 });
