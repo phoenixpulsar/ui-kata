@@ -117,6 +117,51 @@ exports.addOnSignUpTokens = onRequest(async (req, res) => {
 });
 
 // =============================
+// Add additional tokens bought by user
+// =============================
+exports.addTokens = onRequest(async (req, res) => {
+  corsHandler(req, res, async () => {
+    const user = req.body.user;
+    const purchasedTokens = req.body.purchasedTokens;
+    const userRef = getFirestore().collection("customer_tokens").doc(user.uid);
+
+    if (!user || !user.uid) {
+      return res.status(400).json({error: "Invalid user data"});
+    }
+
+    const newTokens = [];
+    try {
+      for (let i = 0; i < purchasedTokens; i++) {
+        const token = await generateToken();
+        newTokens.push(token);
+      }
+
+      await getFirestore().runTransaction(async (transaction) => {
+        const userDoc = await transaction.get(userRef);
+        if (!userDoc.exists) {
+          throw new Error("User doc does not exist!");
+        }
+
+        const existingTokens = userDoc.data().tokens || [];
+        const updatedTokens = existingTokens.concat(newTokens);
+
+        transaction.update(userRef, {tokens: updatedTokens});
+      });
+
+      res.status(200).json({
+        message: `Added user tokens purchased: ${user.uid}`,
+      });
+    } catch (error) {
+      console.error("Error creating init tokens:", error);
+      res.status(500).json({
+        error: "Failed to create initial tokens",
+        details: error.message,
+      });
+    }
+  });
+});
+
+// =============================
 // Create Stripe Checkout Session
 // =============================
 exports.createCheckout = onRequest(async (req, res) => {
@@ -197,10 +242,14 @@ const handleEvent = async (event) => {
     case "checkout.session.completed":
       // example handling
       const session = event.data.object;
-      await firestore.collection("purchases").doc(session.id).set({
-        status: "completed",
-        session,
-      });
+
+      await firestore
+          .collection("purchases")
+          .doc(event.data.object.metadata.userId)
+          .set({
+            status: "completed",
+            session,
+          });
       break;
     default:
       console.log(`Unhandled event type ${event.type}`);

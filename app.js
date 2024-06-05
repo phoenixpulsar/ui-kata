@@ -9,7 +9,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -119,6 +119,10 @@ window.addEventListener("DOMContentLoaded", () => {
       console.log("No user signed in");
       Timelines.userLoggedOut.restart();
     }
+  });
+
+  const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
+    console.log("Current data: ", doc.data());
   });
 
   gsap.set(
@@ -584,13 +588,13 @@ window.addEventListener("DOMContentLoaded", () => {
   async function addTokens(user) {
     try {
       const response = await fetch(
-        "https://addonsignuptokens-h5q4nbdnia-uc.a.run.app",
+        "https://addtokens-h5q4nbdnia-uc.a.run.app",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ user: { uid: user.uid } }),
+          body: JSON.stringify({ user: { uid: user.uid }, purchasedTokens: 8 }),
         }
       );
 
