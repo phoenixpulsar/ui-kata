@@ -72,6 +72,7 @@ window.addEventListener("DOMContentLoaded", () => {
   let currentUser = null;
   let wholeUser = null;
   let passwordToConfirm = "";
+  let tokensAvailable = 0;
   let uploadedFile = null;
   let currentStep = "INIT";
   let encryptionMode = "ENCRYPT_FILE";
@@ -99,30 +100,16 @@ window.addEventListener("DOMContentLoaded", () => {
       currentUser = user.email;
       Timelines.userLoggedIn.restart();
 
-      try {
-        console.log("hereeee");
-        const docRef = doc(db, "customer_tokens", uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const tokens = docSnap.data().tokens;
-          console.log("Tokens:", tokens);
-          // You can now use the tokens as needed
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error getting document:", error);
-      }
+      const unsub = onSnapshot(doc(db, "customer_tokens", uid), (doc) => {
+        console.log("Current data: ", doc.data().tokens);
+        tokensAvailable = doc.data().tokens.length;
+        $("#tokens-available-span").textContent = tokensAvailable;
+      });
     } else {
       // No user is signed in
       console.log("No user signed in");
       Timelines.userLoggedOut.restart();
     }
-  });
-
-  const unsub = onSnapshot(doc(db, "cities", "SF"), (doc) => {
-    console.log("Current data: ", doc.data());
   });
 
   gsap.set(
@@ -381,7 +368,6 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#install-btn").on("click", (e) => {
     e.preventDefault();
     console.log(wholeUser);
-    addTokens(wholeUser);
   });
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
@@ -579,30 +565,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
       const data = await response.json();
       window.location = data.url;
-      console.log("Success:", data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  async function addTokens(user) {
-    try {
-      const response = await fetch(
-        "https://addtokens-h5q4nbdnia-uc.a.run.app",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: { uid: user.uid }, purchasedTokens: 8 }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
       console.log("Success:", data);
     } catch (error) {
       console.error("Error:", error);
