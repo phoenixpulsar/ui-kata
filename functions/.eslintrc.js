@@ -12,6 +12,7 @@ module.exports = {
     "prefer-arrow-callback": "error",
     "quotes": ["error", "double", {allowTemplateLiterals: true}],
     "max-len": ["off"],
+    "no-case-declarations": "off", // Add this rule
   },
   overrides: [
     {

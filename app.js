@@ -301,7 +301,7 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#open-checkout").on("click", (e) => {
     console.log("checkout");
     e.preventDefault();
-    startStripeSession();
+    startStripeSession(wholeUser);
 
     // Timelines.openCheckoutPanel.play();
   });
@@ -556,12 +556,16 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  async function startStripeSession() {
+  async function startStripeSession(user) {
     try {
       const response = await fetch(
         "https://createcheckout-h5q4nbdnia-uc.a.run.app",
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user: { uid: user.uid } }),
         }
       );
 
