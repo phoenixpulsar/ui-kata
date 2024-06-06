@@ -374,7 +374,18 @@ window.addEventListener("DOMContentLoaded", () => {
     console.log(wholeUser);
     console.log(userTokens);
     console.log(userTokens[0]);
-    useToken(wholeUser, userTokens[0]);
+    // useToken(wholeUser, userTokens[0]);
+    if (bipEvent) {
+      bipEvent.propt();
+    } else {
+      alert("I'm sorry do this manuall");
+    }
+  });
+  let bipEvent = null;
+  window.addEventListener("beforeinstallprompt", (event) => {
+    // preven browser from rendering ui
+    e.preventDefault();
+    bipEvent = event;
   });
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {

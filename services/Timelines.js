@@ -680,6 +680,7 @@ const Timelines = {
         "#download-btn",
         {
           opacity: 0,
+          display: "none",
           visibility: "hidden",
           duration: 1,
           ease: "sine.out",
@@ -690,6 +691,17 @@ const Timelines = {
         "#close-exp-svg",
         {
           opacity: 0,
+          visibility: "hidden",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
+        ".password-ctrls",
+        {
+          opacity: 0,
+          display: "none",
           visibility: "hidden",
           duration: 1,
           ease: "sine.out",
@@ -784,6 +796,7 @@ const Timelines = {
         "#download-btn",
         {
           opacity: 1,
+          display: "block",
           visibility: "visible",
           duration: 1,
           ease: "sine.out",

@@ -1,19 +1,20 @@
 {
+  "id": "/",
+  "scope": "/",
+  "start_url": "/",
   "name": "Ordo One App",
   "short_name": "Ordo One",
-  "start_url": "./",
   "orientation": "any",
   "theme_color": "#e4007c",
-  "scope": "./",
   "display": "standalone",
   "icons": [
     {
-      "src": "icons/01.png",
+      "src": "assets/icons/01.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "icons/maskable_icon_x512.png",
+      "src": "assets/icons/maskable_icon_x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

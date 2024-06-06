@@ -116,3 +116,10 @@ button {
           env(safe-area-inset-bottom) 
           env(safe-area-inset-left) !important;
 }
+
+// Don't show install btn if user is in PWA
+@media(display-mode:standalone){
+  #install-btn{
+    display: none;
+  }
+}
