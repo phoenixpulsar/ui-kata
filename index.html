@@ -55,10 +55,10 @@
 
             <div class="ctrl-icons">
               <svg id="back-svg-icon" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M258.62-464.62 502-222l-22 22-280-280 280-280 22 22-243.38 242.62H760v30.76H258.62Z"/></svg>
+              <svg id="close-exp-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="m253.9-229.79-24.11-24.11L455.9-480 229.79-706.1l24.11-24.11L480-504.1l226.1-226.11 24.11 24.11L504.1-480l226.11 226.1-24.11 24.11L480-455.9 253.9-229.79Z"/></svg> 
               <svg id="empty-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
               <svg id="exclamation-shield-svg" xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#4d5358"><path d="M480-357.08q10.22 0 15.96-6.12 5.73-6.12 5.73-15.57 0-10.22-5.73-16.34-5.74-6.12-15.96-6.12t-15.96 6.12q-5.73 6.12-5.73 16.34 0 9.45 5.73 15.57 5.74 6.12 15.96 6.12Zm-15.38-100.15h30.76v-190.08h-30.76v190.08ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
               <svg id="done-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M443.62-380h72.76l-22.69-131.15q17.69-5.93 29.31-20.35 11.62-14.42 11.62-33.12 0-22.84-15.89-38.73-15.88-15.88-38.73-15.88-22.85 0-38.73 15.88-15.89 15.89-15.89 38.73 0 18.7 11.62 33.12 11.62 14.42 29.31 20.35L443.62-380ZM480-121.77q-120.77-36.54-200.38-147.88Q200-381 200-519.15v-213.39l280-104.61 280 104.61v213.39q0 138.15-79.62 249.5Q600.77-158.31 480-121.77Zm0-32.77q108.85-34.92 179.04-136.96t70.19-227.65v-192.16L480-804.69l-249.23 93.38v192.16q0 125.61 70.19 227.65T480-154.54Zm0-324.69Z"/></svg>
-              <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="m723.08-149.59 127.33-127.33-23.33-23.34L740-213.18v-199.67h-33.85v199.67l-87.07-87.08-23.34 23.34 127.34 127.33ZM586.15-20v-33.85H860V-20H586.15ZM238.46-180q-23.04 0-40.75-17.71T180-238.46v-563.08q0-23.04 17.71-40.75T238.46-860h283.49L740-641.95v139.87h-33.85v-124.07h-200v-200H238.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v563.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h258.46V-180H238.46Zm-24.61-33.85v-612.3V-213.85Z"/></svg>
             </div>
             
             <div class="file-upload-ctrls">
@@ -87,13 +87,18 @@
                 </form>
                 <!-- Step 2 -->
                 <label id="confirm-password-label" class="password-ctrls-label" for="confirm-password-input" >Confirm Password</label>
-                <input id="confirm-password-input" class="password-ctrls-input" type="password"  placeholder="0000000000"/>            
+                <input id="confirm-password-input" class="password-ctrls-input" type="password"  />            
                 <!-- Step 3 -->
                 <span id="top-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>
                 <span id="btm-bulls">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</span>          
                 <button id="encrypt-btn" class="password-ctrls-btn">
                   Encrypt
                 </button>
+                <!-- Step 4 -->
+                <button id="download-btn" class="password-ctrls-btn">
+                  Download
+                </button>
+
                 <p id="password-mismatch-mssg">Password mismatch</p>
               </div>
             </div>
@@ -178,8 +183,6 @@
             <div id="checkout">
               <!-- Checkout will insert the payment form here -->
             </div>
-
-
           </div>
 
           

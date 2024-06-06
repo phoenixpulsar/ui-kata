@@ -140,7 +140,7 @@ const Timelines = {
       .to(
         "#file-name-display",
         {
-          y: 110,
+          y: 150,
           opacity: 1,
           visibility: "visible",
           duration: 1,
@@ -267,9 +267,9 @@ const Timelines = {
       )
       .fromTo(
         "#top-bulls",
-        { y: -60, duration: 1, opacity: 0, visibility: "hidden" },
+        { y: -120, duration: 1, opacity: 0, visibility: "hidden" },
         {
-          y: -20,
+          y: -90,
           opacity: 1,
           visibility: "visible",
           display: "block",
@@ -279,9 +279,9 @@ const Timelines = {
       )
       .fromTo(
         "#btm-bulls",
-        { y: 60, duration: 1, opacity: 0, visibility: "hidden" },
+        { y: 120, duration: 1, opacity: 0, visibility: "hidden" },
         {
-          y: -20,
+          y: -90,
           opacity: 1,
           visibility: "visible",
           display: "block",
@@ -323,6 +323,7 @@ const Timelines = {
         "#encrypt-btn",
         {
           opacity: 1,
+          y: 0,
           duration: 1,
           display: "block",
           visibility: "visible",
@@ -603,6 +604,8 @@ const Timelines = {
         "#file-upload-svg-icon",
         {
           opacity: 0,
+          y: 0,
+          scale: 1,
           visibility: "hidden",
         },
         "begin=+0.5"
@@ -649,6 +652,108 @@ const Timelines = {
 
     return tl;
   })(),
+  closeExperience: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+    tl.to(
+      "#file-name-display",
+      {
+        opacity: 0,
+        visibility: "hidden",
+        duration: 1,
+        scale: 1,
+        ease: "sine.out",
+      },
+      "begin"
+    )
+      .to(
+        "#done-svg",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
+        "#download-btn",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
+        "#close-exp-svg",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
+        "#welcome-mssg",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+
+          ease: "sine.out",
+        },
+        "begin=+1.5"
+      )
+      .to(
+        "#encryption-mode-switch",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+
+          ease: "sine.out",
+        },
+        "begin=+1.5"
+      )
+      .to(
+        "#file-upload-label",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+
+          ease: "sine.out",
+        },
+        "begin=+1.5"
+      )
+      .to(
+        "#file-upload-input",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+
+          ease: "sine.out",
+        },
+        "begin=+1.5"
+      )
+      .to(
+        "#file-upload-svg-icon",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+
+          ease: "sine.out",
+        },
+        "begin=+1.5"
+      );
+
+    return tl;
+  })(),
   encryptionSuccess: (() => {
     let tl = gsap.timeline({ paused: true });
     tl.add("begin");
@@ -674,7 +779,27 @@ const Timelines = {
         text: "Encrypted",
         duration: 0.5,
         ease: "sine.out",
-      });
+      })
+      .to(
+        "#download-btn",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin=-1"
+      )
+      .to(
+        "#close-exp-svg",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin=-1"
+      );
 
     return tl;
   })(),

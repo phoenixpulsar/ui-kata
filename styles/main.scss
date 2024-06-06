@@ -113,7 +113,7 @@
       "password-input"
       "password-mssg"
       "password-btn";
-      grid-template-rows: minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto) minmax(4rem, auto);
+
   }
   
   #password-label {
@@ -153,7 +153,6 @@
   }
   
   #encrypt-btn {
-    grid-area: password-btn;
     outline: none;
     display: none;
   

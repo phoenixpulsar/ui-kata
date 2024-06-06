@@ -105,6 +105,7 @@ window.addEventListener("DOMContentLoaded", () => {
     [
       "#user-profile",
       "#close-svg",
+      "#close-exp-svg",
       ".password-ctrls",
       "#confirm-password-label",
       "#confirm-password-input",
@@ -128,6 +129,7 @@ window.addEventListener("DOMContentLoaded", () => {
       "#healthy-shield-svg",
       "#star-shield-svg",
       "#check-shield-svg",
+      "#download-btn",
       "#done-svg",
       ".login-container",
       ".profile-container",
@@ -184,11 +186,24 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  $("#encrypt-btn").on("click", (event) => {
+  $("#encrypt-btn").on("click", () => {
     Timelines.startEncryption.play();
     Timelines.startEncryptionLabels.play();
     runRandomOutcome();
     currentStep = "ENCRYPTING";
+  });
+
+  $("#download-btn").on("click", () => {
+    processFile(uploadedFile, passwordToConfirm);
+  });
+
+  $("#close-exp-svg").addEventListener("click", () => {
+    clearUserInputs();
+    resetState();
+
+    Timelines.closeExperience.play().then(() => {
+      Timelines.fileLoop.play();
+    });
   });
 
   $("#user-profile").on("click", (e) => {
@@ -448,20 +463,28 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function reverseFileUpload() {
     // Init State
-    passwordToConfirm = "";
-    uploadedFile = null;
-    console.log("NEXT STEP", "INIT");
-    currentStep = "INIT";
+    resetState();
 
     // File upload value/input
-    $("#password-input").value = "";
-    $("#file-upload-input").value = "";
-    $("#file-name-display").textContent = "";
+    clearUserInputs();
     Timelines.fileWasUploaded.reverse().then(() => {
       gsap.delayedCall(2, () => {
         Timelines.fileLoop.resume();
       });
     });
+  }
+
+  function resetState() {
+    passwordToConfirm = "";
+    uploadedFile = null;
+    console.log("NEXT STEP", "INIT");
+    currentStep = "INIT";
+  }
+
+  function clearUserInputs() {
+    $("#password-input").value = "";
+    $("#file-upload-input").value = "";
+    $("#file-name-display").textContent = "";
   }
 
   function getCurrentPasswordInput() {
@@ -492,17 +515,17 @@ window.addEventListener("DOMContentLoaded", () => {
       Timelines.startEncryptionLabels.pause();
       if (result) {
         currentStep = "ENCRYPTED";
-        processFile(uploadedFile, passwordToConfirm);
+
         Timelines.encryptionSuccess.play();
       } else {
         currentStep = "ENCRYPTED";
-        processFile(uploadedFile, passwordToConfirm);
+
         Timelines.encryptionSuccess.play();
 
         // currentStep = "FAIL";
         // Timelines.encryptionFail.play();
       }
-    }, 12000);
+    }, 1200);
   }
 
   function getFileDetails(file) {

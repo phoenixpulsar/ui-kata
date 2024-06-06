@@ -18,10 +18,40 @@
   }
 }
 
+#close-exp-svg {
+  position: absolute;
+  top: 6%;
+  left: 95%;
+  transform: scale(1.8);
+  
+  transition-duration: 0.3s;
+  transition-property: transform;
+  
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.8) translateX(-4%);
+  }
+}
+
+@media (max-width: 600px) {
+  #close-exp-svg {
+    top: 6%;
+    left: 87%;
+    transform: scale(1.4);
+
+    transition-duration: 0.3s;
+    transition-property: transform;
+
+    &:hover{
+      transform: scale(1.4) translateX(-4%);
+    }
+  }  
+}
+
 #back-svg-icon {
   position: absolute;
-  top: 8%;
-  left: 5%;
+  top: 7%;
+  left: 3%;
   transform: scale(1.8);
   
   transition-duration: 0.3s;
@@ -63,6 +93,13 @@
 }
   
 #done-svg {
+  position: absolute;
+  top:25%;
+  left: 50%;
+  transform:  translate(-50%, -50%);
+}
+
+#download-svg {
   position: absolute;
   top:25%;
   left: 50%;
