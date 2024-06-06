@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const cancelUrl = "http://localhost:5173/cancel.html";
 
   function handleNavigation(event) {
-    console.log("e navigation");
+    console.log("evt navigation", event);
     // Check if the URL matches the success or cancel URL
     if (window.location.href === successUrl) {
       // Handle success URL navigation
@@ -73,24 +73,10 @@ window.addEventListener("DOMContentLoaded", () => {
   let wholeUser = null;
   let passwordToConfirm = "";
   let tokensAvailable = 0;
+  let userTokens = [];
   let uploadedFile = null;
   let currentStep = "INIT";
   let encryptionMode = "ENCRYPT_FILE";
-
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) {
-  //     // User is signed in, see docs for a list of available properties
-  //     // https://firebase.google.com/docs/reference/js/auth.user
-  //     const uid = user.uid;
-  //     currentUser = user.email;
-  //     Timelines.userLoggedIn.restart();
-  //     $("#user-email").textContent = `Welcome, ${currentUser}`;
-  //   } else {
-  //     console.log("no user signed in");
-  //     $("#user-email").textContent = ``;
-  //     Timelines.userLoggedOut.restart();
-  //   }
-  // });
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -103,6 +89,9 @@ window.addEventListener("DOMContentLoaded", () => {
       const unsub = onSnapshot(doc(db, "customer_tokens", uid), (doc) => {
         console.log("Current data: ", doc.data().tokens);
         tokensAvailable = doc.data().tokens.length;
+        userTokens = doc.data().tokens;
+        // debugger;
+
         $("#tokens-available-span").textContent = tokensAvailable;
       });
     } else {
@@ -368,6 +357,9 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#install-btn").on("click", (e) => {
     e.preventDefault();
     console.log(wholeUser);
+    console.log(userTokens);
+    console.log(userTokens[0]);
+    useToken(wholeUser, userTokens[0]);
   });
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
@@ -546,6 +538,30 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  async function useToken(user, token) {
+    try {
+      const response = await fetch(
+        "https://verifyandusetoken-h5q4nbdnia-uc.a.run.app",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ user: user, token: token }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   async function startStripeSession(user) {
     try {
       const response = await fetch(
@@ -577,5 +593,5 @@ window.addEventListener("DOMContentLoaded", () => {
       "tlX0OLcUUVHhLnfG1y2nFPHpung9dyNVyg7y9k39TfN6qboIx5exunCfyHtCshAOzf+pR0oRgJqNKHwo+CgcKzAGy5BN+zEssMGjGf3BEUxxZ63GXVyMVkcupT5u1aqnKIoqX50HvRHXSeteS0vVxODEsAJO6rv/SKHkXFN183mJOhzf3kAUyF9fgtippS4TA7keeA2ja4tDOCNaAaPkT2ERG9Aoaa2StHTndjMjn7XCj4TusIeRaS6xsxD65tuPb2DybU5sAz8H7orPZaM6y94ZY9QJiQUvN/toCqug5JoelLabFYnpa/g1UBx2XzY3DSbTk+mrNCUMweiGR30ZJA==", // The base64 signature from the server
   };
 
-  EncryptionAPI.verifyToken(token);
+  // EncryptionAPI.verifyToken(token);
 });
