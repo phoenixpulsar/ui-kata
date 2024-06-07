@@ -167,6 +167,13 @@ const Timelines = {
       )
       .to(
         ".password-ctrls",
+        { opacity: 1, visibility: "visible", display: "block" },
+        "begin+=1"
+      )
+      .to("#password-input", { opacity: 1, visibility: "visible" }, "begin+=1")
+      .to("#password-btn", { opacity: 1, visibility: "visible" }, "begin+=1")
+      .to(
+        "#password-form-step-1",
         {
           opacity: 1,
           display: "block",
@@ -588,6 +595,7 @@ const Timelines = {
         {
           opacity: 0,
           visibility: "hidden",
+          display: "none",
         },
         "begin"
       )

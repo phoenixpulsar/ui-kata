@@ -163,23 +163,27 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#password-btn").on("click", (e) => {
     e.preventDefault();
     getCurrentPasswordInput();
-    Timelines.showConfirmPassword.play();
+    console.log("here clicked");
+    Timelines.showConfirmPassword.restart();
     currentStep = "CONFIRM";
   });
 
   $("#confirm-password-input").on("input", (event) => {
+    console.log("yo input");
+    console.log(passwordToConfirm, event.target.value);
     if (passwordToConfirm.length !== event.target.value.length) {
       if (passwordToConfirm.startsWith(event.target.value)) {
         Timelines.passwordsNoMatch.reverse();
       } else {
-        Timelines.passwordsNoMatch.play();
+        Timelines.passwordsNoMatch.restart();
       }
     } else {
       if (event.target.value === passwordToConfirm) {
         if (encryptionMode === "DECRYPT_FILE") {
           processDecryptFile(uploadedFile, passwordToConfirm);
         } else {
-          Timelines.showEncryptBtn.play();
+          console.log("Go to encrypt");
+          Timelines.showEncryptBtn.restart();
           currentStep = "ENCRYPT";
         }
       }
@@ -187,8 +191,8 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#encrypt-btn").on("click", () => {
-    Timelines.startEncryption.play();
-    Timelines.startEncryptionLabels.play();
+    Timelines.startEncryption.restart();
+    Timelines.startEncryptionLabels.restart();
     runRandomOutcome();
     currentStep = "ENCRYPTING";
   });
@@ -201,7 +205,7 @@ window.addEventListener("DOMContentLoaded", () => {
     clearUserInputs();
     resetState();
 
-    Timelines.closeExperience.play().then(() => {
+    Timelines.closeExperience.restart().then(() => {
       Timelines.fileLoop.play();
     });
   });
@@ -494,6 +498,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   function clearUserInputs() {
     $("#password-input").value = "";
+    $("#confirm-password-input").value = "";
     $("#file-upload-input").value = "";
     $("#file-name-display").textContent = "";
   }
@@ -527,11 +532,11 @@ window.addEventListener("DOMContentLoaded", () => {
       if (result) {
         currentStep = "ENCRYPTED";
 
-        Timelines.encryptionSuccess.play();
+        Timelines.encryptionSuccess.restart().play();
       } else {
         currentStep = "ENCRYPTED";
 
-        Timelines.encryptionSuccess.play();
+        Timelines.encryptionSuccess.restart.play();
 
         // currentStep = "FAIL";
         // Timelines.encryptionFail.play();

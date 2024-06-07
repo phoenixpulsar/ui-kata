@@ -48,6 +48,21 @@
   }  
 }
 
+@media (max-width: 980px) {
+  #close-exp-svg {
+    top: 6%;
+    left: 90%;
+    transform: scale(1.4);
+
+    transition-duration: 0.3s;
+    transition-property: transform;
+
+    &:hover{
+      transform: scale(1.4) translateX(-4%);
+    }
+  }  
+}
+
 #back-svg-icon {
   position: absolute;
   top: 7%;
