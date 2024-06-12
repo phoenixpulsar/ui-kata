@@ -29,6 +29,7 @@ const EncryptionAPI = {
     // =========================================
     const dataAsBytes = new Uint8Array(dataToEncrypt);
     const passwordAsBytes = encoder.encode(password); // returns Unit8Array
+    console.log("Step 1 data and password as bytes", dataAsBytes);
 
     // ====================================================
     // Step 2 import Key used to derive our key later,
@@ -88,7 +89,7 @@ const EncryptionAPI = {
         // Then we will convert to base64 encoding to convert to a string
         const encryptedPackage = EncryptionAPI.concat(salt, iv, encryptedBytes);
         const base64String = EncryptionAPI.toBase64(encryptedPackage);
-        console.log("base64String:", base64String);
+        console.log("base64String: data Encrypted String", base64String);
         // Returning base64String for testing decryption
         return base64String;
       })

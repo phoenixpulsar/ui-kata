@@ -70,7 +70,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Module Globals
   let currentUser = null;
-  let wholeUser = null;
   let passwordToConfirm = "";
   let tokensAvailable = 0;
   let userTokens = [];
@@ -80,13 +79,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
-      // User is signed in
-      const uid = user.uid;
-      wholeUser = user;
-      currentUser = user.email;
+      currentUser = user;
+
       Timelines.userLoggedIn.restart();
 
-      const unsub = onSnapshot(doc(db, "customer_tokens", uid), (doc) => {
+      const unsub = onSnapshot(doc(db, "customer_tokens", user.uid), (doc) => {
         console.log("Current data: ", doc.data().tokens);
         tokensAvailable = doc.data().tokens.length;
         userTokens = doc.data().tokens;
@@ -191,10 +188,13 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#encrypt-btn").on("click", () => {
-    Timelines.startEncryption.restart();
-    Timelines.startEncryptionLabels.restart();
-    runRandomOutcome();
-    currentStep = "ENCRYPTING";
+    let tokenAvailable = checkUserTokens();
+    if (tokenAvailable) {
+      Timelines.startEncryption.restart();
+      Timelines.startEncryptionLabels.restart();
+      runRandomOutcome();
+      currentStep = "ENCRYPTING";
+    }
   });
 
   $("#download-btn").on("click", () => {
@@ -300,7 +300,7 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#open-checkout").on("click", (e) => {
     console.log("checkout");
     e.preventDefault();
-    startStripeSession(wholeUser);
+    startStripeSession(currentUser);
 
     // Timelines.openCheckoutPanel.play();
   });
@@ -375,10 +375,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#install-btn").on("click", (e) => {
     e.preventDefault();
-    console.log(wholeUser);
+    console.log(currentUser);
     console.log(userTokens);
     console.log(userTokens[0]);
-    // useToken(wholeUser, userTokens[0]);
+    // useToken(currentUser, userTokens[0]);
     if (bipEvent) {
       bipEvent.propt();
     } else {
@@ -386,11 +386,24 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
   let bipEvent = null;
-  window.addEventListener("beforeinstallprompt", (event) => {
+  window.addEventListener("beforeinstallprompt", (e) => {
     // preven browser from rendering ui
     e.preventDefault();
     bipEvent = event;
   });
+
+  function checkUserTokens() {
+    if (userTokens.length) {
+      let tokenToUse = userTokens.pop();
+      useToken(currentUser, tokenToUse);
+      return true;
+    } else {
+      alert(
+        "You don't have any tokens, please purchase tokens to decrypt or encrypt"
+      );
+      return false;
+    }
+  }
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
     // Create a Blob from the base64 string
@@ -430,6 +443,10 @@ window.addEventListener("DOMContentLoaded", () => {
   async function processFile(file, password) {
     const reader = new FileReader();
     const { mimeType, fileName, fileExtension } = getFileDetails(file);
+    console.log("Step 0 get file details");
+    console.log("MimeType:", mimeType);
+    console.log("FileName:", fileName);
+    console.log("File Extension:", fileExtension);
 
     reader.onload = async (event) => {
       const arrayBuffer = event.target.result;
@@ -462,7 +479,7 @@ window.addEventListener("DOMContentLoaded", () => {
           password
         );
 
-        const { mimeType, fileName } = getFileDetails(file);
+        const { mimeType, fileName } = getFileDetails(uploadedFile);
 
         EncryptionAPI.downloadDecryptedFile(
           decryptedContents,
@@ -536,7 +553,7 @@ window.addEventListener("DOMContentLoaded", () => {
       } else {
         currentStep = "ENCRYPTED";
 
-        Timelines.encryptionSuccess.restart.play();
+        Timelines.encryptionSuccess.restart().play();
 
         // currentStep = "FAIL";
         // Timelines.encryptionFail.play();

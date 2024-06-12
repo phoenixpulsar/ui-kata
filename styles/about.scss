@@ -2,12 +2,21 @@
 // About
 // ====================
 
-.about-container{
+
+.about-container {
   position: absolute;
   height: 90vh;
   width: 100vw;
+  overflow: hidden;
+  overflow-y: auto;
   top:0;
   left:90vw;
   background-color: var(--gray90);
   padding-left: 1rem;
+}
+
+.about-content {
+  padding-top:1rem;
+  padding-left: 1rem;
+  max-width: 535px;
 }

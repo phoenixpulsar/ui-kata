@@ -11,9 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <script src="app.js" type="module" defer></script>   
     <script src="/firebase.js" type="module" defer></script> 
-
- 
     <!-- <script src="/sw-register.js"></script>  -->
+    
     <title>Ordo One Encryption App</title>
     <meta name="theme-color" content="#e4007c">
     </head>
@@ -230,7 +229,61 @@
               <button id="close-about" class="close-panel-btn">Close</button>
             </div>
           
-            <h1>About</h1>
+            <div class="about-content">
+
+            
+              <h1>About</h1>
+              <p>This application allows users to securely encrypt files using a password before transmitting or storing them.</p>
+
+              <h2>Steps</h2>
+              <ul>
+                  <li>
+                      <h3>File Upload</h3>
+                      <p>The user uploads a file through the application interface. The application reads and stores the file's details, such as MIME type, filename, and file extension.</p>
+                  </li>
+                  <li>
+                      <h3>Password Input</h3>
+                      <p>The user is prompted to enter and confirm a password. This password will be used to encrypt the file.</p>
+                  </li>
+                  <li>
+                      <h3>Encryption Process</h3>
+                      <ul>
+                          <li>
+                              <h4>Convert Data and Password to Bytes</h4>
+                              <p>The file data is converted into a sequence of bytes. The password is also converted into bytes using a text encoder.</p>
+                          </li>
+                          <li>
+                              <h4>Import Key</h4>
+                              <p>The byte representation of the password is imported as a key. This imported key will be used later to derive the actual encryption key.</p>
+                          </li>
+                          <li>
+                              <h4>Generate Salt</h4>
+                              <p>A random salt of 32 bytes (256 bits) is generated. The salt ensures that even if the same password is used, the encryption will be unique.</p>
+                          </li>
+                          <li>
+                              <h4>Derive Encryption Key</h4>
+                              <p>The password key and salt are used to derive an encryption key through a process called PBKDF2. This process involves hashing the password key with the salt 250,000 times using SHA-256. The derived key is used for AES-GCM encryption with a length of 256 bits.</p>
+                          </li>
+                          <li>
+                              <h4>Generate Initialization Vector (IV)</h4>
+                              <p>A 12-byte (96-bit) initialization vector (IV) is generated. The IV ensures that the same plaintext encrypted with the same key will produce different ciphertexts.</p>
+                          </li>
+                          <li>
+                              <h4>Encrypt Data</h4>
+                              <p>The file data is encrypted using the derived key and IV. The result is an encrypted content buffer.</p>
+                          </li>
+                          <li>
+                              <h4>Package Encrypted Data</h4>
+                              <p>The salt, IV, and encrypted data are combined into one package. This package is converted into a base64 string, which is suitable for transmission.</p>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                      <h3>Output</h3>
+                      <p>The final output is a base64 encoded string of the encrypted package. This string can be securely stored or transmitted as needed.</p>
+                  </li>
+              </ul>
+            </div>
           </div> 
       
           <!-- Contact -->
@@ -247,6 +300,27 @@
               <button id="close-privacy" class="close-panel-btn">Close</button>
             </div>
             <h1>Data & Privacy</h1>
+            <div class="privacy-content">
+              <p>Your privacy is important to us. This document outlines the data and privacy practices of our encryption app.</p>
+
+              <h2>Client-Side Encryption</h2>
+              <p>All encryption processes are performed on the client side. This means that all encryption operations, including converting data and passwords to bytes, generating keys, and encrypting data, are executed within your browser or device. We do not store any passwords or encrypted files on our servers.</p>
+      
+              <h2>Data Collection</h2>
+              <p>We use Firebase for authentication purposes. When you sign in or register, we collect and store your email address. This information is used solely for authentication and to provide you with access to the app.</p>
+      
+              <h2>User Tokens and Purchases</h2>
+              <p>We keep track of user tokens and purchase history. This information is essential for customer support and enhancing your interaction with the app. It allows us to ensure that you have access to the tokens you have purchased and to assist you with any issues that may arise.</p>
+      
+              <h2>Customer Support</h2>
+              <p>Your email address and purchase history are used to provide customer support. If you encounter any issues or have questions about the app, this information helps us to resolve your queries efficiently.</p>
+      
+              <h2>Data Security</h2>
+              <p>We are committed to ensuring the security of your data. All sensitive operations, such as encryption, are performed on the client side, and we do not store any sensitive data such as passwords or encrypted files on our servers. Firebase authentication and secure storage practices are used to protect your personal information.</p>
+      
+              <h2>Privacy Commitment</h2>
+              <p>We are committed to protecting your privacy and ensuring that your data is handled securely and responsibly. We do not share your personal information with third parties except as necessary to provide the services outlined in this document.</p>
+            </div>
           </div>
                    
         </div>
