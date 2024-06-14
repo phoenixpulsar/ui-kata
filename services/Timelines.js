@@ -688,7 +688,6 @@ const Timelines = {
         "#download-btn",
         {
           opacity: 0,
-          display: "none",
           visibility: "hidden",
           duration: 1,
           ease: "sine.out",
