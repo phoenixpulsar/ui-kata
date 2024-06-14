@@ -1,5 +1,6 @@
 .main-layout-container {
     display: grid;
+    margin-top: 5rem;
     height: 90vh;
     width: 100vw;
     place-items: center;
@@ -187,10 +188,60 @@
     }
   }
   
-  .password-ctrls-btn {
-    width: 80vw;
-    height: 4rem;
-    margin-left: 5%;
-    margin-top: 2rem;
-    font-size: x-large;
+.password-ctrls-btn {
+  width: 80vw;
+  height: 4rem;
+  margin-left: 5%;
+  margin-top: 2rem;
+  font-size: x-large;
+}
+
+.section-one {
+  min-height: 40vh;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  padding-bottom: 3rem;
+  background-color: var(--gray90);
+
+  button {
+    width: 8rem;
+    font-size: medium;
+    outline: 1px solid var(--pink);
   }
+}
+
+
+.main-headline {
+  padding-top: 2rem;
+  // font-size: smaller;
+}
+
+.main-subheadline {
+  color: var(--pink);
+  max-width: 90ch;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+
+.section-two {
+  height: 70vh;
+  background-color: var(--dark-navy);
+}
+
+.section-three {
+  height: 70vh;
+  background-color: var(--gray90);
+}
+
+
+.section-four {
+  height: 70vh;
+  background-color: var(--dark-navy);
+}
+
+
+.section-five {
+  height: 70vh;
+  background-color: var(--gray90);
+}
