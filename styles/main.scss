@@ -1,6 +1,6 @@
 .main-layout-container {
     display: grid;
-    margin-top: 5rem;
+    margin-top: 7rem;
     height: 90vh;
     width: 100vw;
     place-items: center;
@@ -99,12 +99,9 @@
   .password-ctrls {
     position: absolute;
     width: 90vw;
-    // padding-top: 10rem;
     left:0;
     top: 50%;
-    // transform: translate(-50%, -50%);
     display: none;
-    // outline: 1px solid orange;
   }
   
   .password-ctrls-inner-grid {
@@ -197,13 +194,15 @@
 }
 
 .section-one {
-  min-height: 40vh;
+  min-height: 30vh;
+  margin-left: 1rem;
+  margin-right: 1rem;
   padding-left: 3rem;
   padding-right: 3rem;
   padding-bottom: 3rem;
-  background-color: var(--gray90);
 
   button {
+    margin-top: 1rem;
     width: 8rem;
     font-size: medium;
     outline: 1px solid var(--pink);
@@ -224,24 +223,206 @@
 }
 
 
-.section-two {
-  height: 70vh;
-  background-color: var(--dark-navy);
+
+.section-guide {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns on larger screens */
+  gap: 1rem; /* Adjust gap between the boxes */
+  min-height: 80vh;
+  padding: 1rem;
+  box-sizing: border-box; /* Include padding in the element's size */
+  background-color: var(--gray100);
 }
 
-.section-three {
-  height: 70vh;
+.step-1-guide, .step-2-guide, .step-3-guide, .step-4-guide {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // align-items: center;
+  background-color: var(--gray100); /* Example background color */
+  color: white; /* Text color */
+  font-size: 1.5rem; /* Adjusted font size */
+  padding: 1rem;
+  box-sizing: border-box;
+  height: 100%; /* Ensure the divs fill their grid cell */
+}
+
+.step-3-guide {
+  background-color: var(--gray100);
+}
+
+.step-1-guide{
+  align-items: center;
+  justify-content: center;
+  background-color: var(--gray100);
+
+  button {
+    margin-top: 1rem;
+    width: 8rem;
+    font-size: medium;
+    outline: 1px solid var(--pink);
+  }
+}
+
+.step-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.step-description {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.step-img img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Span steps 2 and 4 across both columns */
+.step-5-guide, .step-3-guide {
+  grid-column: span 2;
+}
+
+.step-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%; /* Make the container fill the available height */
+  width: 100%; /* Make the container fill the available width */
+}
+
+.step-img img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .section-guide {
+    grid-template-columns: 1fr; /* 1 column on smaller screens */
+  }
+}
+
+@media (max-width: 970px) {
+  .step-img img.landscape {
+    content: attr(data-portrait); /* Switch to portrait image */
+  }
+}
+
+.section-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  // grid-template-rows: repeat(2, 1fr); /* 2 rows */
+  gap: 1rem; /* Gap between the grid items */
+  padding: 3rem;
+  text-align: center;
   background-color: var(--gray90);
 }
 
+.stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  // background-color: var(--gray70); /* Example background color */
+  color: white; /* Text color */
+  // min-height: 20vh; /* Minimum height */
+  padding: 1rem;
+  box-sizing: border-box;
+}
 
-.section-four {
-  height: 70vh;
-  background-color: var(--dark-navy);
+.stat-title {
+  font-size: 1.5rem; /* Example font size for title */
+  margin-bottom: 1rem; /* Space between title and description */
+}
+
+.stat-description {
+  font-size: 1rem; /* Example font size for description */
+}
+
+@media (max-width: 768px) {
+  .section-stats {
+    grid-template-columns: 1fr; /* 1 column on smaller screens */
+  }
 }
 
 
-.section-five {
-  height: 70vh;
+.pricing-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.pricing-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 100%;
+}
+
+.pricing-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.pricing-card {
+  flex: 1;
+  min-width: 300px;
+  max-width: 45%;
+  outline: 1px dashed var(--gray70);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+  text-align: center;
   background-color: var(--gray90);
+  color: white;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card-price {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  text-align: left;
+}
+
+.card-features li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.card-features svg {
+  margin-right: 0.5rem;
+}
+
+.card-button {
+  background-color: var(--pink);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .pricing-card {
+    max-width: 100%;
+  }
 }

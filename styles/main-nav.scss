@@ -1,19 +1,30 @@
 .main-nav {
-  padding-left: 1rem;
+  // padding-left: 1rem;
   padding-right: 1rem;
-  position: relative;
+  padding-bottom: .3rem;
+  position: fixed; /* Fixed position to keep it at the top */
+  top: 0;
+  left: 0;
+  width: 100%; /* Full width of the viewport */
+  background-color: transparent; /* Background color to make it stand out */
+  z-index: 1000; /* Ensure it stays above other content */
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: add a shadow for better visibility */
+}
+
+.main-nav.scrolled {
+  background-color: var(--gray90); /* Background color when scrolled */
 }
 
 .main-nav ul {
   display: flex;
-  position: relative;
   gap: 2rem;
   align-items: center;
   flex-flow: row nowrap;
   justify-content: space-between;
   margin: 0;
-  padding: 0;
+  // padding: 1rem 0; /* Padding for better spacing */
   list-style-type: none;
+  width: 100%;
 }
 
 .main-nav ul li {
@@ -22,21 +33,21 @@
 
 .logo {
   width: 100px;
-  margin-top: 1rem;
+  // margin-top: 1rem;
 }
 
 .app-notifications {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -10px);
   font-size: 1rem;
   color: var(--pink);
 }
 
 .ordo-one-version {
   position: absolute;
-  top: 47px;
-  left: 184px;
+  top: 45px;
+  left: 195px;
   font-size: x-small;
   color: var(--pink);
 }

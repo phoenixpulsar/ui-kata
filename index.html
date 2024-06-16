@@ -17,10 +17,10 @@
     <meta name="theme-color" content="#e4007c">
     </head>
     <body>    
-      <nav class="main-nav">
+      <nav id="mainNav" class="main-nav">
         <ul>
           <li><h1 id="logo">Ordo One</h1></li>
-          <li><span class="app-notifications">Login Successful</span></li>
+          <li><span class="app-notifications"></span></li>
           <!-- <li>
             <label>
               <input type="checkbox" id="theme-box"> Theme
@@ -80,7 +80,7 @@
                 <!-- Step 1 -->
                 <form id="password-form-step-1">
                   <label id="password-label" class="password-ctrls-label" for="password-input">Password</label>
-                  <input id="password-input" class="password-ctrls-input" type="password" placeholder="Password"/> 
+                  <input id="password-input" class="password-ctrls-input" type="password" placeholder="Password "/> 
                   <button type="submit" id="password-btn" class="password-ctrls-btn">
                     Continue
                   </button>
@@ -334,18 +334,82 @@
         <p class="main-subheadline">Our app uses the robust Web Crypto API to convert your uploaded files into secure byte arrays, which can only be decrypted with your password, ensuring  privacy and protection.</p>
         <button class="join-btn">JOIN NOW</button>
       </div>
-      <div class="section-two">
-        Section 2
+      <div class="section-stats">
+        <div class="stat">
+          <div class="stat-title">SHA-256</div>
+          <div class="stat-description">Encryption</div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">250,000</div>
+          <div class="stat-description">Hash Iterations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-title">1000+</div>
+          <div class="stat-description">Encryptions</div>
+        </div>
       </div>
-      <div class="section-three">
-        Section 3
+      <div class="section-guide">
+        <div class="step-3-guide">
+          <div class="step-title">Easy to use</div>
+          <div class="step-description">Choose a file, enter a password to encrypt (which you'll use to decrypt later), confirm your password, and click encrypt to download your secured file.</div>
+          <div class="step-img">
+            <img src="assets/step-2-landscape.png" alt="Step 1 PNG" class="landscape" data-portrait="assets/step-2-portrait.png">
+          </div>
+        </div>
       </div>
-      <div class="section-four">
-        Section 4
+      
+     
+      <div class="pricing-section">
+        <div class="pricing-title">Pricing</div>
+        <div class="pricing-cards-container">
+          <div class="pricing-card">
+            <div class="card-title">Starter</div>
+            <div class="card-price">$1/10 tokens</div>
+            <ul class="card-features">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343">
+                  <path d="M380.31-270.62 183.23-467.69l22.23-21.46 174.85 174.84 374-374.77 22.23 22.23-396.23 396.23Z"/>
+                </svg>
+                1 token per encryption
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343">
+                  <path d="M380.31-270.62 183.23-467.69l22.23-21.46 174.85 174.84 374-374.77 22.23 22.23-396.23 396.23Z"/>
+                </svg>
+                10 free tokens when signing up
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343">
+                  <path d="M380.31-270.62 183.23-467.69l22.23-21.46 174.85 174.84 374-374.77 22.23 22.23-396.23 396.23Z"/>
+                </svg>
+                Free decryptions
+              </li>
+            </ul>
+            <button class="card-button">Join Now</button>
+          </div>
+      
+          <div class="pricing-card">
+            <div class="card-title">Cloud</div>
+            <div class="card-price">Coming Soon</div>
+            <ul class="card-features">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343">
+                  <path d="M380.31-270.62 183.23-467.69l22.23-21.46 174.85 174.84 374-374.77 22.23 22.23-396.23 396.23Z"/>
+                </svg>
+                Cloud storage
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#434343">
+                  <path d="M380.31-270.62 183.23-467.69l22.23-21.46 174.85 174.84 374-374.77 22.23 22.23-396.23 396.23Z"/>
+                </svg>
+                Share and collaborate on files with members
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      <div class="section-five">
-        Section 5
-      </div>
+       
+       
       
       
       <footer>

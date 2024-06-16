@@ -16,6 +16,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const successUrl = "http://localhost:5173/success.html";
   const cancelUrl = "http://localhost:5173/cancel.html";
 
+  const images = document.querySelectorAll(".step-img img");
+
   function handleNavigation(event) {
     console.log("evt navigation", event);
     // Check if the URL matches the success or cancel URL
@@ -57,6 +59,10 @@ window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("popstate", handleNavigation);
   window.addEventListener("locationchange", handleNavigation);
 
+  // switch guide img in smaller screen sizes
+  switchImage();
+  window.addEventListener("resize", switchImage);
+
   // Initial check if already on the target page
   handleNavigation();
   // Init
@@ -95,6 +101,16 @@ window.addEventListener("DOMContentLoaded", () => {
       // No user is signed in
       console.log("No user signed in");
       Timelines.userLoggedOut.restart();
+    }
+  });
+
+  // Fix scrollbar on scroll
+  document.addEventListener("scroll", function () {
+    const mainNav = document.getElementById("mainNav");
+    if (window.scrollY > 0) {
+      mainNav.classList.add("scrolled");
+    } else {
+      mainNav.classList.remove("scrolled");
     }
   });
 
@@ -558,7 +574,7 @@ window.addEventListener("DOMContentLoaded", () => {
         // currentStep = "FAIL";
         // Timelines.encryptionFail.play();
       }
-    }, 1200);
+    }, 3200);
   }
 
   function getFileDetails(file) {
@@ -641,6 +657,20 @@ window.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error:", error);
     }
+  }
+
+  function switchImage() {
+    images.forEach((img) => {
+      const portraitSrc = img.getAttribute("data-portrait");
+      if (window.innerWidth < 970) {
+        img.setAttribute("src", portraitSrc);
+      } else {
+        const landscapeSrc = img
+          .getAttribute("src")
+          .replace("-portrait", "-landscape");
+        img.setAttribute("src", landscapeSrc);
+      }
+    });
   }
 
   const token = {
