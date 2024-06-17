@@ -66,6 +66,70 @@ const Timelines = {
     );
     return tl;
   })(),
+  userLoggedInMssg: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.5,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Log In Successful",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=4"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
+
+    return tl;
+  })(),
+  userLoggedInMssg: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.5,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Log In Successful",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=4"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
+
+    return tl;
+  })(),
   userLoggedOut: (() => {
     let tl = gsap.timeline({ paused: true });
     tl.add("begin");
@@ -86,6 +150,38 @@ const Timelines = {
       },
       "begin"
     );
+
+    return tl;
+  })(),
+  userLoggedOutMssg: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.5,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Log Out Successful",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=4"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
 
     return tl;
   })(),

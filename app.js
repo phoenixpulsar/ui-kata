@@ -88,6 +88,8 @@ window.addEventListener("DOMContentLoaded", () => {
       currentUser = user;
 
       Timelines.userLoggedIn.restart();
+      Timelines.userLoggedInMssg.restart();
+      Timelines.userLoggedInMssg.play();
 
       const unsub = onSnapshot(doc(db, "customer_tokens", user.uid), (doc) => {
         console.log("Current data: ", doc.data().tokens);
@@ -363,8 +365,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#sign-out-btn").on("click", (e) => {
     e.preventDefault();
-    auth.signOut();
     Timelines.openProfilePanel.reverse();
+    Timelines.userLoggedOutMssg.restart();
+    Timelines.userLoggedOutMssg.play();
+    auth.signOut();
   });
 
   $("#close-profile").on("click", (e) => {
@@ -389,24 +393,24 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  $("#install-btn").on("click", (e) => {
-    e.preventDefault();
-    console.log(currentUser);
-    console.log(userTokens);
-    console.log(userTokens[0]);
-    // useToken(currentUser, userTokens[0]);
-    if (bipEvent) {
-      bipEvent.propt();
-    } else {
-      alert("I'm sorry do this manuall");
-    }
-  });
-  let bipEvent = null;
-  window.addEventListener("beforeinstallprompt", (e) => {
-    // preven browser from rendering ui
-    e.preventDefault();
-    bipEvent = event;
-  });
+  // $("#install-btn").on("click", (e) => {
+  //   e.preventDefault();
+  //   console.log(currentUser);
+  //   console.log(userTokens);
+  //   console.log(userTokens[0]);
+  //   // useToken(currentUser, userTokens[0]);
+  //   if (bipEvent) {
+  //     bipEvent.propt();
+  //   } else {
+  //     alert("I'm sorry do this manuall");
+  //   }
+  // });
+  // let bipEvent = null;
+  // window.addEventListener("beforeinstallprompt", (e) => {
+  //   // preven browser from rendering ui
+  //   e.preventDefault();
+  //   bipEvent = event;
+  // });
 
   function checkUserTokens() {
     if (userTokens.length) {
