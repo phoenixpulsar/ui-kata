@@ -210,7 +210,7 @@ window.addEventListener("DOMContentLoaded", () => {
       } else {
         if (secureCompare(inputValue, passwordToConfirm)) {
           if (encryptionMode === "DECRYPT_FILE") {
-            processDecryptFile(uploadedFile, passwordToConfirm);
+            Timelines.showDecryptionDownload.play();
           } else {
             // console.log("Go to encrypt");
             Timelines.showEncryptBtn.restart();
@@ -232,7 +232,11 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#download-btn").on("click", () => {
-    processFile(uploadedFile, passwordToConfirm);
+    if (encryptionMode === "DECRYPT_FILE") {
+      processDecryptFile(uploadedFile, passwordToConfirm);
+    } else {
+      processFile(uploadedFile, passwordToConfirm);
+    }
   });
 
   $("#close-exp-svg").addEventListener("click", () => {
@@ -290,7 +294,7 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   $("#login-form").on("submit", (e) => {
-    e.preventDefault;
+    e.preventDefault();
 
     const email = $("#login-email-input").value;
     const password = $("#login-password-input").value;
@@ -314,6 +318,20 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   $("#open-sign-up").on("click", (e) => {
+    e.preventDefault();
+    scrollToTop();
+    Timelines.openSignUpPanel.play();
+    Timelines.openLoginPanel.reverse();
+  });
+
+  $(".join-btn").on("click", (e) => {
+    e.preventDefault();
+    scrollToTop();
+    Timelines.openSignUpPanel.play();
+    Timelines.openLoginPanel.reverse();
+  });
+
+  $("#card-button").on("click", (e) => {
     e.preventDefault();
     scrollToTop();
     Timelines.openSignUpPanel.play();
@@ -535,10 +553,6 @@ window.addEventListener("DOMContentLoaded", () => {
   async function processFile(file, password) {
     const reader = new FileReader();
     const { mimeType, fileName, fileExtension } = getFileDetails(file);
-    console.log("Step 0 get file details");
-    console.log("MimeType:", mimeType);
-    console.log("FileName:", fileName);
-    console.log("File Extension:", fileExtension);
 
     reader.onload = async (event) => {
       const arrayBuffer = event.target.result;

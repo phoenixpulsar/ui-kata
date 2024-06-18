@@ -416,6 +416,56 @@ const Timelines = {
       });
     return tl;
   })(),
+  showDecryptionDownload: (() => {
+    var tl = gsap.timeline({ paused: true });
+    tl.to(
+      "#password-form-step-1",
+      {
+        opacity: 0,
+        visibility: "hidden",
+        duration: 0.5,
+        display: "none",
+        ease: "sine.out",
+      },
+      "begin"
+    )
+      .to(
+        "#back-svg-icon",
+        {
+          opacity: 0,
+          visibility: "hidden",
+        },
+        "begin"
+      )
+      .to(
+        "#confirm-password-label",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 0.5,
+          display: "none",
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to(
+        "#confirm-password-input",
+        {
+          opacity: 0,
+          visibility: "hidden",
+          duration: 0.5,
+          display: "none",
+          ease: "sine.out",
+        },
+        "begin"
+      )
+      .to("#download-btn", {
+        opacity: 1,
+        visibility: "visible",
+      });
+
+    return tl;
+  })(),
   showEncryptBtn: (() => {
     var tl = gsap.timeline({ paused: true });
     let encryptBtn = document.querySelector("#encrypt-btn");
