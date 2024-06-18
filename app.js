@@ -70,8 +70,8 @@ window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("locationchange", handleNavigation);
 
   // switch guide img in smaller screen sizes
-  // switchImage();
-  // window.addEventListener("resize", switchImage);
+  switchImage();
+  window.addEventListener("resize", switchImage);
 
   // Initial check if already on the target page
   handleNavigation();
@@ -757,19 +757,19 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // function switchImage() {
-  //   images.forEach((img) => {
-  //     const portraitSrc = img.getAttribute("data-portrait");
-  //     if (window.innerWidth < 970) {
-  //       img.setAttribute("src", portraitSrc);
-  //     } else {
-  //       const landscapeSrc = img
-  //         .getAttribute("src")
-  //         .replace("-portrait", "-landscape");
-  //       img.setAttribute("src", landscapeSrc);
-  //     }
-  //   });
-  // }
+  function switchImage() {
+    images.forEach((img) => {
+      const portraitSrc = img.getAttribute("data-portrait");
+      if (window.innerWidth < 970) {
+        img.setAttribute("src", portraitSrc);
+      } else {
+        const landscapeSrc = img
+          .getAttribute("src")
+          .replace("-portrait", "-landscape");
+        img.setAttribute("src", landscapeSrc);
+      }
+    });
+  }
 
   const token = {
     data: "tokenDataToBeAddedHere",
