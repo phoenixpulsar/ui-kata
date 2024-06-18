@@ -1,7 +1,7 @@
 {
-  "id": "/",
-  "scope": "/",
-  "start_url": "/",
+  "id": "./",
+  "scope": "./",
+  "start_url": "./",
   "name": "Ordo One App",
   "short_name": "Ordo One",
   "orientation": "any",
