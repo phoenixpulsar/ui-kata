@@ -70,8 +70,8 @@ window.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("locationchange", handleNavigation);
 
   // switch guide img in smaller screen sizes
-  switchImage();
-  window.addEventListener("resize", switchImage);
+  // switchImage();
+  // window.addEventListener("resize", switchImage);
 
   // Initial check if already on the target page
   handleNavigation();
