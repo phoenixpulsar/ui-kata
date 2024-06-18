@@ -161,7 +161,6 @@ window.addEventListener("DOMContentLoaded", () => {
       "#done-svg",
       ".login-container",
       ".profile-container",
-
       ".sign-up-container",
       ".terms-container",
       ".about-container",
@@ -191,7 +190,6 @@ window.addEventListener("DOMContentLoaded", () => {
   $("#password-btn").on("click", (e) => {
     e.preventDefault();
     getCurrentPasswordInput();
-    console.log("here clicked");
     Timelines.showConfirmPassword.restart();
     currentStep = "CONFIRM";
   });
@@ -202,14 +200,20 @@ window.addEventListener("DOMContentLoaded", () => {
       const inputValue = event.target.value;
       const passwordLength = passwordToConfirm.length;
 
-      // Avoid logging sensitive information
-      if (passwordLength !== inputValue.length) {
-        if (passwordToConfirm.startsWith(inputValue)) {
-          // Timelines.passwordsNoMatch.reverse();
-        } else {
-          Timelines.passwordsNoMatch.restart();
-          Timelines.passwordsNoMatch.play();
-        }
+      console.log(
+        "inputValue",
+        inputValue,
+        "passwordToConfirm",
+        passwordToConfirm
+      );
+      console.log("length", passwordLength);
+
+      if (
+        passwordLength !== inputValue.length &&
+        !secureCompare(inputValue, passwordToConfirm)
+      ) {
+        Timelines.passwordsNoMatch.restart();
+        Timelines.passwordsNoMatch.play();
       } else {
         if (secureCompare(inputValue, passwordToConfirm)) {
           if (encryptionMode === "DECRYPT_FILE") {
@@ -618,7 +622,6 @@ window.addEventListener("DOMContentLoaded", () => {
   function resetState() {
     passwordToConfirm = "";
     uploadedFile = null;
-    console.log("NEXT STEP", "INIT");
     currentStep = "INIT";
   }
 
@@ -727,7 +730,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  $("#open-checkout").on("click", startStripeSession);
+  $("#open-checkout").on("click", () => startStripeSession(currentUser));
 
   async function startStripeSession(user) {
     try {

@@ -525,6 +525,7 @@ const Timelines = {
         {
           opacity: 0,
           visibility: "hidden",
+          scale: 1,
         },
         "begin"
       )
