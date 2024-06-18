@@ -79,7 +79,7 @@
               <div class="password-ctrls-inner-grid">        
                 <!-- Step 1 -->
                 <form id="password-form-step-1">
-                  <label id="password-label" class="password-ctrls-label" for="password-input">Password</label>
+                  <label id="password-label" class="password-ctrls-label" for="password-input">Encryption Password</label>
                   <input id="password-input" class="password-ctrls-input" type="password" placeholder="Password "/> 
                   <button type="submit" id="password-btn" class="password-ctrls-btn">
                     Continue
@@ -99,7 +99,7 @@
                   Download
                 </button>
 
-                <p id="password-mismatch-mssg">Password mismatch</p>
+                <!-- <p id="password-mismatch-mssg">Password mismatch</p> -->
               </div>
             </div>
           </div>
@@ -152,9 +152,7 @@
               <button id="close-profile" class="">
                 <svg id="closer-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="m253.9-229.79-24.11-24.11L455.9-480 229.79-706.1l24.11-24.11L480-504.1l226.1-226.11 24.11 24.11L504.1-480l226.11 226.1-24.11 24.11L480-455.9 253.9-229.79Z"/></svg> 
               </button>
-            </div>
-            
-            
+            </div>  
             <ul>
               <li>
                 <svg id="token-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M615.38-329.23h135.39v-135.39h-32.31v103.08H615.38v32.31Zm-135.46-57.18q38.76 0 66.47-27.37 27.71-27.38 27.71-66.14 0-38.76-27.75-66.47t-66.51-27.71q-38.76 0-66.1 27.75-27.33 27.75-27.33 66.51 0 38.76 27.37 66.1 27.38 27.33 66.14 27.33ZM209.23-494.1h32.31v-103.08h103.08v-32.31H209.23v135.39ZM120-240v-480h720v480H120Zm33.85-33.85h652.3v-412.3h-652.3v412.3Zm0 0v-412.3 412.3Z"/></svg>
@@ -166,28 +164,13 @@
                 <svg id="store-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M176.92-746.15V-780H783.9v33.85H176.92ZM181.79-180v-245.33h-52.15v-33.85L176.92-660h606.31l47.8 200.82v33.85h-52.16V-180h-33.84v-245.33H535.95V-180H181.79Zm33.85-33.85H502.1v-211.48H215.64v211.48Zm-52.67-245.33h634.21-634.21Zm0 0h634.21L758-626.15H202.15l-39.18 166.97Z"/></svg>
                 Buy Tokens
               </li>
-
               <li id="sign-out-btn">
                 Sign Out
                 <svg id="log-out-svg" xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#4d5358"><path d="M218.46-160q-24.58 0-41.52-16.94Q160-193.88 160-218.46v-523.08q0-24.58 16.94-41.52Q193.88-800 218.46-800h262.16v33.85H218.46q-9.23 0-16.92 7.69-7.69 7.69-7.69 16.92v523.08q0 9.23 7.69 16.92 7.69 7.69 16.92 7.69h262.16V-160H218.46Zm448.1-186.41-24.69-23.9 92.77-92.77H367.69v-33.84h366.64l-92.77-92.77 24.18-24.41L800-479.59 666.56-346.41Z"/></svg>
               </li>
             </ul>
-                
           </div>
-
-
-           <!-- Stripe Checkout -->
-           <div class="checkout-container">
-            <div class="checkout-ctrls">
-              <button id="close-checkout" class="close-panel-btn">Close</button>
-            </div>
-            <h1 id="checkout-header">Checkout</h1>
-            <div id="checkout">
-              <!-- Checkout will insert the payment form here -->
-            </div>
-          </div>
-
-          
+ 
           <!-- Terms -->
           <div class="terms-container">
             <div class="panel-ctrls">
@@ -294,7 +277,24 @@
             <div class="panel-ctrls">
               <button id="close-contact" class="close-panel-btn">Close</button>
             </div>
-            <h1>Contact</h1>
+            <h1 class="contact-header">Contact</h1>
+            <div class="contact-content">
+              <form id="contact-form">
+                <label id="subject-label" for="subject">Subject:</label>
+                <input id="subject-input" class="" type="text" name="subject" required>
+                
+                <label id="email-label" for="email">Email:</label>
+                <input id="email-input" class="" type="email" name="email" required>
+                
+                <label id="telephone-label" for="telephone">Telephone:</label>
+                <input id="telephone-input" class="" type="tel" name="telephone" required>
+                
+                <label id="message-label" for="message">Message:</label>
+                <textarea id="message-input" class="" name="message" required></textarea>
+                
+                <button id="submit-btn" type="submit">Submit</button>
+              </form>
+            </div>
           </div>
 
           <!-- Privacy -->

@@ -11,3 +11,116 @@
   background-color: var(--gray90);
   padding-left: 1rem;
 }
+
+.contact-content {
+  padding-top:1rem;
+  padding-left: 1rem;
+  max-width: 535px;
+}
+
+
+#contact-header {
+  padding-left: 1rem;
+}
+
+#contact-form {
+  display: grid;
+  grid-template-areas:
+    "subject-label"
+    "subject-input"
+    "email-label"
+    "email-input"
+    "telephone-label"
+    "telephone-input"
+    "message-label"
+    "message-input"
+    "submit-btn";
+  grid-template-rows: auto auto auto auto auto auto auto auto auto;
+  padding-left: 1rem;
+  max-width: 535px;
+}
+
+#subject-label {
+  grid-area: subject-label;
+  margin-top: 3rem;
+}
+
+#subject-input {
+  grid-area: subject-input;
+  height: 3rem;
+  outline: none;
+  font-size: x-large;
+  color: var(--white);
+  border-radius: 0.25rem;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
+  &:focus {
+    border: 2px solid var(--gray30);
+  }
+}
+
+#email-label {
+  grid-area: email-label;
+  margin-top: 2rem;
+}
+
+#email-input {
+  grid-area: email-input;
+  height: 3rem;
+  outline: none;
+  font-size: x-large;
+  color: var(--white);
+  border-radius: 0.25rem;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
+  &:focus {
+    border: 2px solid var(--gray30);
+  }
+}
+
+#telephone-label {
+  grid-area: telephone-label;
+  margin-top: 2rem;
+}
+
+#telephone-input {
+  grid-area: telephone-input;
+  height: 3rem;
+  outline: none;
+  font-size: x-large;
+  color: var(--white);
+  border-radius: 0.25rem;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
+  &:focus {
+    border: 2px solid var(--gray30);
+  }
+}
+
+#message-label {
+  grid-area: message-label;
+  margin-top: 2rem;
+}
+
+#message-input {
+  grid-area: message-input;
+  height: 6rem;
+  outline: none;
+  font-size: large;
+  color: var(--white);
+  border-radius: 0.25rem;
+  font-family: var(--main);
+  border: 2px solid var(--gray70);
+  background-color: var(--gray100);
+  &:focus {
+    border: 2px solid var(--gray30);
+  }
+}
+
+#submit-btn {
+  grid-area: submit-btn;
+  margin-top: 2rem;
+}

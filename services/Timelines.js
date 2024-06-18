@@ -98,38 +98,34 @@ const Timelines = {
 
     return tl;
   })(),
-  userLoggedInMssg: (() => {
+  feedbackSubmitted: (() => {
     let tl = gsap.timeline({ paused: true });
     tl.add("begin");
 
     tl.to(
-      ".app-notifications",
+      ".contact-content",
       {
-        duration: 0.5,
-        text: "101010001100",
+        opacity: 0,
+        visibility: "hidden",
+        duration: 1,
       },
       "begin"
     )
-      .to(".app-notifications", {
-        duration: 1,
-        text: "Log In Successful",
+      .to(".contact-header", {
+        y: 40,
       })
-      .to(
-        ".app-notifications",
-        {
-          duration: 1,
-          text: "00101000",
-        },
-        "begin+=4"
-      )
-      .to(".app-notifications", {
-        opacity: 0,
+      .to(".contact-header", {
         duration: 1,
-        text: "",
+        text: "0100110101001",
+      })
+      .to(".contact-header", {
+        duration: 1,
+        text: "Thank you, message received",
       });
 
     return tl;
   })(),
+
   userLoggedOut: (() => {
     let tl = gsap.timeline({ paused: true });
     tl.add("begin");
@@ -182,7 +178,68 @@ const Timelines = {
         duration: 1,
         text: "",
       });
+    return tl;
+  })(),
+  stripeSuccessMssg: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
 
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.5,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Payment Successful",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=4"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
+    return tl;
+  })(),
+  stripeErrorMssg: (() => {
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.5,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Payment fail. Please try again.",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=4"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
     return tl;
   })(),
   modeSwitchToggle: (() => {
@@ -319,15 +376,44 @@ const Timelines = {
     return tl;
   })(),
   passwordsNoMatch: (() => {
-    let tl = gsap.timeline({ paused: true });
+    // let tl = gsap.timeline({ paused: true });
 
-    tl.to("#password-mismatch-mssg", {
-      opacity: 1,
-      visibility: "visible",
-      duration: 1,
-      ease: "sine.out",
-      color: "red",
-    });
+    // tl.to("#password-mismatch-mssg", {
+    //   opacity: 1,
+    //   visibility: "visible",
+    //   duration: 1,
+    //   ease: "sine.out",
+    //   color: "red",
+    // });
+    // return tl;
+    let tl = gsap.timeline({ paused: true });
+    tl.add("begin");
+
+    tl.to(
+      ".app-notifications",
+      {
+        duration: 0.25,
+        text: "101010001100",
+      },
+      "begin"
+    )
+      .to(".app-notifications", {
+        duration: 1,
+        text: "Password Mismatch",
+      })
+      .to(
+        ".app-notifications",
+        {
+          duration: 1,
+          text: "00101000",
+        },
+        "begin+=2"
+      )
+      .to(".app-notifications", {
+        opacity: 0,
+        duration: 1,
+        text: "",
+      });
     return tl;
   })(),
   showEncryptBtn: (() => {

@@ -9,7 +9,13 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  onSnapshot,
+  collection,
+  addDoc,
+} from "firebase/firestore";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
@@ -23,6 +29,8 @@ window.addEventListener("DOMContentLoaded", () => {
     // Check if the URL matches the success or cancel URL
     if (window.location.href === successUrl) {
       // Handle success URL navigation
+      Timelines.stripeSuccessMssg.restart();
+      Timelines.stripeSuccessMssg.play();
       console.log("User navigated to success page");
       // Add your code to handle success
 
@@ -31,6 +39,8 @@ window.addEventListener("DOMContentLoaded", () => {
     } else if (window.location.href === cancelUrl) {
       // Handle cancel URL navigation
       console.log("User navigated to cancel page");
+      Timelines.stripeErrorMssg.restart();
+      Timelines.stripeErrorMssg.play();
       // Add your code to handle cancel
 
       // Remove cancel.html from the URL
@@ -183,27 +193,33 @@ window.addEventListener("DOMContentLoaded", () => {
     currentStep = "CONFIRM";
   });
 
-  $("#confirm-password-input").on("input", (event) => {
-    console.log("yo input");
-    console.log(passwordToConfirm, event.target.value);
-    if (passwordToConfirm.length !== event.target.value.length) {
-      if (passwordToConfirm.startsWith(event.target.value)) {
-        Timelines.passwordsNoMatch.reverse();
-      } else {
-        Timelines.passwordsNoMatch.restart();
-      }
-    } else {
-      if (event.target.value === passwordToConfirm) {
-        if (encryptionMode === "DECRYPT_FILE") {
-          processDecryptFile(uploadedFile, passwordToConfirm);
+  $("#confirm-password-input").on(
+    "input",
+    debounce((event) => {
+      const inputValue = event.target.value;
+      const passwordLength = passwordToConfirm.length;
+
+      // Avoid logging sensitive information
+      if (passwordLength !== inputValue.length) {
+        if (passwordToConfirm.startsWith(inputValue)) {
+          // Timelines.passwordsNoMatch.reverse();
         } else {
-          console.log("Go to encrypt");
-          Timelines.showEncryptBtn.restart();
-          currentStep = "ENCRYPT";
+          Timelines.passwordsNoMatch.restart();
+          Timelines.passwordsNoMatch.play();
+        }
+      } else {
+        if (secureCompare(inputValue, passwordToConfirm)) {
+          if (encryptionMode === "DECRYPT_FILE") {
+            processDecryptFile(uploadedFile, passwordToConfirm);
+          } else {
+            // console.log("Go to encrypt");
+            Timelines.showEncryptBtn.restart();
+            currentStep = "ENCRYPT";
+          }
         }
       }
-    }
-  });
+    }, 300)
+  ); // Adjust debounce time as needed
 
   $("#encrypt-btn").on("click", () => {
     let tokenAvailable = checkUserTokens();
@@ -230,16 +246,51 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#user-profile").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openProfilePanel.play();
   });
 
   $("#open-login").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openLoginPanel.play();
   });
 
-  $("#login-form").on("submit", (e) => {
+  function handleSubmit(e) {
     e.preventDefault();
+
+    const subject = $("#subject-input").value;
+    const email = $("#email-input").value;
+    const phone = $("#telephone-input").value;
+    const mssg = $("#message-input").value;
+
+    addFeedback(subject, email, phone, mssg);
+
+    // Remove the event listener after the first submission
+    $("#contact-form").removeEventListener("submit", handleSubmit);
+  }
+
+  $("#contact-form").on("submit", handleSubmit);
+
+  async function addFeedback(subject, email, phone, mssg) {
+    try {
+      const docRef = await addDoc(collection(db, "feedback"), {
+        subject: subject,
+        email: email,
+        phone: phone,
+        mssg: mssg,
+        userId: currentUser?.id || "guest",
+        timestamp: new Date(),
+      });
+      console.log("Document written with ID: ", docRef.id);
+      Timelines.feedbackSubmitted.play();
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  }
+
+  $("#login-form").on("submit", (e) => {
+    e.preventDefault;
 
     const email = $("#login-email-input").value;
     const password = $("#login-password-input").value;
@@ -264,6 +315,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#open-sign-up").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openSignUpPanel.play();
     Timelines.openLoginPanel.reverse();
   });
@@ -307,20 +359,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#open-terms-from-register").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openTermsPanel.play();
   });
 
   $("#open-terms").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openTermsPanel.play();
-  });
-
-  $("#open-checkout").on("click", (e) => {
-    console.log("checkout");
-    e.preventDefault();
-    startStripeSession(currentUser);
-
-    // Timelines.openCheckoutPanel.play();
   });
 
   $("#close-terms").on("click", (e) => {
@@ -330,6 +376,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#open-about").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openAboutPanel.play();
   });
 
@@ -340,6 +387,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#open-contact").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openContactPanel.play();
   });
 
@@ -350,17 +398,13 @@ window.addEventListener("DOMContentLoaded", () => {
 
   $("#open-privacy").on("click", (e) => {
     e.preventDefault();
+    scrollToTop();
     Timelines.openPrivacyPanel.play();
   });
 
   $("#close-privacy").on("click", (e) => {
     e.preventDefault();
     Timelines.openPrivacyPanel.reverse();
-  });
-
-  $("#close-checkout").on("click", (e) => {
-    e.preventDefault();
-    Timelines.openCheckoutPanel.reverse();
   });
 
   $("#sign-out-btn").on("click", (e) => {
@@ -412,6 +456,34 @@ window.addEventListener("DOMContentLoaded", () => {
   //   bipEvent = event;
   // });
 
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // You can change to 'auto' if you don't want a smooth scroll
+    });
+  }
+
+  function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  }
+
+  // Constant-time comparison function to prevent timing attacks
+  function secureCompare(a, b) {
+    if (a.length !== b.length) {
+      return false;
+    }
+    let result = 0;
+    for (let i = 0; i < a.length; i++) {
+      result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    }
+    return result === 0;
+  }
+
   function checkUserTokens() {
     if (userTokens.length) {
       let tokenToUse = userTokens.pop();
@@ -419,7 +491,7 @@ window.addEventListener("DOMContentLoaded", () => {
       return true;
     } else {
       alert(
-        "You don't have any tokens, please purchase tokens to decrypt or encrypt"
+        "You don't have any tokens, please purchase tokens to decrypt or encrypt. Don't have an account? Sign Up and get 10 free tokens."
       );
       return false;
     }
