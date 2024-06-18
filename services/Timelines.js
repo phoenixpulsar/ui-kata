@@ -96,7 +96,6 @@ const Timelines = {
     tl.timeScale(1);
     return tl;
   })(),
-
   fileLoop: (() => {
     let tl = gsap.timeline({ paused: false, repeat: -1, yoyo: true });
 
@@ -514,6 +513,22 @@ const Timelines = {
         "begin"
       )
       .to(
+        "#file-name-display",
+        {
+          opacity: 0,
+          visibility: "hidden",
+        },
+        "begin"
+      )
+      .to(
+        "#file-upload-svg-icon",
+        {
+          opacity: 0,
+          visibility: "hidden",
+        },
+        "begin"
+      )
+      .to(
         "#confirm-password-input",
         {
           opacity: 0,
@@ -527,7 +542,17 @@ const Timelines = {
       .to("#download-btn", {
         opacity: 1,
         visibility: "visible",
-      });
+      })
+      .to(
+        "#close-exp-svg",
+        {
+          opacity: 1,
+          visibility: "visible",
+          duration: 1,
+          ease: "sine.out",
+        },
+        "begin=-1"
+      );
 
     return tl;
   })(),
@@ -640,27 +665,6 @@ const Timelines = {
       );
 
     tl.timeScale(1);
-
-    return tl;
-  })(),
-  openCheckoutPanel: (() => {
-    let tl = gsap.timeline({ paused: true });
-    tl.fromTo(
-      ".checkout-container",
-      {
-        opacity: 0,
-        visibility: "hidden",
-      },
-      {
-        opacity: 1,
-        visibility: "visible",
-        x: "-90vw",
-        ease: "sine.out",
-        duration: 1,
-      }
-    );
-
-    tl.timeScale(1.5);
 
     return tl;
   })(),

@@ -161,7 +161,7 @@ window.addEventListener("DOMContentLoaded", () => {
       "#done-svg",
       ".login-container",
       ".profile-container",
-      ".checkout-container",
+
       ".sign-up-container",
       ".terms-container",
       ".about-container",
@@ -726,6 +726,8 @@ window.addEventListener("DOMContentLoaded", () => {
       console.error("Error:", error);
     }
   }
+
+  $("#open-checkout").on("click", startStripeSession);
 
   async function startStripeSession(user) {
     try {
