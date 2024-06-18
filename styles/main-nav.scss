@@ -31,9 +31,12 @@
   cursor: pointer;
 }
 
-.logo {
-  width: 100px;
-  // margin-top: 1rem;
+
+
+@media (max-width: 768px) {
+  #logo {
+    font-size: x-large;
+  }
 }
 
 .app-notifications {
@@ -50,6 +53,13 @@
   left: 195px;
   font-size: x-small;
   color: var(--pink);
+}
+
+@media (max-width: 768px) {
+  .ordo-one-version {
+    top: 30px;
+    left: 130px
+  }
 }
 
 #open-login {
