@@ -121,6 +121,9 @@ window.addEventListener("DOMContentLoaded", () => {
     const mainNav = document.getElementById("mainNav");
     if (window.scrollY > 0) {
       mainNav.classList.add("scrolled");
+      Timelines.statShaLoop.play();
+      Timelines.statIterationLoop.play();
+      Timelines.statCountLoop.play();
     } else {
       mainNav.classList.remove("scrolled");
     }

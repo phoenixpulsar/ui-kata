@@ -31,6 +31,72 @@ const Timelines = {
 
     return tl;
   })(),
+  statShaLoop: (() => {
+    let tl = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
+
+    tl.add("begin");
+    tl.fromTo(
+      "#stat-sha",
+      {
+        text: "SHA-256",
+        duration: 2,
+      },
+      {
+        text: "0100110",
+      },
+      "begin+=2"
+    ).to("#stat-sha", {
+      duration: 0.5,
+      text: "00101000",
+    });
+
+    tl.timeScale(1);
+
+    return tl;
+  })(),
+  statIterationLoop: (() => {
+    let tl = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
+    tl.add("begin");
+    tl.fromTo(
+      "#stat-iteration",
+      {
+        text: "250,000",
+        duration: 2,
+      },
+      {
+        text: "0100110",
+      },
+      "begin+=2"
+    ).to("#stat-iteration", {
+      duration: 0.5,
+      text: "00101000",
+    });
+
+    tl.timeScale(1);
+    return tl;
+  })(),
+  statCountLoop: (() => {
+    let tl = gsap.timeline({ paused: true, repeat: -1, yoyo: true });
+    tl.add("begin");
+    tl.fromTo(
+      "#stat-count",
+      {
+        text: "1000+",
+        duration: 2,
+      },
+      {
+        text: "0100110",
+      },
+      "begin+=2"
+    ).to("#stat-count", {
+      duration: 0.5,
+      text: "00101000",
+    });
+
+    tl.timeScale(1);
+    return tl;
+  })(),
+
   fileLoop: (() => {
     let tl = gsap.timeline({ paused: false, repeat: -1, yoyo: true });
 
@@ -125,7 +191,6 @@ const Timelines = {
 
     return tl;
   })(),
-
   userLoggedOut: (() => {
     let tl = gsap.timeline({ paused: true });
     tl.add("begin");
