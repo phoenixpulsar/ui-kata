@@ -9,12 +9,12 @@
   "display": "standalone",
   "icons": [
     {
-      "src": "assets/icons/01.png",
+      "src": "/icons/01.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "assets/icons/maskable_icon_x512.png",
+      "src": "/icons/maskable_icon_x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
