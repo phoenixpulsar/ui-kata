@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const images = document.querySelectorAll(".step-img img");
 
   function handleNavigation(event) {
-    console.log("evt navigation", event);
+    // console.log("evt navigation", event);
     // Check if the URL matches the success or cancel URL
     if (window.location.href === successUrl) {
       // Handle success URL navigation
@@ -102,7 +102,7 @@ window.addEventListener("DOMContentLoaded", () => {
       Timelines.userLoggedInMssg.play();
 
       const unsub = onSnapshot(doc(db, "customer_tokens", user.uid), (doc) => {
-        console.log("Current data: ", doc.data().tokens);
+        // console.log("Current data: ", doc.data().tokens);
         tokensAvailable = doc.data().tokens.length;
         userTokens = doc.data().tokens;
         // debugger;
