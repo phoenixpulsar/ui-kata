@@ -309,9 +309,34 @@ window.addEventListener("DOMContentLoaded", () => {
         Timelines.openLoginPanel.reverse();
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(error);
+        // If the error is a JSON string, parse it first. If it's already an object, use it directly.
+        let errorObj = error;
+        if (typeof error === "string") {
+          try {
+            errorObj = JSON.parse(error);
+          } catch (parseError) {
+            console.error("Error parsing error JSON:", parseError);
+            return;
+          }
+        }
+
+        // Accessing the nested error message
+        const errorMessage =
+          errorObj.error &&
+          errorObj.error.errors &&
+          errorObj.error.errors[0].message
+            ? errorObj.error.errors[0].message
+            : "Unknown error occurred";
+
+        console.error(
+          "Error Code:",
+          errorObj.error,
+          "Error Message:",
+          errorMessage
+        );
+
+        // Use textContent to set the text content for a standard JavaScript method
+        $("#error-log-in").textContent = errorMessage; // Displaying the specific error message
       });
   });
 
