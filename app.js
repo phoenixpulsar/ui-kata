@@ -2,75 +2,14 @@ import Store from "./services/Store.js";
 import Timelines from "./services/Timelines.js";
 import EncryptionAPI from "./services/EncryptionAPI";
 import { gsap } from "gsap";
-import { auth, db } from "./firebase";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+import { db } from "./firebase";
 
-import {
-  doc,
-  getDoc,
-  onSnapshot,
-  collection,
-  addDoc,
-} from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 
 // To work with the DOM we wait for this event before we manipulate
 window.addEventListener("DOMContentLoaded", () => {
-  const successUrl = "http://localhost:5173/success.html";
-  const cancelUrl = "http://localhost:5173/cancel.html";
-
   const images = document.querySelectorAll(".step-img img");
 
-  function handleNavigation(event) {
-    // console.log("evt navigation", event);
-    // Check if the URL matches the success or cancel URL
-    if (window.location.href === successUrl) {
-      // Handle success URL navigation
-      Timelines.stripeSuccessMssg.restart();
-      Timelines.stripeSuccessMssg.play();
-      console.log("User navigated to success page");
-      // Add your code to handle success
-
-      // Remove success.html from the URL
-      window.history.replaceState({}, document.title, "/");
-    } else if (window.location.href === cancelUrl) {
-      // Handle cancel URL navigation
-      console.log("User navigated to cancel page");
-      Timelines.stripeErrorMssg.restart();
-      Timelines.stripeErrorMssg.play();
-      // Add your code to handle cancel
-
-      // Remove cancel.html from the URL
-      window.history.replaceState({}, document.title, "/");
-    }
-  }
-
-  // Override history.pushState and history.replaceState to trigger custom event
-  const originalPushState = history.pushState;
-  const originalReplaceState = history.replaceState;
-
-  history.pushState = function (state, title, url) {
-    const result = originalPushState.apply(this, arguments);
-    window.dispatchEvent(new Event("pushstate"));
-    window.dispatchEvent(new Event("locationchange"));
-    return result;
-  };
-
-  history.replaceState = function (state, title, url) {
-    const result = originalReplaceState.apply(this, arguments);
-    window.dispatchEvent(new Event("replacestate"));
-    window.dispatchEvent(new Event("locationchange"));
-    return result;
-  };
-
-  window.addEventListener("popstate", handleNavigation);
-  window.addEventListener("locationchange", handleNavigation);
-
-  // Initial check if already on the target page
-  handleNavigation();
   // Init
   const $ = (selector) => document.querySelector(selector);
   HTMLElement.prototype.on = function (a, b, c) {
@@ -83,34 +22,9 @@ window.addEventListener("DOMContentLoaded", () => {
   // Module Globals
   let currentUser = null;
   let passwordToConfirm = "";
-  let tokensAvailable = 0;
-  let userTokens = [];
   let uploadedFile = null;
   let currentStep = "INIT";
   let encryptionMode = "ENCRYPT_FILE";
-
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      currentUser = user;
-
-      Timelines.userLoggedIn.restart();
-      Timelines.userLoggedInMssg.restart();
-      Timelines.userLoggedInMssg.play();
-
-      const unsub = onSnapshot(doc(db, "customer_tokens", user.uid), (doc) => {
-        // console.log("Current data: ", doc.data().tokens);
-        tokensAvailable = doc.data().tokens.length;
-        userTokens = doc.data().tokens;
-        // debugger;
-
-        $("#tokens-available-span").textContent = tokensAvailable;
-      });
-    } else {
-      // No user is signed in
-      console.log("No user signed in");
-      Timelines.userLoggedOut.restart();
-    }
-  });
 
   // Fix scrollbar on scroll
   document.addEventListener("scroll", function () {
@@ -127,7 +41,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   gsap.set(
     [
-      "#user-profile",
       "#close-svg",
       "#close-exp-svg",
       ".password-ctrls",
@@ -155,9 +68,6 @@ window.addEventListener("DOMContentLoaded", () => {
       "#check-shield-svg",
       "#download-btn",
       "#done-svg",
-      ".login-container",
-      ".profile-container",
-      ".sign-up-container",
       ".terms-container",
       ".about-container",
       ".contact-container",
@@ -225,13 +135,10 @@ window.addEventListener("DOMContentLoaded", () => {
   ); // Adjust debounce time as needed
 
   $("#encrypt-btn").on("click", () => {
-    let tokenAvailable = checkUserTokens();
-    if (tokenAvailable) {
-      Timelines.startEncryption.restart();
-      Timelines.startEncryptionLabels.restart();
-      runRandomOutcome();
-      currentStep = "ENCRYPTING";
-    }
+    Timelines.startEncryption.restart();
+    Timelines.startEncryptionLabels.restart();
+    runRandomOutcome();
+    currentStep = "ENCRYPTING";
   });
 
   $("#download-btn").on("click", () => {
@@ -249,18 +156,6 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.closeExperience.restart().then(() => {
       Timelines.fileLoop.play();
     });
-  });
-
-  $("#user-profile").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openProfilePanel.play();
-  });
-
-  $("#open-login").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openLoginPanel.play();
   });
 
   function handleSubmit(e) {
@@ -295,119 +190,6 @@ window.addEventListener("DOMContentLoaded", () => {
       console.error("Error adding document: ", e);
     }
   }
-
-  $("#login-form").on("submit", (e) => {
-    e.preventDefault();
-
-    const email = $("#login-email-input").value;
-    const password = $("#login-password-input").value;
-
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("user", user);
-        Timelines.openLoginPanel.reverse();
-      })
-      .catch((error) => {
-        // If the error is a JSON string, parse it first. If it's already an object, use it directly.
-        let errorObj = error;
-        if (typeof error === "string") {
-          try {
-            errorObj = JSON.parse(error);
-          } catch (parseError) {
-            console.error("Error parsing error JSON:", parseError);
-            return;
-          }
-        }
-
-        // Accessing the nested error message
-        const errorMessage =
-          errorObj.error &&
-          errorObj.error.errors &&
-          errorObj.error.errors[0].message
-            ? errorObj.error.errors[0].message
-            : "Unknown error occurred";
-
-        console.error(
-          "Error Code:",
-          errorObj.error,
-          "Error Message:",
-          errorMessage
-        );
-
-        // Use textContent to set the text content for a standard JavaScript method
-        $("#error-log-in").textContent = errorMessage; // Displaying the specific error message
-      });
-  });
-
-  $("#close-login").on("click", (e) => {
-    e.preventDefault();
-    Timelines.openLoginPanel.reverse();
-  });
-
-  $("#open-sign-up").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openSignUpPanel.play();
-    Timelines.openLoginPanel.reverse();
-  });
-
-  $(".join-btn").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openSignUpPanel.play();
-    Timelines.openLoginPanel.reverse();
-  });
-
-  $("#card-button").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openSignUpPanel.play();
-    Timelines.openLoginPanel.reverse();
-  });
-
-  $("#sign-up-form").on("submit", (e) => {
-    e.preventDefault();
-
-    const email = $("#sign-up-email-input").value;
-    const password = $("#sign-up-password-input").value;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("user", user);
-        fetch("https://addonsignuptokens-h5q4nbdnia-uc.a.run.app", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: { uid: user.uid } }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Success:", data);
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(error);
-      });
-  });
-
-  $("#close-sign-up").on("click", (e) => {
-    e.preventDefault();
-    Timelines.openSignUpPanel.reverse();
-  });
-
-  $("#open-terms-from-register").on("click", (e) => {
-    e.preventDefault();
-    scrollToTop();
-    Timelines.openTermsPanel.play();
-  });
 
   $("#open-terms").on("click", (e) => {
     e.preventDefault();
@@ -453,19 +235,6 @@ window.addEventListener("DOMContentLoaded", () => {
     Timelines.openPrivacyPanel.reverse();
   });
 
-  $("#sign-out-btn").on("click", (e) => {
-    e.preventDefault();
-    Timelines.openProfilePanel.reverse();
-    Timelines.userLoggedOutMssg.restart();
-    Timelines.userLoggedOutMssg.play();
-    auth.signOut();
-  });
-
-  $("#close-profile").on("click", (e) => {
-    e.preventDefault();
-    Timelines.openProfilePanel.reverse();
-  });
-
   // can't use "on" use addEventListener on svg element
   $("#back-svg-icon").addEventListener("click", function (e) {
     e.preventDefault();
@@ -482,25 +251,6 @@ window.addEventListener("DOMContentLoaded", () => {
       reverseFileUpload();
     }
   });
-
-  // $("#install-btn").on("click", (e) => {
-  //   e.preventDefault();
-  //   console.log(currentUser);
-  //   console.log(userTokens);
-  //   console.log(userTokens[0]);
-  //   // useToken(currentUser, userTokens[0]);
-  //   if (bipEvent) {
-  //     bipEvent.propt();
-  //   } else {
-  //     alert("I'm sorry do this manuall");
-  //   }
-  // });
-  // let bipEvent = null;
-  // window.addEventListener("beforeinstallprompt", (e) => {
-  //   // preven browser from rendering ui
-  //   e.preventDefault();
-  //   bipEvent = event;
-  // });
 
   function scrollToTop() {
     window.scrollTo({
@@ -528,19 +278,6 @@ window.addEventListener("DOMContentLoaded", () => {
       result |= a.charCodeAt(i) ^ b.charCodeAt(i);
     }
     return result === 0;
-  }
-
-  function checkUserTokens() {
-    if (userTokens.length) {
-      let tokenToUse = userTokens.pop();
-      useToken(currentUser, tokenToUse);
-      return true;
-    } else {
-      alert(
-        "You don't have any tokens, please purchase tokens to decrypt or encrypt. Don't have an account? Sign Up and get 10 free tokens."
-      );
-      return false;
-    }
   }
 
   function downloadBase64AsFile(base64String, fileName, mimeType, extension) {
@@ -658,34 +395,16 @@ window.addEventListener("DOMContentLoaded", () => {
     passwordToConfirm = input.value;
   }
 
-  function removePasswordFromInput() {
-    document.querySelectorAll("input[type=password]").forEach((input) => {
-      console.log(input.value);
-      input.value = "";
-    });
-  }
-
-  function saveFile(data, fileName, mimeType) {
-    const blob = new Blob([data], { type: mimeType });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
   function runRandomOutcome() {
+    // currently set to always encrypt but handy place to show FAIL or test Fail
     setTimeout(() => {
       let result = Math.random() >= 0.5;
       Timelines.startEncryptionLabels.pause();
       if (result) {
         currentStep = "ENCRYPTED";
-
         Timelines.encryptionSuccess.restart().play();
       } else {
         currentStep = "ENCRYPTED";
-
         Timelines.encryptionSuccess.restart().play();
 
         // currentStep = "FAIL";
@@ -709,80 +428,4 @@ window.addEventListener("DOMContentLoaded", () => {
       fileExtension,
     };
   }
-
-  async function testExpressApi() {
-    try {
-      const response = await fetch("https://ordo-api.vercel.app/yo", {
-        method: "GET",
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Success:", data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  async function useToken(user, token) {
-    try {
-      const response = await fetch(
-        "https://verifyandusetoken-h5q4nbdnia-uc.a.run.app",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: user, token: token }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      console.log("Success:", data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  $("#open-checkout").on("click", () => startStripeSession(currentUser));
-
-  async function startStripeSession(user) {
-    try {
-      const response = await fetch(
-        "https://createcheckout-h5q4nbdnia-uc.a.run.app",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ user: { uid: user.uid } }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-      window.location = data.url;
-      console.log("Success:", data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  }
-
-  const token = {
-    data: "tokenDataToBeAddedHere",
-    signature:
-      "tlX0OLcUUVHhLnfG1y2nFPHpung9dyNVyg7y9k39TfN6qboIx5exunCfyHtCshAOzf+pR0oRgJqNKHwo+CgcKzAGy5BN+zEssMGjGf3BEUxxZ63GXVyMVkcupT5u1aqnKIoqX50HvRHXSeteS0vVxODEsAJO6rv/SKHkXFN183mJOhzf3kAUyF9fgtippS4TA7keeA2ja4tDOCNaAaPkT2ERG9Aoaa2StHTndjMjn7XCj4TusIeRaS6xsxD65tuPb2DybU5sAz8H7orPZaM6y94ZY9QJiQUvN/toCqug5JoelLabFYnpa/g1UBx2XzY3DSbTk+mrNCUMweiGR30ZJA==", // The base64 signature from the server
-  };
-
-  // EncryptionAPI.verifyToken(token);
 });
